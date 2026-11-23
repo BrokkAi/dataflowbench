@@ -1,0 +1,131 @@
+{
+  "schema": "joern-v092-unsupported-disposition-provenance/v1",
+  "case_id": "dfb-taint-swift-native-source-sink-positive",
+  "status": "declared-not-executed",
+  "disposition": "preserved-release-scope-decline",
+  "execution": "not-executed",
+  "capability_qualification": "none",
+  "scored_activation": false,
+  "publication_accepted": false,
+  "population_sha256": "d05be4f2d9effe7b14a2ce5544238364f171e1fb763db2f79ff486526ca7c890",
+  "fixture_revision": "sha256:7c8619b2d4a93467fd0a502ed03668bfc8f3b9878a7bd5e9271c7aca31f75f62",
+  "current_identity": {
+    "tool": "joern",
+    "tool_version": "4.0.660",
+    "tool_build_identity": "joern-cli:4.0.660;engine:309ff2c75b0d7314cd9003a13ae298325827a680580efad9be55d6c168363e00;frontend:d8e0746dd2aa6d3919f2f44e329014d4fcff7fab641bcdef5696a33ea6690f07",
+    "adapter_version": "joern-normal-v092"
+  },
+  "case_row": {
+    "configuration": "joern-current108",
+    "disposition": "unsupported",
+    "phase_sequence": "joern-current108"
+  },
+  "case_json": {
+    "path": "cases/taint/swift/native-source-sink-positive/case.json",
+    "sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc"
+  },
+  "fixtures": [
+    {
+      "path": "cases/taint/swift/native-source-sink-positive/main.swift",
+      "sha256": "66eb76bda1e6980765f6b7821795c4e4f2597952f5aa3db101e48c51320e8e9f"
+    }
+  ],
+  "policy": {
+    "path": "docs/latency-v092-20261122-unsupported-provenance.md",
+    "sha256": "2d5b8ceef68603a08e33be2f22edd39910bf7a1c1eca30c0e898b075bb62fed1"
+  },
+  "frozen_v092_plan": {
+    "path": "adapters/joern/swift-common-v2/plan-v092-01/execution-plan.json",
+    "sha256": "e5cfd9d5473fd47f54de25d74a6f945c667c086ce471d5f6cdcead797bf9e3ab"
+  },
+  "capability_source_plan": {
+    "path": "adapters/joern/swift-common-v2/plan-v090-01/plan.json",
+    "sha256": "14dde3a42a90c19d5c4eb696688f19cf31463a9d38bf153c227d0b82097604e6"
+  },
+  "historical_case_row": {
+    "configuration": "joern-current108",
+    "disposition": "unsupported",
+    "decision": {
+      "path": "adapters/joern/swift-common-v2/plan-v090-01/decisions/dfb-taint-swift-native-source-sink-positive.json",
+      "sha256": "778e2f44ae31a68a753f8bf53830e8e97d0eebdf959b9592cf333d7d6dc6d94c"
+    }
+  },
+  "historical_decision": {
+    "path": "adapters/joern/swift-common-v2/plan-v090-01/decisions/dfb-taint-swift-native-source-sink-positive.json",
+    "sha256": "778e2f44ae31a68a753f8bf53830e8e97d0eebdf959b9592cf333d7d6dc6d94c"
+  },
+  "historical_identity": {
+    "tool": "joern",
+    "tool_version": "4.0.628",
+    "tool_build_identity": "joern-cli:4.0.628;engine:e63635788249ef86d87bb75c9f37929ab2309fd557e7e147765b73dbd0ac077b;frontend:4ff227bc75781d846d1076221032df8b47c0ee7f4fa1687a161c791e59006f19",
+    "adapter_version": "joern-normal-v1"
+  },
+  "historical_outcome": "unsupported",
+  "historical_reason": "Exact pinned shipped distribution lacks native endpoint catalog/resource/loader binding for this unchanged contract; caller-supplied method mappings are not native qualification.",
+  "historical_evidence": [
+    {
+      "path": "adapters/joern/swift-normal-v1/plan-2026-09-28-04/native-applicability.json",
+      "sha256": "54e073c586f55e7e68f289696faa3f73830245dde0fa8c891b1e75c569c59786"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/decision.json",
+      "sha256": "5ee1558706ba5249ea11da66f66cb6b4a7325dff5e16f278e0f77d04717ba2eb"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/audit.md",
+      "sha256": "4888e7195fa8ce1cf9af1774d84813e867d1c8d317d6abe7e9ba3f94e66f44df"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/pinned-file-inventory.json",
+      "sha256": "4fe8af144fb9ebdba63bc85133d862f50da7c7fb3e5e2988a57cafac78a00421"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/jar-inventory.json",
+      "sha256": "11417e543e704b9403d45c2a15596c4decaae587415be935b27f6e8f99167db2"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/first-party-class-inventory.json",
+      "sha256": "0406ada552a51c4f610b523aa4659fad91b745dcd7b8773205b9bbc2ab252f42"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/resource-inventory.json",
+      "sha256": "771220d799e9564fd3b85c0dda4045e5c675854679b695c0ee1bfd662899019b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object-bytecode.txt",
+      "sha256": "1cd383f7bb72b6bc5fded7b9fcc57b09d99a3972765b71b42fb4c0d0a7d269b6"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-DefaultSemantics-object.txt",
+      "sha256": "5eae0ac8dc567e6b36ffd1157f6c01ff82c05548ae779f72ac1f84cf92f2ad7b"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/FullNameSemantics.scala",
+      "sha256": "dfd4348bb90f8381d2f44b386ef783ab5f0ae23badff7fc2a742e40d16b43354"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/upstream-source/Semantics.scala",
+      "sha256": "bd8c6aeaeef5864b90bf656d4b2975e2f2e4091290f1a9cbaaa5461d36bcf11c"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/javap-FlowSemantic.txt",
+      "sha256": "64f96afd781f3af320c04840553a69e08c75ef98e6a4c4f7a3bbf0cbed41f665"
+    },
+    {
+      "path": "evidence/swift-v2-decisions-220/joern-native-mechanisms/prior-vendor-evidence/structural-catalog.json",
+      "sha256": "7223dc571451493bb0470ef1b0fab5f53f3b69243eaf93cf23944b7c56b6ced2"
+    },
+    {
+      "path": "cases/taint/swift/native-source-sink-positive/case.json",
+      "sha256": "bf3a6227cef7366ef28e0104e71d2286207afebc1014daaf9c55594e73d781dc"
+    },
+    {
+      "path": "cases/taint/swift/native-source-sink-positive/main.swift",
+      "sha256": "66eb76bda1e6980765f6b7821795c4e4f2597952f5aa3db101e48c51320e8e9f"
+    }
+  ],
+  "failure_policy": {
+    "path": "docs/latency-v092-20261122-projection-recovery.md",
+    "sha256": "b914e521b198bf1e17b11daf2dd2c77737646722e9dc60ea2a095f8112db8654"
+  }
+}

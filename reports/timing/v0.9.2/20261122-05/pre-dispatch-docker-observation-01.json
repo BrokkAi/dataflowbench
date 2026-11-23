@@ -1,0 +1,36 @@
+{
+  "schema": "v092-pre-dispatch-docker-observation/v1",
+  "recorded_utc": "2026-11-22T17:22:08.605169+00:00",
+  "scope": "read-only pre-dispatch contention diagnosis; no container changes",
+  "containers": [
+    {
+      "name": "scan-removal-pg",
+      "image": "postgres:17-alpine",
+      "status": "up 2 days",
+      "cpu_snapshot": "0.00%"
+    },
+    {
+      "name": "slopcop-demo-pg",
+      "image": "postgres:16",
+      "status": "up 4 days",
+      "cpu_snapshot": "0.27%"
+    },
+    {
+      "name": "slopcop-dogfood-local-worker-1",
+      "id": "5f82b95c7635dfe428b807f9abb0d9b474376eb0848f52cdb6319bd9f3500c37",
+      "image": "slopcop-dogfood-local-worker",
+      "status": "restarting",
+      "restarts": 6385,
+      "last_started_at": "2026-11-22T17:20:53.767978174Z",
+      "last_finished_at": "2026-11-22T17:20:55.243867674Z",
+      "last_exit_code": 1,
+      "restart_policy": "on-failure",
+      "cpu_snapshot": "0.00%"
+    }
+  ],
+  "interpretation": "Restart loop is a possible contention source; a causal link to raw CPU idle dips is not established.",
+  "unrelated_workloads_stopped": false,
+  "signals_sent": [],
+  "user_approval_for_pause_pending": true,
+  "publication_eligible": false
+}

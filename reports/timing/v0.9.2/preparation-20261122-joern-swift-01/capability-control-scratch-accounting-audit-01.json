@@ -1,0 +1,38 @@
+{
+  "schema": "v092-retrospective-control-scratch-accounting/v1",
+  "utc": "2026-11-22T19:18:36.910204+00:00",
+  "status": "retrospective-independent-bound-verified",
+  "classification": "omitted-static-legacy-control-root",
+  "scope_defect": "QUALIFICATION_CONTROL_SCRATCH derived from the new qualification root instead of retained qualification/control-attempt-01",
+  "original_supervision_start": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-control-supervision-03/start.json",
+    "sha256": "6f7bd45c697c38c7b2c3f285f4bd309d85e13d4e2f312ca005237d1172529bc5"
+  },
+  "original_supervision_terminal": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/capability-control-supervision-03/terminal.json",
+    "sha256": "46d8ffc838eeecf8bb9f473fd601016ace9f8070645745d93ef7df9eb6aef74f"
+  },
+  "original_scope_preserved": true,
+  "old_control_manifest": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/controls-evidence-bundle-01/files.jsonl.gz",
+    "sha256": "1048bab0c2ab941b844a31626c6bfcd67bee1aa2f2015e1dc5898c1a757645ef"
+  },
+  "old_control_root": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/qualification/control-attempt-01",
+  "old_control_files_verified": 1034,
+  "old_control_sha_mode_membership_verified": true,
+  "recorded_static_scratch_bytes": 3199033208,
+  "omitted_static_bytes": 621400636,
+  "corrected_static_scratch_bytes": 3820433844,
+  "independent_fresh_working_cap_bytes": 12884901888,
+  "fresh_scratch_is_subset_of_capped_working_roots": true,
+  "derived_observed_check_scratch_upper_bound_bytes": 16705335732,
+  "unchanged_scratch_cap_bytes": 25769803776,
+  "bound_margin_bytes": 9064468044,
+  "method": "The supervised working guard independently capped all fresh output and work roots at 12 GiB. Fresh scratch roots are a subset. Add the complete retained static legacy root to recorded static scratch bytes; this conservative sum plus 12 GiB remains below the unchanged 24 GiB scratch limit. This is retrospective scope verification, not an original full-scope guard observation.",
+  "limits_unchanged": true,
+  "retrospective": true,
+  "original_full_scope_guard_proof": false,
+  "settled_timing_qualified": false,
+  "publication_eligible": false,
+  "new_analyzer_invocations": 0
+}

@@ -1,0 +1,167 @@
+# A30: recovered Swift runtime and prospective Joern diagnostic timing
+
+The original 95-entry campaign and its two blocked Swift entries remain
+unchanged. All 93 previously ready commands were attempted. This amendment
+prepares a separate, single-operation supplement for the formerly blocked
+`joern-swift-common108` entry, following the user's request to resume or retry
+unfinished work and their tolerance of Contacts, Spotlight and VM activity.
+It does not restart any completed command or reinterpret the prior failures.
+
+## Untimed restoration and qualification
+
+The retained Swift 6.3.3 package, SHA-256
+`ee82e57774d6650f94aa06302435d6f44a055b9411698db8ecb85d9a3bcc91d0`, was
+expanded without installing globally. All 2,877 regular files and 51 symlinks
+match the frozen acquisition manifest in content, mode, target and membership.
+The version-only smoke passed. The new root and receipts live under
+`execution-state/timing-swift-repair-20261122-01/` and
+`reports/timing/v0.9.2/preparation-20261122-swift-01/`.
+
+Joern 4.0.660, its exact engine/frontend JARs, Java 21.0.8 and the frozen Swift
+SDK must be bound to their verified retained roots. Additive versioned drivers
+and `plan-v092-02` preserve the prior validation and execution behavior while
+binding fresh paths. Neither `plan-v092-01` nor its drivers, controls, receipts
+or raw evidence may be edited. The new qualification evidence belongs under
+the timing supplement, outside the frozen release tree.
+
+Before timing, capture a fresh version witness and the same six qualification
+fixtures, both off/on arms, and all 36 phase invocations under the existing
+75-second shared case-arm budget and 900-second total controls budget.
+Retain every outcome, including incomplete, inconclusive and error states.
+The old controls are historical evidence and cannot qualify the relocated
+paths. A new receipt must bind the new exact runtime/control projection.
+Preparation, controls, builds, source hydration and verification occur outside
+the timing window. Genuine failure is preserved and stops that attempt.
+
+Full model qualification stays false: the historical opaque-control endpoint
+identity and analysis-completeness gaps are not resolved by relocating the
+runtime. Fresh controls must preserve and expose any such gap. They may
+establish eligibility only for the previously allowed diagnostic, unscored
+execution; no model, correctness or coverage threshold is relaxed.
+
+## Separate single-operation timing plan
+
+The new plan records the old frozen command as historical provenance and the
+new versioned command as the actual invocation. It binds the old blocked
+entry's exact 108-case roster, 12 unsupported native cases, five report
+partitions, immutable release/fixtures, new helper and plan hashes, fresh
+qualification receipt, full runtime manifests and the prior campaign lineage.
+It authorizes exactly one Joern Swift operation, with a fresh source, attempt
+and evidence namespace. It cannot dispatch another prior group or alter a
+parent checkpoint. All inputs must be committed before timed dispatch.
+
+The command retains the frozen 1,368-second deadline. The serial ownership,
+source/tool identity, process cleanup and storage gates remain: one analyzer,
+127 GiB free for launch, 125 GiB continuously, 12 GiB per source, 30 GiB
+cumulative source, and 24 GiB each for scratch and retained evidence. Parent
+campaign paths remain included where cumulative accounting requires them.
+There is no automatic retry or unrelated workload termination.
+
+An untimed profile found that repeatedly walking the closed ancestor trees
+cost 25.53 seconds of wall time and 17.49 seconds of coordinator CPU in one
+profiled check. Using the existing disk guard's immutable-byte-count interface
+with the same accounted totals took 0.119 seconds for the active proxy trees.
+These are observer diagnostics, not analyzer performance results or estimates
+of historical timing bias.
+
+Before the new timing window, verify the closed parent ownership and sealed
+inputs, measure their disjoint source/retention/scratch byte counts under the
+shared serial lock, and retain those counts with their exact paths. Each live
+probe must still add the changing fresh source, report and cache sizes and
+check current filesystem free space against the same limits. Do not drop any
+ancestor from accounting. Check the fresh source's 12 GiB limit on the working
+probe and retain the original process-observation cadence. Recheck the closed
+ancestor counts and seals after the command; unexpected changes make the
+attempt unqualified. This changes no analyzer, fixture, command deadline or
+resource ceiling. Earlier raw timing values and flags remain unchanged; no
+time is subtracted from them or retrospectively certified from this profile.
+
+Before the single dispatch, require at least five minutes of complete samples
+with raw aggregate CPU idle at least 90 percent and no non-tolerated competing
+analyzer, build, benchmark or significant workload. Admission may tolerate only
+the exact Contacts, Spotlight and identified Apple VM executable paths from
+A28. Retain the raw process and aggregate CPU observations without subtraction
+or adjustment. Missing observations reset admission; waits are bounded to at
+most 45 seconds per interval within the plan's finite wall-time bound.
+
+Complete full runtime, source and qualification hashing before this quiet
+window. At dispatch, check the bound plan digest, controller process identity
+and live capacity without repeating those expensive scans. If the last complete
+quiet sample is more than 45 seconds old, obtain a new full quiet window before
+launching any analyzer.
+
+The public CodeQL artifact lookup receipt was appended after the observer
+profile. Bind that exact 844-byte receipt as an explicit retained addition to
+the profile's parent scope; include it in the fresh baseline and all capacity
+totals. The profile remains unchanged and no retained path is excluded.
+
+Once the operation starts, CPU activity or missing CPU telemetry cannot stop
+an active invocation or introduce waits between its internal serial cases and
+phases. Keep recording contention and unknown observations. Real timeout,
+resource, source, identity, retention and command failures still stop safely,
+with cleanup restricted to identified owned processes.
+
+## Acceptance boundaries
+
+All 108 case states and five report partitions must be present and reconciled
+against the immutable template. Preserve unsupported, inconclusive,
+runner-error and unqualified states. A measured failed or incomplete invocation
+does not certify successful analysis. Outcomes that differ from frozen evidence
+remain a semantic mismatch, never a newly blessed baseline.
+
+The released Joern producer's original five reports omit `configuration_hash`;
+the published frozen reports contain that separately derived field. Follow the
+existing `joern_normal_reports_v092_projection.py` procedure after capture into
+a new derived namespace. Preserve the originals and require each derived JSON
+object to equal its original plus only the verified new plan-closure hash.
+Bind source and derived hashes and the projection helper. Every original
+configuration reference must remain unchanged; only the explicitly reviewed
+relocation/helper provenance additions are allowed. Record old and new closure
+hashes and their transition proof rather than asserting identical hashes or
+editing either original report. All other identity and outcome checks remain.
+
+This is a separately versioned diagnostic timing supplement. Its admission
+policy, raw quiet-window observations and contention flags are retained
+separately; it does not assert the original settled A24 qualification. Full
+model qualification, cold/warm equivalence, publication acceptance and any
+comparative performance claim remain independent. The CodeQL Swift entry is
+still blocked until its exact missing custom artifacts and qualification are
+recovered; restoring Swift alone does not complete that entry.
+
+## Preparation failure and fresh successor
+
+Campaign `20261122-03` stopped before any analyzer invocation when its resource
+guard wrapper omitted the source copier's `chunk_bytes` interface. Preserve its
+blocked terminal, plan, baseline and partial source under the sealed eight-file
+preparation-failure inventory. The wrapper now delegates the bounded copy size
+and typed error constructor. A real miniature Git archive regression exercises
+the same source materializer and guard interface before another dispatch.
+
+Preregister `20261122-04` as a fresh successor with new source, attempt and
+evidence paths. This is a deliberate controller repair after a zero-analyzer
+preparation failure; it does not retry a failed analyzer or rewrite campaign 03.
+Keep campaign 03's partial source and reports in closed preparation resource
+accounting, verify their sealed membership and bytes, and prove its supervisor
+identity has stopped. All prior identity, qualification, resource, timeout,
+quiet-admission and active-invocation policies above remain in force.
+
+Campaign `20261122-04` completed source/runtime preparation but its new
+controller omitted the repository's existing quiescent MCP/LSP service
+recognition. Its initial gate therefore rejected an idle Bifrost plugin server.
+The owned dispatcher was stopped while waiting, before any analyzer start;
+retain its blocked terminal and complete source/report inventory unchanged.
+
+Fresh campaign `20261122-05` restores the existing
+`v092_timing_campaign.Observer` rule. Only a Bifrost MCP/LSP service with the same
+PID, birth identity, arguments and cumulative CPU time across observations,
+zero reported CPU and no descendants may be recognized as quiescent. Retain
+its service observations and raw aggregate CPU values. This restores existing
+behavior and adds no process-name exemption or CPU adjustment. The full
+five-minute/90-percent initial gate and active record-and-continue policy stay
+in force.
+
+Include both closed preparations' source, reports and scratch paths in the new
+resource accounting. Bind and verify their complete inventories and blocked,
+zero-analyzer states. Confirm stopped supervisors from successful unfiltered
+PID observations or a known different birth identity; unknown identity for a
+present PID must fail closed. Retain the new observations before dispatch.

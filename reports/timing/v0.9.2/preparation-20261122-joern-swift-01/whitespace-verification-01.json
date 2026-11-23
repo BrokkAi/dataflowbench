@@ -1,0 +1,19 @@
+{
+  "schema": "v092-preparation-whitespace-verification/v1",
+  "utc": "2026-11-22T15:31:33.481867+00:00",
+  "source_check": {
+    "command": "git diff --cached --check -- scripts adapters docs",
+    "exit_code": 0
+  },
+  "full_check": {
+    "command": "git diff --cached --check",
+    "exit_code": 2,
+    "output": "reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:8: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:18: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:22: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:47: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:51: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:73: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:106: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:108: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:186: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:192: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:213: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:217: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:237: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:261: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:265: trailing whitespace.\n+ \nreports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch:285: trailing whitespace.\n+ \n",
+    "interpretation": "Only verbatim retained unified-diff blank context lines contain their required space; this artifact is not rewritten or suppressed."
+  },
+  "retained_patch": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch",
+    "sha256": "f572e380c3c68b44145234ad51744d1bd5bcb209b747af3c54f9be13e7ffc540"
+  },
+  "artifact_format_validation": "The pinned selected patch passed git apply --numstat and materialized the exact 1498-entry frozen pack."
+}

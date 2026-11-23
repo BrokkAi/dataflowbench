@@ -1,0 +1,4997 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-opentaint-kotlin-kernel",
+    "--analyzer-jar",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+    "--models-archive",
+    "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-models.tar.gz",
+    "--java",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin/java",
+    "--kotlinc",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/bin/kotlinc",
+    "--kotlin-stdlib",
+    "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar"
+  ],
+  "created_utc": "2026-11-22T08:14:14.849146+00:00",
+  "deadline_seconds": 1132,
+  "environment": {
+    "BIFROST_CACHE_ROOT": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/opentaint-kotlin-kernel/cache",
+    "DFB_CACHE_ROOT": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/opentaint-kotlin-kernel/cache",
+    "HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/opentaint-kotlin-kernel/home",
+    "JAVA_HOME": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+    "LANG": "en_US.UTF-8",
+    "PATH": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/go/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/opentaint-kotlin-kernel/tmp"
+  },
+  "external_scratch_ownership": null,
+  "plan_sha256": "56b8d5a1988a3cea999d25a4563a46515ee41794460516a3b85627edf7277b0e",
+  "quiet_observation": {
+    "cpu_idle_percent": 96.75,
+    "disk_free_bytes": 246360252416,
+    "disk_total_bytes": 994662584320,
+    "disk_used_bytes": 748302331904,
+    "hardware": {
+      "logical_cpus": 10,
+      "memory_bytes": 34359738368,
+      "model": "Mac16,1",
+      "physical_cpus": 10
+    },
+    "load_average": [
+      2.08,
+      2.02,
+      2.41
+    ],
+    "monotonic_seconds": 2728.33478125,
+    "observed_at_utc": "2026-11-22T08:13:59.730Z",
+    "phase": "settle-before-group",
+    "processes": [
+      {
+        "comm": "/sbin/launchd",
+        "cpu_percent": 0.1,
+        "pid": 1,
+        "ppid": 0
+      },
+      {
+        "comm": "/usr/libexec/AssetCache/AssetCache",
+        "cpu_percent": 0.0,
+        "pid": 144,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/geodMachServiceBridge",
+        "cpu_percent": 0.0,
+        "pid": 149,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/QuickLookThumbnailing.framework/Support/com.apple.quicklook.ThumbnailsAgent",
+        "cpu_percent": 0.0,
+        "pid": 152,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd",
+        "cpu_percent": 0.0,
+        "pid": 153,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/WebPrivacy.framework/webprivacyd",
+        "cpu_percent": 0.0,
+        "pid": 170,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Cryptexes/App/usr/libexec/AuthenticationServicesAgent",
+        "cpu_percent": 0.0,
+        "pid": 362,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/logd",
+        "cpu_percent": 0.0,
+        "pid": 536,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/UserEventAgent",
+        "cpu_percent": 0.0,
+        "pid": 539,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/FSEvents.framework/Versions/A/Support/fseventsd",
+        "cpu_percent": 0.0,
+        "pid": 541,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoted",
+        "cpu_percent": 0.0,
+        "pid": 542,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/systemstats",
+        "cpu_percent": 0.0,
+        "pid": 546,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/configd",
+        "cpu_percent": 0.9,
+        "pid": 550,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/powerd.bundle/powerd",
+        "cpu_percent": 0.0,
+        "pid": 552,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/IOMFB_bics_daemon",
+        "cpu_percent": 0.0,
+        "pid": 553,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/remoted",
+        "cpu_percent": 0.0,
+        "pid": 557,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreSpeech.framework/corespeechd_system",
+        "cpu_percent": 0.0,
+        "pid": 561,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/watchdogd",
+        "cpu_percent": 0.0,
+        "pid": 563,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds",
+        "cpu_percent": 0.0,
+        "pid": 566,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/kernelmanagerd",
+        "cpu_percent": 0.0,
+        "pid": 568,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/diskarbitrationd",
+        "cpu_percent": 0.2,
+        "pid": 569,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/syslogd",
+        "cpu_percent": 0.0,
+        "pid": 573,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/thermalmonitord",
+        "cpu_percent": 0.0,
+        "pid": 575,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreDuetContext.framework/Resources/contextstored",
+        "cpu_percent": 0.0,
+        "pid": 576,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/xprotectd",
+        "cpu_percent": 0.0,
+        "pid": 577,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/opendirectoryd",
+        "cpu_percent": 0.0,
+        "pid": 578,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ApplePushService.framework/apsd",
+        "cpu_percent": 0.0,
+        "pid": 580,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/launchservicesd",
+        "cpu_percent": 0.2,
+        "pid": 581,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/timed",
+        "cpu_percent": 0.0,
+        "pid": 582,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/Resources/usbmuxd",
+        "cpu_percent": 0.0,
+        "pid": 583,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/securityd",
+        "cpu_percent": 0.0,
+        "pid": 584,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/locationd",
+        "cpu_percent": 0.4,
+        "pid": 586,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nesessionmanager",
+        "cpu_percent": 0.0,
+        "pid": 587,
+        "ppid": 1
+      },
+      {
+        "comm": "autofsd",
+        "cpu_percent": 0.0,
+        "pid": 589,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dasd",
+        "cpu_percent": 0.0,
+        "pid": 590,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 593,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/logind",
+        "cpu_percent": 0.0,
+        "pid": 596,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GenerationalStorage.framework/Versions/A/Support/revisiond",
+        "cpu_percent": 0.0,
+        "pid": 597,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/KernelEventAgent",
+        "cpu_percent": 0.0,
+        "pid": 598,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/bluetoothd",
+        "cpu_percent": 0.0,
+        "pid": 602,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/notifyd",
+        "cpu_percent": 0.0,
+        "pid": 603,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/corebrightnessd",
+        "cpu_percent": 0.0,
+        "pid": 605,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/com.apple.cmio.registerassistantservice",
+        "cpu_percent": 0.0,
+        "pid": 606,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer",
+        "cpu_percent": 0.5,
+        "pid": 609,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TCC.framework/Support/tccd",
+        "cpu_percent": 0.0,
+        "pid": 611,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/loginwindow.app/Contents/MacOS/loginwindow",
+        "cpu_percent": 0.0,
+        "pid": 612,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 613,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/runningboardd",
+        "cpu_percent": 0.0,
+        "pid": 614,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/coreservicesd",
+        "cpu_percent": 0.0,
+        "pid": 644,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsd",
+        "cpu_percent": 0.0,
+        "pid": 653,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/clocksyncd",
+        "cpu_percent": 0.1,
+        "pid": 661,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/lsd",
+        "cpu_percent": 0.0,
+        "pid": 662,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/apfsd",
+        "cpu_percent": 0.0,
+        "pid": 666,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreMediaIO.framework/Resources/VDC.plugin/Contents/Resources/VDCAssistant",
+        "cpu_percent": 0.0,
+        "pid": 669,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/mDNSResponder",
+        "cpu_percent": 0.0,
+        "pid": 678,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/airportd",
+        "cpu_percent": 1.3,
+        "pid": 683,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/symptomsd",
+        "cpu_percent": 0.0,
+        "pid": 686,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/authd.xpc/Contents/MacOS/authd",
+        "cpu_percent": 0.0,
+        "pid": 689,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/syspolicyd",
+        "cpu_percent": 0.0,
+        "pid": 691,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/eligibilityd",
+        "cpu_percent": 0.0,
+        "pid": 693,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 697,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 703,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/WirelessRadioManagerd",
+        "cpu_percent": 0.0,
+        "pid": 712,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Resources/backgroundtaskmanagementd",
+        "cpu_percent": 0.0,
+        "pid": 718,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/mDNSResponderHelper",
+        "cpu_percent": 0.0,
+        "pid": 721,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ApplicationFirewall/socketfilterfw",
+        "cpu_percent": 0.0,
+        "pid": 728,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/gamepolicyd",
+        "cpu_percent": 0.0,
+        "pid": 733,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Software Update.app/Contents/Resources/suhelperd",
+        "cpu_percent": 0.0,
+        "pid": 734,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/TimeMachine/backupd",
+        "cpu_percent": 0.0,
+        "pid": 736,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/com.apple.DriverKit-IOUserDockChannelSerial.dext/com.apple.DriverKit-IOUserDockChannelSerial",
+        "cpu_percent": 0.0,
+        "pid": 737,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/com.apple.AppleUserHIDDrivers.dext/com.apple.AppleUserHIDDrivers",
+        "cpu_percent": 0.0,
+        "pid": 738,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/com.apple.DriverKit-AppleBCMWLAN.dext/com.apple.DriverKit-AppleBCMWLAN",
+        "cpu_percent": 0.5,
+        "pid": 739,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/searchpartyd",
+        "cpu_percent": 0.0,
+        "pid": 743,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 744,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 751,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 755,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/com.apple.cmio.videodriverkithostextension.systemextension/Contents/MacOS/com.apple.cmio.videodriverkithostextension",
+        "cpu_percent": 0.0,
+        "pid": 756,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/cameracaptured",
+        "cpu_percent": 0.0,
+        "pid": 758,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreMediaIO.framework/Versions/A/Resources/UVCAssistant.systemextension/Contents/MacOS/UVCAssistant",
+        "cpu_percent": 0.0,
+        "pid": 759,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/coreaudiod",
+        "cpu_percent": 0.0,
+        "pid": 760,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 766,
+        "ppid": 1
+      },
+      {
+        "comm": "Core Audio Driver (MSTeamsAudioDevice.driver)",
+        "cpu_percent": 0.0,
+        "pid": 776,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/audiomxd",
+        "cpu_percent": 0.0,
+        "pid": 794,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 797,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/BTLEServer",
+        "cpu_percent": 0.0,
+        "pid": 798,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 804,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/systemstats",
+        "cpu_percent": 0.0,
+        "pid": 820,
+        "ppid": 546
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 823,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/IOUserBluetoothSerialDriver.dext/IOUserBluetoothSerialDriver",
+        "cpu_percent": 0.0,
+        "pid": 836,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/IOUserBluetoothSerialDriver.dext/IOUserBluetoothSerialDriver",
+        "cpu_percent": 0.0,
+        "pid": 837,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/appleeventsd",
+        "cpu_percent": 0.0,
+        "pid": 838,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Mullvad VPN.app/Contents/Resources/mullvad-daemon",
+        "cpu_percent": 0.0,
+        "pid": 842,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/PrivilegedHelperTools/com.wacom.UpdateHelper.app/Contents/MacOS/com.wacom.UpdateHelper",
+        "cpu_percent": 0.0,
+        "pid": 843,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 918,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 920,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/rosetta/oahd",
+        "cpu_percent": 0.0,
+        "pid": 929,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.1,
+        "pid": 932,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 940,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/lsd",
+        "cpu_percent": 0.0,
+        "pid": 944,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 969,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/secd",
+        "cpu_percent": 0.0,
+        "pid": 977,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/UserEventAgent",
+        "cpu_percent": 0.0,
+        "pid": 978,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/universalaccessd",
+        "cpu_percent": 0.0,
+        "pid": 987,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Accounts.framework/Versions/A/Support/accountsd",
+        "cpu_percent": 0.0,
+        "pid": 990,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/pboard",
+        "cpu_percent": 0.0,
+        "pid": 991,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/containermanagerd",
+        "cpu_percent": 0.0,
+        "pid": 993,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BiomeStreams.framework/Support/BiomeAgent",
+        "cpu_percent": 0.0,
+        "pid": 994,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TCC.framework/Support/tccd",
+        "cpu_percent": 0.0,
+        "pid": 995,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UserNotificationsCore.framework/Support/usernotificationsd",
+        "cpu_percent": 0.0,
+        "pid": 997,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ExchangeSync.framework/Versions/Current/exchangesyncd",
+        "cpu_percent": 0.0,
+        "pid": 999,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nsurlsessiond",
+        "cpu_percent": 0.0,
+        "pid": 1002,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/rapportd",
+        "cpu_percent": 0.0,
+        "pid": 1003,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/usernoted",
+        "cpu_percent": 0.0,
+        "pid": 1005,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/WiFiAgent.app/Contents/MacOS/WiFiAgent",
+        "cpu_percent": 0.0,
+        "pid": 1008,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/diagnostics_agent",
+        "cpu_percent": 0.0,
+        "pid": 1020,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AuthKit.framework/Versions/A/Support/akd",
+        "cpu_percent": 0.0,
+        "pid": 1021,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IDS.framework/identityservicesd.app/Contents/MacOS/identityservicesd",
+        "cpu_percent": 0.0,
+        "pid": 1026,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ContinuityCaptureAgent",
+        "cpu_percent": 0.0,
+        "pid": 1033,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IMCore.framework/imagent.app/Contents/MacOS/imagent",
+        "cpu_percent": 0.0,
+        "pid": 1039,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/sharingd",
+        "cpu_percent": 0.0,
+        "pid": 1042,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AssistantServices.framework/Versions/A/Support/assistantd",
+        "cpu_percent": 0.0,
+        "pid": 1048,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nearbyd",
+        "cpu_percent": 0.0,
+        "pid": 1050,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CryptoTokenKit.framework/ctkd",
+        "cpu_percent": 0.0,
+        "pid": 1054,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SystemMigrationNetwork.framework/Resources/migrationhelper",
+        "cpu_percent": 0.0,
+        "pid": 1055,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CommunicationsFilter.framework/CMFSyncAgent",
+        "cpu_percent": 0.0,
+        "pid": 1066,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/iCloudDriveCore.framework/Versions/A/Support/bird",
+        "cpu_percent": 0.0,
+        "pid": 1068,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/sharedfilelistd",
+        "cpu_percent": 0.0,
+        "pid": 1074,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileProvider.framework/Support/fileproviderd",
+        "cpu_percent": 0.0,
+        "pid": 1075,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreSpeech.framework/corespeechd",
+        "cpu_percent": 0.0,
+        "pid": 1079,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/aned",
+        "cpu_percent": 0.0,
+        "pid": 1085,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/filecoordinationd",
+        "cpu_percent": 0.0,
+        "pid": 1089,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1107,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1114,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/AccessibilityUIServer.app/Contents/MacOS/AccessibilityUIServer",
+        "cpu_percent": 0.0,
+        "pid": 1116,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/modelmanagerd",
+        "cpu_percent": 0.0,
+        "pid": 1118,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PassKitCore.framework/passd",
+        "cpu_percent": 0.0,
+        "pid": 1126,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/corespotlightd",
+        "cpu_percent": 0.0,
+        "pid": 1128,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1134,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/ControlCenter.app/Contents/MacOS/ControlCenter",
+        "cpu_percent": 0.1,
+        "pid": 1142,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/SubmitDiagInfo",
+        "cpu_percent": 0.0,
+        "pid": 1168,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/CrashReporterSupportHelper",
+        "cpu_percent": 0.0,
+        "pid": 1169,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/WindowManager.app/Contents/MacOS/WindowManager",
+        "cpu_percent": 0.0,
+        "pid": 1171,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/MenuBarAgent.app/Contents/MacOS/MenuBarAgent",
+        "cpu_percent": 0.0,
+        "pid": 1173,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/WallpaperAgent.app/Contents/MacOS/WallpaperAgent",
+        "cpu_percent": 0.0,
+        "pid": 1176,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ApplicationServices.framework/Frameworks/ATS.framework/Support/fontd",
+        "cpu_percent": 0.0,
+        "pid": 1177,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1178,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/Support/fontworker",
+        "cpu_percent": 0.0,
+        "pid": 1180,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ChronoCore.framework/Support/chronod",
+        "cpu_percent": 0.0,
+        "pid": 1185,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/NotificationCenter.app/Contents/MacOS/NotificationCenter",
+        "cpu_percent": 0.0,
+        "pid": 1193,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/UIKitSystem.app/Contents/MacOS/UIKitSystem",
+        "cpu_percent": 0.0,
+        "pid": 1198,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdbulkimport",
+        "cpu_percent": 0.0,
+        "pid": 1200,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ViewBridge.framework/Versions/A/XPCServices/ViewBridgeAuxiliary.xpc/Contents/MacOS/ViewBridgeAuxiliary",
+        "cpu_percent": 0.0,
+        "pid": 1206,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MediaRemote.framework/Support/mediaremoteagent",
+        "cpu_percent": 0.0,
+        "pid": 1209,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/avconferenced",
+        "cpu_percent": 0.0,
+        "pid": 1210,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UserActivity.framework/Agents/useractivityd",
+        "cpu_percent": 0.0,
+        "pid": 1214,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PowerLog.framework/Versions/A/XPCServices/PerfPowerTelemetryClientRegistrationService.xpc/Contents/MacOS/PerfPowerTelemetryClientRegistrationService",
+        "cpu_percent": 0.0,
+        "pid": 1252,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Screen Time.app/Contents/PlugIns/ScreenTimeWidgetExtension.appex/Contents/MacOS/ScreenTimeWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1253,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Calendar.app/Contents/PlugIns/CalendarWidgetExtension.appex/Contents/MacOS/CalendarWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1254,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Weather.app/Contents/PlugIns/WeatherWidget.appex/Contents/MacOS/WeatherWidget",
+        "cpu_percent": 0.0,
+        "pid": 1255,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Clock.app/Contents/PlugIns/WorldClockWidget.appex/Contents/MacOS/WorldClockWidget",
+        "cpu_percent": 0.0,
+        "pid": 1256,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Reminders.app/Contents/PlugIns/RemindersWidgetExtension.appex/Contents/MacOS/RemindersWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1262,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AmbientDisplay.framework/Versions/A/XPCServices/com.apple.AmbientDisplayAgent.xpc/Contents/MacOS/com.apple.AmbientDisplayAgent",
+        "cpu_percent": 0.0,
+        "pid": 1271,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Dock.app/Contents/MacOS/Dock",
+        "cpu_percent": 0.0,
+        "pid": 1295,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/SystemUIServer.app/Contents/MacOS/SystemUIServer",
+        "cpu_percent": 0.0,
+        "pid": 1296,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Finder.app/Contents/MacOS/Finder",
+        "cpu_percent": 0.0,
+        "pid": 1297,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Journal.app/Contents/PlugIns/JournalWidgetsSecure.appex/Contents/MacOS/JournalWidgetsSecure",
+        "cpu_percent": 0.0,
+        "pid": 1311,
+        "ppid": 1
+      },
+      {
+        "comm": "automountd",
+        "cpu_percent": 0.0,
+        "pid": 1313,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AMPDevices.framework/Versions/A/Support/AMPDeviceDiscoveryAgent",
+        "cpu_percent": 0.0,
+        "pid": 1315,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Siri AI.app/Contents/MacOS/Siri AI",
+        "cpu_percent": 0.0,
+        "pid": 1317,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CryptoTokenKit.framework/ctkahp.bundle/Contents/MacOS/ctkahp",
+        "cpu_percent": 0.0,
+        "pid": 1320,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/InputMethodKit.framework/Resources/imklaunchagent",
+        "cpu_percent": 0.0,
+        "pid": 1321,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TextInputUIMacHelper.framework/Versions/A/XPCServices/CursorUIViewService.xpc/Contents/MacOS/CursorUIViewService",
+        "cpu_percent": 0.0,
+        "pid": 1323,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperAerialsExtension.appex/Contents/MacOS/WallpaperAerialsExtension",
+        "cpu_percent": 0.0,
+        "pid": 1328,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Dock.app/Contents/XPCServices/com.apple.dock.external.extra.arm64.xpc/Contents/MacOS/com.apple.dock.external.extra.arm64",
+        "cpu_percent": 0.0,
+        "pid": 1346,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Dock.app/Contents/XPCServices/com.apple.dock.extra.xpc/Contents/MacOS/com.apple.dock.extra",
+        "cpu_percent": 0.0,
+        "pid": 1347,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreFP.framework/Versions/A/fairplayd",
+        "cpu_percent": 0.0,
+        "pid": 1370,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FamilyControls.framework/Resources/parentalcontrolsd",
+        "cpu_percent": 0.0,
+        "pid": 1371,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Batteries.app/Contents/PlugIns/BatteriesAvocadoWidgetExtension.appex/Contents/MacOS/BatteriesAvocadoWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1373,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Photos.app/Contents/PlugIns/PhotosReliveWidget.appex/Contents/MacOS/PhotosReliveWidget",
+        "cpu_percent": 0.0,
+        "pid": 1374,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Shortcuts.app/Contents/PlugIns/ShortcutsWidgetExtension.appex/Contents/MacOS/ShortcutsWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1376,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Tips.app/Contents/PlugIns/TipsWidgetExtension.appex/Contents/MacOS/TipsWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1377,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudDocs.framework/PlugIns/com.apple.CloudDocs.iCloudDriveFileProvider.appex/Contents/MacOS/com.apple.CloudDocs.iCloudDriveFileProvider",
+        "cpu_percent": 0.0,
+        "pid": 1380,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Home.app/Contents/PlugIns/HomeEnergyWidgetsExtension.appex/Contents/MacOS/HomeEnergyWidgetsExtension",
+        "cpu_percent": 0.0,
+        "pid": 1384,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Home.app/Contents/PlugIns/HomeWidget.appex/Contents/MacOS/HomeWidget",
+        "cpu_percent": 0.0,
+        "pid": 1385,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Image Capture/Support/icdd",
+        "cpu_percent": 0.0,
+        "pid": 1386,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/AirPlayUIAgent.app/Contents/MacOS/AirPlayUIAgent",
+        "cpu_percent": 0.0,
+        "pid": 1406,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/PeopleViewService.app/Contents/PlugIns/PeopleWidget_macOSExtension.appex/Contents/MacOS/PeopleWidget_macOSExtension",
+        "cpu_percent": 0.0,
+        "pid": 1423,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/PrivilegedHelperTools/com.wacom.DataStoreMgr.app/Contents/MacOS/com.wacom.DataStoreMgr",
+        "cpu_percent": 0.0,
+        "pid": 1440,
+        "ppid": 1
+      },
+      {
+        "comm": "com.apple.Passwords.MenuBarExtra",
+        "cpu_percent": 0.0,
+        "pid": 1443,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Application Support/Logitech.localized/LogiRightSightForWebcams/LogiRightSight.app/Contents/MacOS/LogiRightSight",
+        "cpu_percent": 0.0,
+        "pid": 1444,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/PrivilegedHelperTools/Wacom_IOManager.app/Contents/MacOS/Wacom_IOManager",
+        "cpu_percent": 0.0,
+        "pid": 1445,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Capsomnia.app/Contents/MacOS/Capsomnia",
+        "cpu_percent": 0.0,
+        "pid": 1447,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Application Support/Logitech.localized/LogiOptionsPlus/logioptionsplus_agent.app/Contents/MacOS/logioptionsplus_agent",
+        "cpu_percent": 0.3,
+        "pid": 1450,
+        "ppid": 1
+      },
+      {
+        "comm": "com.apple.weather.menu",
+        "cpu_percent": 0.0,
+        "pid": 1453,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/TextInputMenuAgent.app/Contents/MacOS/TextInputMenuAgent",
+        "cpu_percent": 0.0,
+        "pid": 1455,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Rectangle.app/Contents/MacOS/Rectangle",
+        "cpu_percent": 0.0,
+        "pid": 1460,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1515,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TGOnDeviceInferenceProviderService.appex/Contents/MacOS/TGOnDeviceInferenceProviderService",
+        "cpu_percent": 0.0,
+        "pid": 1516,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UniversalAccess.framework/Versions/A/Resources/universalAccessAuthWarn.app/Contents/MacOS/universalAccessAuthWarn",
+        "cpu_percent": 0.0,
+        "pid": 1522,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/FindMy.app/Contents/PlugIns/FindMyWidgetItems.appex/Contents/MacOS/FindMyWidgetItems",
+        "cpu_percent": 0.0,
+        "pid": 1547,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app/Contents/Extensions/SafariWidgetExtension.appex/Contents/MacOS/SafariWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 1561,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/FindMy.app/Contents/PlugIns/FindMyWidgetPeople.appex/Contents/MacOS/FindMyWidgetPeople",
+        "cpu_percent": 0.0,
+        "pid": 1563,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Journal.app/Contents/PlugIns/JournalWidgets.appex/Contents/MacOS/JournalWidgets",
+        "cpu_percent": 0.0,
+        "pid": 1565,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 1566,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Ollama.app/Contents/MacOS/Ollama",
+        "cpu_percent": 0.0,
+        "pid": 1578,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Ollama.app/Contents/Resources/ollama",
+        "cpu_percent": 0.0,
+        "pid": 1587,
+        "ppid": 1578
+      },
+      {
+        "comm": "/System/Library/Input Methods/PressAndHold.app/Contents/PlugIns/PAH_Extension.appex/Contents/MacOS/PAH_Extension",
+        "cpu_percent": 0.0,
+        "pid": 1600,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/System Settings.app/Contents/PlugIns/SettingsImportExtension.appex/Contents/MacOS/SettingsImportExtension",
+        "cpu_percent": 0.0,
+        "pid": 1615,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/BatterySettingsIntentsExtension.appex/Contents/MacOS/BatterySettingsIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 1630,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/People.framework/peopled",
+        "cpu_percent": 0.0,
+        "pid": 1649,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperSequoiaExtension.appex/Contents/MacOS/WallpaperSequoiaExtension",
+        "cpu_percent": 0.0,
+        "pid": 1680,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperDynamicExtension.appex/Contents/MacOS/WallpaperDynamicExtension",
+        "cpu_percent": 0.0,
+        "pid": 1681,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperGradientExtension.appex/Contents/MacOS/WallpaperGradientExtension",
+        "cpu_percent": 0.0,
+        "pid": 1682,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperSonomaExtension.appex/Contents/MacOS/WallpaperSonomaExtension",
+        "cpu_percent": 0.0,
+        "pid": 1683,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/NeptuneOneWallpaper.appex/Contents/MacOS/NeptuneOneWallpaper",
+        "cpu_percent": 0.0,
+        "pid": 1684,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperLegacyExtension.appex/Contents/MacOS/WallpaperLegacyExtension",
+        "cpu_percent": 0.0,
+        "pid": 1685,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperImageExtension.appex/Contents/MacOS/WallpaperImageExtension",
+        "cpu_percent": 0.0,
+        "pid": 1686,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperMacintoshExtension.appex/Contents/MacOS/WallpaperMacintoshExtension",
+        "cpu_percent": 0.0,
+        "pid": 1687,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/CVMServer",
+        "cpu_percent": 0.0,
+        "pid": 1688,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/taskgated",
+        "cpu_percent": 0.0,
+        "pid": 1710,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 1722,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/GenerativeExperiencesSafetyInferenceProvider.appex/Contents/MacOS/GenerativeExperiencesSafetyInferenceProvider",
+        "cpu_percent": 0.0,
+        "pid": 1837,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TGOnDeviceInferenceProviderService.appex/Contents/MacOS/TGOnDeviceInferenceProviderService",
+        "cpu_percent": 0.0,
+        "pid": 1838,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/PCCAgentClientExtension.appex/Contents/MacOS/PCCAgentClientExtension",
+        "cpu_percent": 0.0,
+        "pid": 1908,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CryptoTokenKit/com.apple.ifdreader.slotd/Contents/MacOS/com.apple.ifdreader",
+        "cpu_percent": 0.0,
+        "pid": 2323,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/PrivateFrameworks/MobileDevice.framework/Versions/A/XPCServices/MDRemoteServiceSupport.xpc/Contents/MacOS/MDRemoteServiceSupport",
+        "cpu_percent": 0.0,
+        "pid": 2326,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 2423,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdwrite",
+        "cpu_percent": 0.0,
+        "pid": 2571,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/spotlightknowledged.importer",
+        "cpu_percent": 0.0,
+        "pid": 2682,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TGOnDeviceInferenceProviderService.appex/Contents/MacOS/TGOnDeviceInferenceProviderService",
+        "cpu_percent": 0.0,
+        "pid": 3235,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 3573,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileDevice.framework/Resources/MobileDeviceUpdater.app/Contents/MacOS/MobileDeviceUpdater",
+        "cpu_percent": 0.0,
+        "pid": 3757,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 3777,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/DateTimeIntentsExtension.appex/Contents/MacOS/DateTimeIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 3806,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/MouseIntentsExtension.appex/Contents/MacOS/MouseIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 3813,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/SoundIntentsExtension.appex/Contents/MacOS/SoundIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 3817,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/AirDropHandoffIntentsExtension.appex/Contents/MacOS/AirDropHandoffIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 3819,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/DesktopSettingsIntents.appex/Contents/MacOS/DesktopSettingsIntents",
+        "cpu_percent": 0.0,
+        "pid": 3822,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WallpaperSettingsIntents.appex/Contents/MacOS/WallpaperSettingsIntents",
+        "cpu_percent": 0.0,
+        "pid": 3824,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TimeMachineSettingsIntents.appex/Contents/MacOS/TimeMachineSettingsIntents",
+        "cpu_percent": 0.0,
+        "pid": 3825,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/ControlCenterSettingsIntents.appex/Contents/MacOS/ControlCenterSettingsIntents",
+        "cpu_percent": 0.0,
+        "pid": 3829,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/BluetoothSettingsAppIntentsWidgetExtension.appex/Contents/MacOS/BluetoothSettingsAppIntentsWidgetExtension",
+        "cpu_percent": 0.0,
+        "pid": 3833,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/NotificationsSettingsIntents.appex/Contents/MacOS/NotificationsSettingsIntents",
+        "cpu_percent": 0.0,
+        "pid": 3834,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TrackpadIntentsExtension.appex/Contents/MacOS/TrackpadIntentsExtension",
+        "cpu_percent": 0.0,
+        "pid": 3840,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/PrivateFrameworks/RemotePairing.framework/Versions/A/XPCServices/remotepairingd.xpc/Contents/MacOS/remotepairingd",
+        "cpu_percent": 0.0,
+        "pid": 3878,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Developer/PrivateFrameworks/CoreSimulator.framework/Versions/A/XPCServices/com.apple.CoreSimulator.CoreSimulatorService.xpc/Contents/MacOS/com.apple.CoreSimulator.CoreSimulatorService",
+        "cpu_percent": 0.0,
+        "pid": 3880,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Developer/PrivateFrameworks/CoreSimulator.framework/Resources/bin/simdiskimaged",
+        "cpu_percent": 0.0,
+        "pid": 3884,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/diskimagesiod",
+        "cpu_percent": 0.0,
+        "pid": 3889,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Developer/PrivateFrameworks/CoreSimulator.framework/Versions/A/XPCServices/SimulatorTrampoline.xpc/Contents/MacOS/SimulatorTrampoline",
+        "cpu_percent": 0.0,
+        "pid": 3897,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Developer/PrivateFrameworks/CoreSimulator.framework/Versions/A/XPCServices/SimLaunchHost.arm64.xpc/Contents/MacOS/SimLaunchHost.arm64",
+        "cpu_percent": 0.0,
+        "pid": 3898,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/bin/ssh-agent",
+        "cpu_percent": 0.0,
+        "pid": 4211,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XProtectBridgeService.xpc/Contents/MacOS/XProtectBridgeService",
+        "cpu_percent": 0.0,
+        "pid": 4421,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/iCloudNotification.framework/iCloudNotificationAgent",
+        "cpu_percent": 0.0,
+        "pid": 4496,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/VoiceShortcuts.framework/Versions/A/Support/siriactionsd",
+        "cpu_percent": 0.0,
+        "pid": 4701,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/iCloudDriveService.framework/XPCServices/ContainerMetadataExtractor.xpc/Contents/MacOS/ContainerMetadataExtractor",
+        "cpu_percent": 0.0,
+        "pid": 4702,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/XPCServices/VTDecoderXPCService.xpc/Contents/MacOS/VTDecoderXPCService",
+        "cpu_percent": 0.0,
+        "pid": 4813,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileTimer.framework/Executables/mobiletimerd",
+        "cpu_percent": 0.0,
+        "pid": 4826,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 4827,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/talagentd",
+        "cpu_percent": 0.0,
+        "pid": 4945,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice",
+        "cpu_percent": 0.0,
+        "pid": 4947,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 4950,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntelligencePlatformCompute.framework/Versions/A/XPCServices/IntelligencePlatformComputeService.xpc/Contents/MacOS/IntelligencePlatformComputeService",
+        "cpu_percent": 0.0,
+        "pid": 5111,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 5382,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 5569,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SiriInference.framework/Versions/A/siriinferenced",
+        "cpu_percent": 0.0,
+        "pid": 6264,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AXAssetLoader.framework/Support/axassetsd",
+        "cpu_percent": 0.0,
+        "pid": 6316,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/WorkflowKit.framework/XPCServices/ShortcutsViewService.xpc/Contents/MacOS/ShortcutsViewService",
+        "cpu_percent": 0.0,
+        "pid": 6397,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SessionCore.framework/Support/liveactivitiesd",
+        "cpu_percent": 0.0,
+        "pid": 6428,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ReplicatorCore.framework/Support/replicatord",
+        "cpu_percent": 0.0,
+        "pid": 6429,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/appplaceholdersyncd",
+        "cpu_percent": 0.0,
+        "pid": 6580,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/StreamingZip.framework/Versions/A/XPCServices/com.apple.StreamingUnzipService.xpc/Contents/MacOS/com.apple.StreamingUnzipService",
+        "cpu_percent": 0.0,
+        "pid": 6738,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mlhostd",
+        "cpu_percent": 0.0,
+        "pid": 7062,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/liquiddetectiond.app/liquiddetectiond",
+        "cpu_percent": 0.0,
+        "pid": 7063,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated",
+        "cpu_percent": 0.0,
+        "pid": 7068,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Versions/A/XPCServices/com.apple.MobileSoftwareUpdate.CleanupPreparePathService.xpc/Contents/MacOS/com.apple.MobileSoftwareUpdate.CleanupPreparePathService",
+        "cpu_percent": 0.0,
+        "pid": 7069,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreEmbeddedSpeechRecognition.framework/speechmaintenanced",
+        "cpu_percent": 0.0,
+        "pid": 7177,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/hybridsearchd",
+        "cpu_percent": 0.0,
+        "pid": 7178,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/siriknowledged",
+        "cpu_percent": 0.0,
+        "pid": 7179,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ModelCatalogRuntime.framework/Versions/A/ModelCatalogAgent",
+        "cpu_percent": 0.0,
+        "pid": 7180,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileDerivatives.framework/Support/filederivatived",
+        "cpu_percent": 0.0,
+        "pid": 7182,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileDerivatives.framework/PlugIns/LegacyImporterHost.appex/Contents/MacOS/LegacyImporterHost",
+        "cpu_percent": 0.0,
+        "pid": 7183,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileDerivatives.framework/PlugIns/LegacyImporterHost.appex/Contents/MacOS/LegacyImporterHost",
+        "cpu_percent": 0.0,
+        "pid": 7184,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileDerivatives.framework/PlugIns/LegacyImporterHost.appex/Contents/MacOS/LegacyImporterHost",
+        "cpu_percent": 0.0,
+        "pid": 7185,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileDerivatives.framework/PlugIns/LegacyImporterHost.appex/Contents/MacOS/LegacyImporterHost",
+        "cpu_percent": 0.0,
+        "pid": 7186,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreGraphics.framework/Versions/A/XPCServices/CGPDFService.xpc/Contents/MacOS/CGPDFService",
+        "cpu_percent": 0.0,
+        "pid": 7187,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreGraphics.framework/Versions/A/XPCServices/CGPDFService.xpc/Contents/MacOS/CGPDFService",
+        "cpu_percent": 0.0,
+        "pid": 7188,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/assetsubscriptiond",
+        "cpu_percent": 0.0,
+        "pid": 7189,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreParsec.framework/parsec-fbf",
+        "cpu_percent": 0.0,
+        "pid": 7288,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/duetexpertd",
+        "cpu_percent": 0.0,
+        "pid": 7291,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AOSKit.framework/Versions/A/XPCServices/com.apple.iCloudHelper.xpc/Contents/MacOS/com.apple.iCloudHelper",
+        "cpu_percent": 0.0,
+        "pid": 7344,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mdworker_shared",
+        "cpu_percent": 0.0,
+        "pid": 7404,
+        "ppid": 1
+      },
+      {
+        "comm": "ps",
+        "cpu_percent": 0.0,
+        "pid": 7433,
+        "ppid": 85699
+      },
+      {
+        "comm": "/usr/libexec/routined",
+        "cpu_percent": 0.0,
+        "pid": 8082,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleMediaServicesUI.framework/amsengagementd",
+        "cpu_percent": 0.0,
+        "pid": 8084,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/ReportCrash",
+        "cpu_percent": 0.0,
+        "pid": 8087,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreSymbolication.framework/coresymbolicationd",
+        "cpu_percent": 0.0,
+        "pid": 8105,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/ReportCrash",
+        "cpu_percent": 0.0,
+        "pid": 8110,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/OnDeviceStorage.framework/Support/amsondevicestoraged",
+        "cpu_percent": 0.0,
+        "pid": 8118,
+        "ppid": 1
+      },
+      {
+        "comm": "/bin/bash",
+        "cpu_percent": 0.0,
+        "pid": 8346,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Stats.app/Contents/MacOS/Stats",
+        "cpu_percent": 0.1,
+        "pid": 8369,
+        "ppid": 8346
+      },
+      {
+        "comm": "/usr/libexec/countryd",
+        "cpu_percent": 0.0,
+        "pid": 8570,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreRecents.framework/Versions/A/Support/recentsd",
+        "cpu_percent": 0.0,
+        "pid": 9047,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 9088,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PhotoAnalysis.framework/Versions/A/Support/photoanalysisd",
+        "cpu_percent": 0.0,
+        "pid": 9143,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/ScopedBookmarkAgent",
+        "cpu_percent": 0.0,
+        "pid": 9144,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreFollowUp.framework/Versions/A/Support/followupd",
+        "cpu_percent": 0.0,
+        "pid": 9145,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SuggestedImage.framework/Support/imageplaygroundd",
+        "cpu_percent": 0.0,
+        "pid": 9207,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/swtransparencyd",
+        "cpu_percent": 0.0,
+        "pid": 9259,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/osanalyticshelper",
+        "cpu_percent": 0.0,
+        "pid": 9261,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/ReportSystemMemory",
+        "cpu_percent": 0.0,
+        "pid": 9299,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntelligenceTasksEngine.framework/Support/intelligencetasksd",
+        "cpu_percent": 0.0,
+        "pid": 9308,
+        "ppid": 1
+      },
+      {
+        "comm": "cloudphotod",
+        "cpu_percent": 0.0,
+        "pid": 9504,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/seputil",
+        "cpu_percent": 0.0,
+        "pid": 9509,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/online-auth-agent",
+        "cpu_percent": 0.0,
+        "pid": 9510,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/transparencyd",
+        "cpu_percent": 0.0,
+        "pid": 9511,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ProtectedCloudStorage.framework/Helpers/ProtectedCloudKeySyncing",
+        "cpu_percent": 0.0,
+        "pid": 9512,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/peakpowermanagerd",
+        "cpu_percent": 0.0,
+        "pid": 9525,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleCredentialManager.framework/AppleCredentialManagerDaemon",
+        "cpu_percent": 0.0,
+        "pid": 9527,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Contacts.framework/Support/postersyncd",
+        "cpu_percent": 0.0,
+        "pid": 9545,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/HelpData.framework/Versions/A/Resources/helpd",
+        "cpu_percent": 0.0,
+        "pid": 9685,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/keybagd",
+        "cpu_percent": 0.0,
+        "pid": 9711,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntelligencePlatformCore.framework/Versions/A/intelligenceplatformd",
+        "cpu_percent": 0.0,
+        "pid": 9712,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MapsSync.framework/mapssyncd",
+        "cpu_percent": 0.0,
+        "pid": 9713,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/iconservicesagent",
+        "cpu_percent": 0.0,
+        "pid": 9784,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/iconservicesd",
+        "cpu_percent": 0.0,
+        "pid": 9785,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 9860,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppPredictionFoundation.framework/Versions/A/XPCServices/AppPredictionIntentsHelperService.xpc/Contents/MacOS/AppPredictionIntentsHelperService",
+        "cpu_percent": 0.0,
+        "pid": 9861,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ciphermld",
+        "cpu_percent": 0.0,
+        "pid": 9869,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BusinessChatService.framework/businessservicesd",
+        "cpu_percent": 0.0,
+        "pid": 9920,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MessagesBlastDoorSupport.framework/Versions/A/XPCServices/MessagesBlastDoorService.xpc/Contents/MacOS/MessagesBlastDoorService",
+        "cpu_percent": 0.0,
+        "pid": 9921,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/EmailDaemon.framework/Versions/A/maild",
+        "cpu_percent": 0.0,
+        "pid": 9923,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 9927,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/textcomposerd",
+        "cpu_percent": 0.0,
+        "pid": 9928,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/symptomsd-diag",
+        "cpu_percent": 0.0,
+        "pid": 9936,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/proactived",
+        "cpu_percent": 0.0,
+        "pid": 10006,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 10251,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 10480,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Software Update.app/Contents/Resources/softwareupdated",
+        "cpu_percent": 0.0,
+        "pid": 10489,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileAssetDaemon.framework/Versions/A/XPCServices/com.apple.MobileAsset.DownloadService.Builtin.xpc/Contents/MacOS/com.apple.MobileAsset.DownloadService.Builtin",
+        "cpu_percent": 0.0,
+        "pid": 10490,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nsurlsessiond",
+        "cpu_percent": 0.0,
+        "pid": 10493,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/frauddefensed",
+        "cpu_percent": 0.0,
+        "pid": 10668,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 10710,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 10711,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/systemsoundserverd",
+        "cpu_percent": 0.0,
+        "pid": 10726,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar",
+        "cpu_percent": 0.0,
+        "pid": 10727,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper",
+        "cpu_percent": 0.0,
+        "pid": 10728,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 10804,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 10805,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/PerfPowerServices",
+        "cpu_percent": 0.0,
+        "pid": 11192,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MessagesBlastDoorSupport.framework/Versions/A/XPCServices/UnknownSendersBlastDoorService.xpc/Contents/MacOS/UnknownSendersBlastDoorService",
+        "cpu_percent": 0.0,
+        "pid": 11390,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SocialLayer.framework/sociallayerd.app/Contents/MacOS/sociallayerd",
+        "cpu_percent": 0.0,
+        "pid": 11391,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/hidd",
+        "cpu_percent": 0.0,
+        "pid": 11432,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Intents.framework/XPCServices/intents_helper.xpc/Contents/MacOS/intents_helper",
+        "cpu_percent": 0.0,
+        "pid": 11637,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Cryptexes/App/usr/libexec/SafariLaunchAgent",
+        "cpu_percent": 0.0,
+        "pid": 12343,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/MediaAccessibility.framework/Versions/A/XPCServices/com.apple.accessibility.mediaaccessibilityd.xpc/Contents/MacOS/com.apple.accessibility.mediaaccessibilityd",
+        "cpu_percent": 0.0,
+        "pid": 12413,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AudioToolbox.framework/AudioComponentRegistrar",
+        "cpu_percent": 0.0,
+        "pid": 12414,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/EcosystemAnalytics.framework/Support/ecosystemanalyticsd",
+        "cpu_percent": 0.0,
+        "pid": 12417,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/Ecosystem.framework/Support/ecosystemd",
+        "cpu_percent": 0.0,
+        "pid": 12418,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/GamePolicyAgent",
+        "cpu_percent": 0.0,
+        "pid": 12419,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Contacts.framework/PlugIns/ContactsCoreSpotlightExtension.appex/Contents/MacOS/ContactsCoreSpotlightExtension",
+        "cpu_percent": 0.0,
+        "pid": 12935,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Translation.framework/translationd",
+        "cpu_percent": 0.0,
+        "pid": 13130,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSODaemon",
+        "cpu_percent": 0.0,
+        "pid": 13131,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/XPCServices/VTDecoderXPCService.xpc/Contents/MacOS/VTDecoderXPCService",
+        "cpu_percent": 0.0,
+        "pid": 13132,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/XPCServices/com.apple.hiservices-xpcservice.xpc/Contents/MacOS/com.apple.hiservices-xpcservice",
+        "cpu_percent": 0.0,
+        "pid": 13133,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Speech.framework/Versions/A/XPCServices/localspeechrecognition.xpc/Contents/MacOS/localspeechrecognition",
+        "cpu_percent": 0.0,
+        "pid": 13135,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/spindump_agent",
+        "cpu_percent": 0.0,
+        "pid": 13142,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreCDP.framework/Versions/A/Resources/cdpd",
+        "cpu_percent": 0.0,
+        "pid": 13149,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/applekeystored",
+        "cpu_percent": 0.0,
+        "pid": 13151,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntlPreferences.framework/Support/localizationswitcherd",
+        "cpu_percent": 0.0,
+        "pid": 13152,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/keychainsharingmessagingd",
+        "cpu_percent": 0.0,
+        "pid": 13153,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Metal.framework/Versions/A/XPCServices/MTLCompilerService.xpc/Contents/MacOS/MTLCompilerService",
+        "cpu_percent": 0.0,
+        "pid": 13154,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/TrustedPeersHelper.xpc/Contents/MacOS/TrustedPeersHelper",
+        "cpu_percent": 0.0,
+        "pid": 13159,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 13203,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/Synapse.framework/Support/contentlinkingd",
+        "cpu_percent": 0.0,
+        "pid": 13293,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.WebContent.EnhancedSecurity.xpc/Contents/MacOS/com.apple.WebKit.WebContent.EnhancedSecurity",
+        "cpu_percent": 0.0,
+        "pid": 13295,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/inputanalyticsd",
+        "cpu_percent": 0.0,
+        "pid": 13310,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/aneuserd",
+        "cpu_percent": 0.0,
+        "pid": 13322,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dprivacyd",
+        "cpu_percent": 0.0,
+        "pid": 13323,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 13444,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PrivateCloudCompute.framework/privatecloudcomputed.app/Contents/MacOS/privatecloudcomputed",
+        "cpu_percent": 0.0,
+        "pid": 13557,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoAnalytics.framework/geoanalyticsd",
+        "cpu_percent": 0.0,
+        "pid": 13558,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Intents.framework/XPCServices/intents_helper.xpc/Contents/MacOS/intents_helper",
+        "cpu_percent": 0.0,
+        "pid": 13768,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MediaConversionService.framework/Versions/A/XPCServices/com.apple.photos.ImageConversionService.xpc/Contents/MacOS/com.apple.photos.ImageConversionService",
+        "cpu_percent": 0.0,
+        "pid": 13846,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/XPCServices/VTDecoderXPCService.xpc/Contents/MacOS/VTDecoderXPCService",
+        "cpu_percent": 0.0,
+        "pid": 13847,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleNeuralEngine.framework/XPCServices/ANECompilerService.xpc/Contents/MacOS/ANECompilerService",
+        "cpu_percent": 0.0,
+        "pid": 13852,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreKDL.framework/Support/corekdld",
+        "cpu_percent": 0.0,
+        "pid": 14270,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Metal.framework/Versions/A/XPCServices/MTLCompilerService.xpc/Contents/MacOS/MTLCompilerService",
+        "cpu_percent": 0.0,
+        "pid": 14990,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 15110,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 15163,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 15186,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AvatarPersistence.framework/Support/avatarsd",
+        "cpu_percent": 0.0,
+        "pid": 15403,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ContactsDonation.framework/Versions/A/Support/contactsdonationagent",
+        "cpu_percent": 0.0,
+        "pid": 15404,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/betaenrollmentagent",
+        "cpu_percent": 0.0,
+        "pid": 15513,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/betaenrollmentd",
+        "cpu_percent": 0.0,
+        "pid": 15514,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 15629,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.GPU.xpc/Contents/MacOS/com.apple.WebKit.GPU",
+        "cpu_percent": 0.0,
+        "pid": 15752,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking",
+        "cpu_percent": 0.0,
+        "pid": 15754,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AccessibilitySupport.framework/Versions/A/Resources/AccessibilityVisualsAgent.app/Contents/MacOS/AccessibilityVisualsAgent",
+        "cpu_percent": 0.0,
+        "pid": 15756,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ContinuousDialogManagerService.framework/assistant_cdmd",
+        "cpu_percent": 0.0,
+        "pid": 15941,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ASPCarryLog",
+        "cpu_percent": 0.0,
+        "pid": 15942,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/tipsd",
+        "cpu_percent": 0.0,
+        "pid": 15999,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dprivacyd",
+        "cpu_percent": 0.0,
+        "pid": 16000,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DifferentialPrivacy.framework/XPCServices/DPSubmissionService.xpc/Contents/MacOS/DPSubmissionService",
+        "cpu_percent": 0.0,
+        "pid": 16001,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudSubscriptionFeatures.framework/FeatureAccessAgent",
+        "cpu_percent": 0.0,
+        "pid": 16006,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/adprivacyd",
+        "cpu_percent": 0.0,
+        "pid": 16123,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Siri.app/Contents/MacOS/Siri",
+        "cpu_percent": 0.0,
+        "pid": 16154,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppStoreDaemon.framework/Support/appstoreagent",
+        "cpu_percent": 0.0,
+        "pid": 16171,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/InstallCoordination.framework/Support/installcoordinationd",
+        "cpu_percent": 0.0,
+        "pid": 16172,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppStoreDaemon.framework/Versions/A/XPCServices/com.apple.AppStoreDaemon.StorePrivilegedODRService.xpc/Contents/MacOS/com.apple.AppStoreDaemon.StorePrivilegedODRService",
+        "cpu_percent": 0.0,
+        "pid": 16173,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppStoreDaemon.framework/Support/appstored",
+        "cpu_percent": 0.0,
+        "pid": 16174,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/promotedcontentd",
+        "cpu_percent": 0.0,
+        "pid": 16175,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/fairplaydeviceidentityd",
+        "cpu_percent": 0.0,
+        "pid": 16176,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/audioanalyticsd",
+        "cpu_percent": 0.0,
+        "pid": 16203,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 16565,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/textcontextd",
+        "cpu_percent": 0.0,
+        "pid": 16917,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/Stickers.framework/Support/stickersd",
+        "cpu_percent": 0.0,
+        "pid": 16988,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BiomeStreams.framework/Support/biomed",
+        "cpu_percent": 0.0,
+        "pid": 17686,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/logd_helper",
+        "cpu_percent": 0.0,
+        "pid": 17772,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/CoreServices/XProtect.app/Contents/MacOS/XProtect",
+        "cpu_percent": 0.0,
+        "pid": 17910,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/CoreServices/XProtect.app/Contents/XPCServices/XProtectPluginService.xpc/Contents/MacOS/XProtectPluginService",
+        "cpu_percent": 0.0,
+        "pid": 17911,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/CoreServices/XProtect.app/Contents/MacOS/XProtect",
+        "cpu_percent": 0.0,
+        "pid": 17919,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/Apple/System/Library/CoreServices/XProtect.app/Contents/XPCServices/XProtectPluginService.xpc/Contents/MacOS/XProtectPluginService",
+        "cpu_percent": 0.0,
+        "pid": 17920,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 18009,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 18011,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/textunderstandingd",
+        "cpu_percent": 0.0,
+        "pid": 18019,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CampoUIServices.framework/Versions/A/XPCServices/CampoRemoteService.xpc/Contents/MacOS/CampoRemoteService",
+        "cpu_percent": 0.0,
+        "pid": 18472,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/proactiveeventtrackerd",
+        "cpu_percent": 0.0,
+        "pid": 18483,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudServices.framework/Helpers/com.apple.sbd",
+        "cpu_percent": 0.0,
+        "pid": 18498,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/Support/accessoryupdaterd",
+        "cpu_percent": 0.0,
+        "pid": 19008,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleNeuralEngine.framework/XPCServices/ANEStorageMaintainer.xpc/Contents/MacOS/ANEStorageMaintainer",
+        "cpu_percent": 0.0,
+        "pid": 19009,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceDisplay.xpc/Contents/MacOS/UARPUpdaterServiceDisplay",
+        "cpu_percent": 0.0,
+        "pid": 19010,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/UARPUpdaterServiceLegacyAudio.xpc/Contents/MacOS/UARPUpdaterServiceLegacyAudio",
+        "cpu_percent": 0.0,
+        "pid": 19011,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AssetCacheServices.framework/Versions/A/XPCServices/AssetCacheLocatorService.xpc/Contents/MacOS/AssetCacheLocatorService",
+        "cpu_percent": 0.0,
+        "pid": 19014,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AssistantServices.framework/Versions/A/XPCServices/media-indexer.xpc/Contents/MacOS/media-indexer",
+        "cpu_percent": 0.0,
+        "pid": 19019,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleNeuralEngine.framework/XPCServices/ANEStorageMaintainer.xpc/Contents/MacOS/ANEStorageMaintainer",
+        "cpu_percent": 0.0,
+        "pid": 19020,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PodcastServices.framework/XPCServices/PodcastContentService.xpc/Contents/MacOS/PodcastContentService",
+        "cpu_percent": 0.0,
+        "pid": 19021,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BookKit.framework/Versions/A/XPCServices/com.apple.BKAgentService.xpc/Contents/MacOS/com.apple.BKAgentService",
+        "cpu_percent": 0.0,
+        "pid": 19022,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AMPLibrary.framework/Versions/A/Support/AMPArtworkAgent",
+        "cpu_percent": 0.0,
+        "pid": 19023,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistoryPluginHelper",
+        "cpu_percent": 0.0,
+        "pid": 19041,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 19085,
+        "ppid": 1
+      },
+      {
+        "comm": "keyboxd",
+        "cpu_percent": 0.0,
+        "pid": 20212,
+        "ppid": 1
+      },
+      {
+        "comm": "gpg-agent",
+        "cpu_percent": 0.0,
+        "pid": 20215,
+        "ppid": 1
+      },
+      {
+        "comm": "scdaemon",
+        "cpu_percent": 0.0,
+        "pid": 20216,
+        "ppid": 20215
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreEmbeddedSpeechRecognition.framework/Versions/A/XPCServices/com.apple.siri.embeddedspeech.xpc/Contents/MacOS/com.apple.siri.embeddedspeech",
+        "cpu_percent": 0.0,
+        "pid": 20248,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/filevaultd",
+        "cpu_percent": 0.0,
+        "pid": 20263,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DeviceCheckInternal.framework/devicecheckd",
+        "cpu_percent": 0.0,
+        "pid": 20305,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Services/AppleSpell.service/Contents/MacOS/AppleSpell",
+        "cpu_percent": 0.0,
+        "pid": 20719,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/keyboardservicesd",
+        "cpu_percent": 0.0,
+        "pid": 20720,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd",
+        "cpu_percent": 0.0,
+        "pid": 20755,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/securityd_system",
+        "cpu_percent": 0.0,
+        "pid": 20950,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Dock.app/Contents/XPCServices/DockHelper.xpc/Contents/MacOS/DockHelper",
+        "cpu_percent": 0.0,
+        "pid": 21101,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21102,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21630,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21631,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21632,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21633,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21634,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/MTLAssetUpgraderD",
+        "cpu_percent": 0.0,
+        "pid": 21687,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/swcd",
+        "cpu_percent": 0.0,
+        "pid": 21688,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/MediaExtension.framework/Versions/A/Helpers/MENotificationAgent",
+        "cpu_percent": 0.0,
+        "pid": 21689,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 21690,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/BackgroundTaskManagement.framework/Support/BackgroundTaskManagementAgent.app/Contents/MacOS/BackgroundTaskManagementAgent",
+        "cpu_percent": 0.0,
+        "pid": 21691,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/pbs",
+        "cpu_percent": 0.0,
+        "pid": 21970,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 22071,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/MacOS/ChatGPT",
+        "cpu_percent": 0.1,
+        "pid": 22074,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/browser_crashpad_handler",
+        "cpu_percent": 0.0,
+        "pid": 22087,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/browser_crashpad_handler",
+        "cpu_percent": 0.0,
+        "pid": 22089,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif).app/Contents/MacOS/Codex (Aperitif)",
+        "cpu_percent": 0.1,
+        "pid": 22097,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif).app/Contents/MacOS/Codex (Aperitif)",
+        "cpu_percent": 0.0,
+        "pid": 22098,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif).app/Contents/MacOS/Codex (Aperitif)",
+        "cpu_percent": 0.0,
+        "pid": 22111,
+        "ppid": 22074
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 22120,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Metal.framework/Versions/A/XPCServices/MTLCompilerService.xpc/Contents/MacOS/MTLCompilerService",
+        "cpu_percent": 0.0,
+        "pid": 22130,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/native/bare-modifier-monitor",
+        "cpu_percent": 0.0,
+        "pid": 22131,
+        "ppid": 22074
+      },
+      {
+        "comm": "/System/Library/Frameworks/Metal.framework/Versions/A/XPCServices/MTLCompilerService.xpc/Contents/MacOS/MTLCompilerService",
+        "cpu_percent": 0.0,
+        "pid": 22133,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif).app/Contents/MacOS/Codex (Aperitif)",
+        "cpu_percent": 0.0,
+        "pid": 22134,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22135,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22137,
+        "ppid": 22074
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreGraphics.framework/Versions/A/XPCServices/CGPDFService.xpc/Contents/MacOS/CGPDFService",
+        "cpu_percent": 0.0,
+        "pid": 22148,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+        "cpu_percent": 0.0,
+        "pid": 22150,
+        "ppid": 22134
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif).app/Contents/MacOS/Codex (Aperitif)",
+        "cpu_percent": 0.0,
+        "pid": 22179,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Users/dave/.codex/computer-use/Codex Computer Use.app/Contents/MacOS/SkyComputerUseService",
+        "cpu_percent": 0.0,
+        "pid": 22265,
+        "ppid": 22074
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 22296,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/ImageThumbnailExtension.appex/Contents/MacOS/ImageThumbnailExtension",
+        "cpu_percent": 0.0,
+        "pid": 22298,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex",
+        "cpu_percent": 0.0,
+        "pid": 22299,
+        "ppid": 22074
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/TextThumbnailExtension.appex/Contents/MacOS/TextThumbnailExtension",
+        "cpu_percent": 0.0,
+        "pid": 22311,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/OfficeThumbnailExtension.appex/Contents/MacOS/OfficeThumbnailExtension",
+        "cpu_percent": 0.0,
+        "pid": 22312,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/XPCServices/VTDecoderXPCService.xpc/Contents/MacOS/VTDecoderXPCService",
+        "cpu_percent": 0.0,
+        "pid": 22313,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/WebThumbnailExtension.appex/Contents/MacOS/WebThumbnailExtension",
+        "cpu_percent": 0.0,
+        "pid": 22315,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.GPU.xpc/Contents/MacOS/com.apple.WebKit.GPU",
+        "cpu_percent": 0.0,
+        "pid": 22334,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper",
+        "cpu_percent": 0.0,
+        "pid": 22337,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AudioToolbox.framework/XPCServices/com.apple.audio.SandboxHelper.xpc/Contents/MacOS/com.apple.audio.SandboxHelper",
+        "cpu_percent": 0.0,
+        "pid": 22349,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SafariPlatformSupport.framework/Versions/A/XPCServices/com.apple.SafariPlatformSupport.Helper.xpc/Contents/MacOS/com.apple.SafariPlatformSupport.Helper",
+        "cpu_percent": 0.0,
+        "pid": 22350,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/ThemeWidgetControlViewService.xpc/Contents/MacOS/ThemeWidgetControlViewService",
+        "cpu_percent": 0.0,
+        "pid": 22351,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 22352,
+        "ppid": 1
+      },
+      {
+        "comm": "/Users/dave/Library/Application Support/Codex/artifact-sessions/runtime-generations/generation-wjLR4x/runtime/bin/node",
+        "cpu_percent": 0.0,
+        "pid": 22404,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22410,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22433,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Users/dave/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient",
+        "cpu_percent": 0.0,
+        "pid": 22564,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node",
+        "cpu_percent": 0.0,
+        "pid": 22565,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl",
+        "cpu_percent": 0.0,
+        "pid": 22566,
+        "ppid": 22150
+      },
+      {
+        "comm": "node",
+        "cpu_percent": 0.0,
+        "pid": 22567,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl",
+        "cpu_percent": 0.0,
+        "pid": 22572,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22648,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Users/dave/Library/Caches/bifrost-agent/binaries/0.12.0/darwin-arm64/bifrost",
+        "cpu_percent": 0.0,
+        "pid": 22662,
+        "ppid": 22567
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl",
+        "cpu_percent": 0.0,
+        "pid": 22674,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl",
+        "cpu_percent": 0.0,
+        "pid": 22677,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22961,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Frameworks/Codex Framework.framework/Versions/158.0.8127.37/Helpers/Codex (Aperitif Renderer).app/Contents/MacOS/Codex (Aperitif Renderer)",
+        "cpu_percent": 0.0,
+        "pid": 22962,
+        "ppid": 22074
+      },
+      {
+        "comm": "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex-code-mode-host",
+        "cpu_percent": 0.0,
+        "pid": 23244,
+        "ppid": 22150
+      },
+      {
+        "comm": "Contents/Library/LaunchAgents/com.microsoft.teams2.agent",
+        "cpu_percent": 0.0,
+        "pid": 24044,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 25550,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod",
+        "cpu_percent": 0.0,
+        "pid": 25661,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod",
+        "cpu_percent": 0.0,
+        "pid": 25664,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod",
+        "cpu_percent": 0.0,
+        "pid": 25665,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/microstackshot",
+        "cpu_percent": 0.0,
+        "pid": 26246,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Stocks.app/Contents/PlugIns/StocksWidget.appex/Contents/MacOS/StocksWidget",
+        "cpu_percent": 0.0,
+        "pid": 27843,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 29166,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 29192,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/distnoted",
+        "cpu_percent": 0.0,
+        "pid": 32300,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TelephonyUtilities.framework/callservicesd",
+        "cpu_percent": 0.0,
+        "pid": 32902,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/LocalAuthenticationUI.framework/Versions/A/XPCServices/LocalAuthenticationRemoteService.xpc/Contents/MacOS/LocalAuthenticationRemoteService",
+        "cpu_percent": 0.0,
+        "pid": 32912,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking",
+        "cpu_percent": 0.0,
+        "pid": 33619,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/sharedfilelistd",
+        "cpu_percent": 0.0,
+        "pid": 34188,
+        "ppid": 1
+      },
+      {
+        "comm": "aslmanager",
+        "cpu_percent": 0.0,
+        "pid": 34221,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/networkserviceproxy",
+        "cpu_percent": 0.0,
+        "pid": 34245,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/spatialpreviewd",
+        "cpu_percent": 0.0,
+        "pid": 34805,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/biometrickitd",
+        "cpu_percent": 0.0,
+        "pid": 35187,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreSuggestions.framework/Versions/A/Support/suggestd",
+        "cpu_percent": 0.0,
+        "pid": 38792,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/mds_stores",
+        "cpu_percent": 0.0,
+        "pid": 42056,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/PowerChime.app/Contents/MacOS/PowerChime",
+        "cpu_percent": 0.0,
+        "pid": 44573,
+        "ppid": 1
+      },
+      {
+        "comm": "/private/tmp/claude-501/-Users-dave-Workspace-BrokkAi-bifrost-service--claude-worktrees-keen-mestorf-14198d/1d49b680-109e-4234-abf1-35d153ff63e7/scratchpad/demo/bin/bifrost-service-control",
+        "cpu_percent": 0.7,
+        "pid": 47088,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 47405,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/usbpowerd",
+        "cpu_percent": 0.0,
+        "pid": 47454,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UsageTracking.framework/Versions/A/UsageTrackingAgent",
+        "cpu_percent": 0.0,
+        "pid": 48848,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IMDPersistence.framework/XPCServices/IMDPersistenceAgent.xpc/Contents/MacOS/IMDPersistenceAgent",
+        "cpu_percent": 0.0,
+        "pid": 49299,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/icloudmailagent",
+        "cpu_percent": 0.0,
+        "pid": 49308,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Cryptexes/App/usr/libexec/SafariBookmarksSyncAgent",
+        "cpu_percent": 0.0,
+        "pid": 49410,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FamilyCircle.framework/Versions/A/Resources/familycircled",
+        "cpu_percent": 0.0,
+        "pid": 49541,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/containermanagerd_system",
+        "cpu_percent": 0.0,
+        "pid": 50027,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CalendarDaemon.framework/Support/calaccessd",
+        "cpu_percent": 0.0,
+        "pid": 50516,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ScreenTimeCore.framework/Versions/A/ScreenTimeAgent",
+        "cpu_percent": 0.0,
+        "pid": 51107,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntelligenceFlowContextRuntime.framework/Versions/A/intelligencecontextd",
+        "cpu_percent": 0.0,
+        "pid": 51159,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/PowerUIAgent",
+        "cpu_percent": 0.0,
+        "pid": 51779,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreAnalytics.framework/Support/analyticsagent",
+        "cpu_percent": 0.0,
+        "pid": 51833,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/HomeKitDaemon.framework/Support/homed",
+        "cpu_percent": 0.0,
+        "pid": 51835,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 51865,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/KerberosHelper/Helpers/DiskUnmountWatcher",
+        "cpu_percent": 0.0,
+        "pid": 52049,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XprotectService.xpc/Contents/MacOS/XprotectService",
+        "cpu_percent": 0.0,
+        "pid": 52066,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Setup Assistant.app/Contents/Resources/mbuseragent",
+        "cpu_percent": 0.0,
+        "pid": 52797,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 54605,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 54617,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 54619,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 54623,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 54866,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/iOSSupport/System/Library/PrivateFrameworks/HomeEnergyDaemon.framework/Support/homeenergyd",
+        "cpu_percent": 0.0,
+        "pid": 54999,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55040,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/AppKit.framework/Versions/C/XPCServices/ThemeWidgetControlViewService.xpc/Contents/MacOS/ThemeWidgetControlViewService",
+        "cpu_percent": 0.0,
+        "pid": 55154,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55207,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55314,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55622,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55654,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 55675,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/triald_system",
+        "cpu_percent": 0.0,
+        "pid": 56225,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/spindump",
+        "cpu_percent": 0.0,
+        "pid": 57511,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ospredictiond",
+        "cpu_percent": 0.0,
+        "pid": 57685,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/Keychain Circle Notification.app/Contents/MacOS/Keychain Circle Notification",
+        "cpu_percent": 0.0,
+        "pid": 57733,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/OmniSearch.framework/Versions/A/searchtoold",
+        "cpu_percent": 0.0,
+        "pid": 57736,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/assessmentagent",
+        "cpu_percent": 0.0,
+        "pid": 57739,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreDuetContext.framework/Resources/ContextStoreAgent",
+        "cpu_percent": 0.0,
+        "pid": 57775,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IntelligenceFlowRuntime.framework/Versions/A/intelligenceflowd",
+        "cpu_percent": 0.0,
+        "pid": 57782,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SiriAppIntentsRuntime.framework/siriappintentsd",
+        "cpu_percent": 0.0,
+        "pid": 57783,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/feedbackd",
+        "cpu_percent": 0.0,
+        "pid": 57792,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreTelephony.framework/Support/CommCenter",
+        "cpu_percent": 0.0,
+        "pid": 57849,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SyncedDefaults.framework/Support/syncdefaultsd",
+        "cpu_percent": 0.0,
+        "pid": 57851,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/appleaccountd",
+        "cpu_percent": 0.0,
+        "pid": 58079,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ScreenTimeSettingsFoundation.framework/Versions/A/ScreenTimeSettingsAgent",
+        "cpu_percent": 0.0,
+        "pid": 58118,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/FamilyControls.framework/Versions/A/FamilyControlsAgent",
+        "cpu_percent": 0.0,
+        "pid": 58123,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DeviceConfiguration.framework/Versions/A/DeviceConfigurationAgent",
+        "cpu_percent": 0.0,
+        "pid": 58125,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dmd",
+        "cpu_percent": 0.0,
+        "pid": 58126,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DeviceConfiguration.framework/Versions/A/deviceconfigurationd",
+        "cpu_percent": 0.0,
+        "pid": 58127,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AssetCacheServices.framework/Versions/A/XPCServices/AssetCacheLocatorService.xpc/Contents/MacOS/AssetCacheLocatorService",
+        "cpu_percent": 0.0,
+        "pid": 58597,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/triald",
+        "cpu_percent": 0.0,
+        "pid": 58624,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/replayd",
+        "cpu_percent": 0.0,
+        "pid": 58709,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod",
+        "cpu_percent": 0.0,
+        "pid": 58713,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/netbiosd",
+        "cpu_percent": 0.0,
+        "pid": 59439,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/wifip2pd",
+        "cpu_percent": 0.0,
+        "pid": 59718,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CacheDelete.framework/deleted",
+        "cpu_percent": 0.0,
+        "pid": 59875,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/pkd",
+        "cpu_percent": 0.0,
+        "pid": 59877,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CacheDelete.framework/deleted_helper",
+        "cpu_percent": 0.0,
+        "pid": 59883,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/TimeMachine/backupd-helper",
+        "cpu_percent": 0.0,
+        "pid": 59891,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PackageKit.framework/Resources/installd",
+        "cpu_percent": 0.0,
+        "pid": 59893,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PackageKit.framework/Resources/system_installd",
+        "cpu_percent": 0.0,
+        "pid": 59896,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/seserviced",
+        "cpu_percent": 0.0,
+        "pid": 60336,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/CoreLocationAgent.app/Contents/MacOS/CoreLocationAgent",
+        "cpu_percent": 0.0,
+        "pid": 60429,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GenerativeExperiencesRuntime.framework/Versions/A/generativeexperiencesd",
+        "cpu_percent": 0.0,
+        "pid": 60712,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ModelCatalogRuntime.framework/Versions/A/modelcatalogd",
+        "cpu_percent": 0.0,
+        "pid": 60726,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreADI.framework/adid",
+        "cpu_percent": 0.0,
+        "pid": 60898,
+        "ppid": 1
+      },
+      {
+        "comm": "node",
+        "cpu_percent": 0.0,
+        "pid": 61201,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/rtcreportingd",
+        "cpu_percent": 0.0,
+        "pid": 62202,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CommerceKit.framework/Versions/A/Resources/commerce",
+        "cpu_percent": 0.0,
+        "pid": 62665,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nfcd",
+        "cpu_percent": 0.0,
+        "pid": 62719,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/NearFieldPrivateServices.framework/Versions/A/XPCServices/NFStorageServer.xpc/Contents/MacOS/NFStorageServer",
+        "cpu_percent": 0.0,
+        "pid": 62724,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/powerexperienced",
+        "cpu_percent": 0.0,
+        "pid": 63333,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/findmybeaconingd",
+        "cpu_percent": 0.0,
+        "pid": 63636,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/HearingCore.framework/heard",
+        "cpu_percent": 0.0,
+        "pid": 63682,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Contacts.framework/Support/contactsd",
+        "cpu_percent": 0.0,
+        "pid": 63702,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/sysmond",
+        "cpu_percent": 0.0,
+        "pid": 63795,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/com.apple.Safari.SafeBrowsing.Service",
+        "cpu_percent": 0.0,
+        "pid": 63919,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/findmydevice-user-agent",
+        "cpu_percent": 0.0,
+        "pid": 63920,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/searchpartyuseragent",
+        "cpu_percent": 0.0,
+        "pid": 63921,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/findmylocateagent",
+        "cpu_percent": 0.0,
+        "pid": 63922,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/findmydeviced",
+        "cpu_percent": 0.0,
+        "pid": 63923,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mobileactivationd",
+        "cpu_percent": 0.0,
+        "pid": 63924,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CryptoTokenKit.framework/ctkd",
+        "cpu_percent": 0.0,
+        "pid": 63925,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/LocalAuthentication.framework/Support/coreauthd",
+        "cpu_percent": 0.0,
+        "pid": 63926,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/smd",
+        "cpu_percent": 0.0,
+        "pid": 63929,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/storagekitd",
+        "cpu_percent": 0.0,
+        "pid": 63930,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/fskitd",
+        "cpu_percent": 0.0,
+        "pid": 63931,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 63932,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/powerdatad",
+        "cpu_percent": 0.0,
+        "pid": 64008,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreParsec.framework/parsecd",
+        "cpu_percent": 0.0,
+        "pid": 64020,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/iTunesCloud.framework/Support/itunescloudd",
+        "cpu_percent": 0.0,
+        "pid": 64021,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleMediaServices.framework/Resources/amsaccountsd",
+        "cpu_percent": 0.0,
+        "pid": 64034,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 64036,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/CoreServicesUIAgent.app/Contents/MacOS/CoreServicesUIAgent",
+        "cpu_percent": 0.0,
+        "pid": 64419,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudTelemetry.framework/Support/cloudtelemetryd",
+        "cpu_percent": 0.0,
+        "pid": 64496,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 64497,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/sandboxd",
+        "cpu_percent": 0.0,
+        "pid": 64966,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SystemStatusServer.framework/Support/systemstatusd",
+        "cpu_percent": 0.0,
+        "pid": 64982,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/nehelper",
+        "cpu_percent": 0.0,
+        "pid": 64988,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/neagent",
+        "cpu_percent": 0.0,
+        "pid": 65117,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/usermanagerd",
+        "cpu_percent": 0.0,
+        "pid": 65473,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/PhotoLibraryServices.framework/Versions/A/Support/photolibraryd",
+        "cpu_percent": 0.0,
+        "pid": 65496,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 66036,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/ExtensionKit/Extensions/PrivateMLClientInferenceProviderService.appex/Contents/MacOS/PrivateMLClientInferenceProviderService",
+        "cpu_percent": 0.0,
+        "pid": 66568,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ScreenTimeSettingsFoundation.framework/Versions/A/PlugIns/ScreenTimeSettingsDeviceActivityMonitorExtension.appex/Contents/MacOS/ScreenTimeSettingsDeviceActivityMonitorExtension",
+        "cpu_percent": 0.0,
+        "pid": 66622,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Notes.app/Contents/PlugIns/com.apple.Notes.SpotlightIndexExtension.appex/Contents/MacOS/com.apple.Notes.SpotlightIndexExtension",
+        "cpu_percent": 0.0,
+        "pid": 66995,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/AirPlayXPCHelper",
+        "cpu_percent": 0.0,
+        "pid": 67859,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/milod",
+        "cpu_percent": 0.0,
+        "pid": 68319,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Cryptexes/App/usr/libexec/PasswordBreachAgent",
+        "cpu_percent": 0.0,
+        "pid": 68439,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MediaAnalysisAccess.framework/Versions/A/XPCServices/mediaanalysisd-access.xpc/Contents/MacOS/mediaanalysisd-access",
+        "cpu_percent": 0.0,
+        "pid": 68720,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/FileProviderDaemon.framework/XPCServices/FPCKService.xpc/Contents/MacOS/FPCKService",
+        "cpu_percent": 0.0,
+        "pid": 68775,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 68985,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DiskImages.framework/Resources/diskimages-helper",
+        "cpu_percent": 0.0,
+        "pid": 69022,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DiskImages.framework/Resources/hdiejectd",
+        "cpu_percent": 0.0,
+        "pid": 69098,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AMPLibrary.framework/Versions/A/Support/AMPLibraryAgent",
+        "cpu_percent": 0.0,
+        "pid": 69894,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CoreLSKD.framework/Versions/A/lskdd",
+        "cpu_percent": 0.0,
+        "pid": 69941,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 70270,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ManagedSettings.framework/Versions/A/ManagedSettingsAgent",
+        "cpu_percent": 0.0,
+        "pid": 70486,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/com.apple.DriverKit.AppleUserECM.dext/com.apple.DriverKit.AppleUserECM",
+        "cpu_percent": 0.0,
+        "pid": 70915,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/DriverExtensions/com.apple.DriverKit.AppleUserECM.dext/com.apple.DriverKit.AppleUserECM",
+        "cpu_percent": 0.0,
+        "pid": 70916,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 71965,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/linkd",
+        "cpu_percent": 0.0,
+        "pid": 72165,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SiriTTSService.framework/sirittsd",
+        "cpu_percent": 0.0,
+        "pid": 73828,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MobileAccessoryUpdater.framework/XPCServices/EAUpdaterService.xpc/Contents/MacOS/EAUpdaterService",
+        "cpu_percent": 0.0,
+        "pid": 73829,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/PrivilegedHelperTools/com.adobe.ARMDC.Communicator",
+        "cpu_percent": 0.0,
+        "pid": 74205,
+        "ppid": 1
+      },
+      {
+        "comm": "/Library/PrivilegedHelperTools/com.adobe.ARMDC.SMJobBlessHelper",
+        "cpu_percent": 0.0,
+        "pid": 74206,
+        "ppid": 1
+      },
+      {
+        "comm": "next-server (v16.4.6)",
+        "cpu_percent": 0.0,
+        "pid": 74850,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/Categories.framework/Versions/A/XPCServices/CategoriesService.xpc/Contents/MacOS/CategoriesService",
+        "cpu_percent": 0.0,
+        "pid": 74893,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ContextKit.framework/Versions/A/XPCServices/ContextService.xpc/Contents/MacOS/ContextService",
+        "cpu_percent": 0.0,
+        "pid": 74894,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 74896,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Podcasts.app/Contents/PlugIns/com.apple.podcasts.SpotlightIndexExtension.appex/Contents/MacOS/com.apple.podcasts.SpotlightIndexExtension",
+        "cpu_percent": 0.0,
+        "pid": 75039,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/ValidUpdater",
+        "cpu_percent": 0.0,
+        "pid": 76068,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/fpassetmanagerd",
+        "cpu_percent": 0.0,
+        "pid": 76072,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/FinanceKit.framework/financed",
+        "cpu_percent": 0.0,
+        "pid": 76074,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76075,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AgentSessionKitRuntime.framework/Versions/A/agentstored",
+        "cpu_percent": 0.0,
+        "pid": 76077,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76078,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76079,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 76080,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76092,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76093,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76094,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76095,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76096,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76097,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dbtelemetryd",
+        "cpu_percent": 0.0,
+        "pid": 76098,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/remindd",
+        "cpu_percent": 0.0,
+        "pid": 76596,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 76665,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/dirhelper",
+        "cpu_percent": 0.0,
+        "pid": 76684,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 77271,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/griddatad",
+        "cpu_percent": 0.0,
+        "pid": 77327,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/uarpassetmanagerd",
+        "cpu_percent": 0.0,
+        "pid": 77328,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UARPAssetManager.framework/XPCServices/UARPAssetManagerServiceiCloud.xpc/Contents/MacOS/UARPAssetManagerServiceiCloud",
+        "cpu_percent": 0.0,
+        "pid": 77329,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/UARPAssetManager.framework/XPCServices/UARPAssetManagerServiceMobileAsset.xpc/Contents/MacOS/UARPAssetManagerServiceMobileAsset",
+        "cpu_percent": 0.0,
+        "pid": 77330,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/tzd",
+        "cpu_percent": 0.0,
+        "pid": 77331,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/IMDPersistence.framework/IMAutomaticHistoryDeletionAgent.app/Contents/MacOS/IMAutomaticHistoryDeletionAgent",
+        "cpu_percent": 0.0,
+        "pid": 77332,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XProtectUpdateService.xpc/Contents/MacOS/XProtectUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 77333,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/Categories.framework/Versions/A/XPCServices/CategoriesService.xpc/Contents/MacOS/CategoriesService",
+        "cpu_percent": 0.0,
+        "pid": 77335,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/sysdiagnosed",
+        "cpu_percent": 0.0,
+        "pid": 77338,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/cfprefsd",
+        "cpu_percent": 0.0,
+        "pid": 77345,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/EscrowSecurityAlert.app/Contents/MacOS/EscrowSecurityAlert",
+        "cpu_percent": 0.0,
+        "pid": 77428,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mmaintenanced",
+        "cpu_percent": 0.0,
+        "pid": 77501,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mobilerepaird",
+        "cpu_percent": 0.0,
+        "pid": 77502,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/corerepaird",
+        "cpu_percent": 0.0,
+        "pid": 77503,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppleDeviceQuerySupport.framework/Versions/A/XPCServices/AppleDeviceQueryService.xpc/Contents/MacOS/AppleDeviceQueryService",
+        "cpu_percent": 0.0,
+        "pid": 77504,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TrialServer.framework/Versions/A/XPCServices/TrialArchivingService.xpc/Contents/MacOS/TrialArchivingService",
+        "cpu_percent": 0.0,
+        "pid": 77542,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/metrickitd",
+        "cpu_percent": 0.0,
+        "pid": 77567,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mlruntimed",
+        "cpu_percent": 0.0,
+        "pid": 77572,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/TrialServer.framework/Versions/A/XPCServices/TrialArchivingService.xpc/Contents/MacOS/TrialArchivingService",
+        "cpu_percent": 0.0,
+        "pid": 77777,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 78094,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/QuickLookUI.framework/Versions/A/XPCServices/QuickLookUIService.xpc/Contents/MacOS/QuickLookUIService",
+        "cpu_percent": 0.0,
+        "pid": 78553,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/mobileassetd",
+        "cpu_percent": 0.0,
+        "pid": 78765,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/coreduetd",
+        "cpu_percent": 0.0,
+        "pid": 78835,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/WidgetRenderer_Activities.app/Contents/MacOS/WidgetRenderer_Activities",
+        "cpu_percent": 0.0,
+        "pid": 79403,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Cryptexes/App/usr/libexec/com.apple.Safari.History",
+        "cpu_percent": 0.0,
+        "pid": 79541,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Wacom Tablet.localized/.Tablet/TabletDriver.app/Contents/MacOS/TabletDriver",
+        "cpu_percent": 0.0,
+        "pid": 80187,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 80438,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 80810,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 81368,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ManagedAppDistribution.framework/Support/managedappdistributionagent",
+        "cpu_percent": 0.0,
+        "pid": 81541,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/ManagedAppDistribution.framework/Support/managedappdistributiond",
+        "cpu_percent": 0.0,
+        "pid": 81542,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/remotemanagementd",
+        "cpu_percent": 0.0,
+        "pid": 81917,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/RemoteManagementAgent",
+        "cpu_percent": 0.0,
+        "pid": 81919,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SecuritySubscriber.xpc/Contents/MacOS/SecuritySubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81921,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SafariFoundation.framework/Versions/A/XPCServices/SafariConfigurationSubscriber.xpc/Contents/MacOS/SafariConfigurationSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81922,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/InteractiveLegacyProfilesSubscriber.xpc/Contents/MacOS/InteractiveLegacyProfilesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81924,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SecuritySubscriber.xpc/Contents/MacOS/SecuritySubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81925,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/InteractiveLegacyProfilesSubscriber.xpc/Contents/MacOS/InteractiveLegacyProfilesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81928,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ScreenSharingSubscriber.xpc/Contents/MacOS/ScreenSharingSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81929,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/LegacyProfilesSubscriber.xpc/Contents/MacOS/LegacyProfilesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81932,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ScreenSharingSubscriber.xpc/Contents/MacOS/ScreenSharingSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81933,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/PasscodeSettingsSubscriber.xpc/Contents/MacOS/PasscodeSettingsSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81935,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 81936,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/LegacyProfilesSubscriber.xpc/Contents/MacOS/LegacyProfilesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81937,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/DiskManagementSubscriber.xpc/Contents/MacOS/DiskManagementSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81939,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/PasscodeSettingsSubscriber.xpc/Contents/MacOS/PasscodeSettingsSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81940,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedPreferencesSubscriber.xpc/Contents/MacOS/ManagedPreferencesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81941,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/AccountSubscriber.xpc/Contents/MacOS/AccountSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81942,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/SoftwareUpdateSubscriber.xpc/Contents/MacOS/SoftwareUpdateSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81944,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/DeviceConfigurationSubscriber.xpc/Contents/MacOS/DeviceConfigurationSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81945,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/MigrationSubscriber.xpc/Contents/MacOS/MigrationSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81946,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedAppsSubscriber.xpc/Contents/MacOS/ManagedAppsSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81948,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SystemMigration.framework/Resources/systemmigrationd",
+        "cpu_percent": 0.0,
+        "pid": 81949,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/NetworkExtensionSubscriber.xpc/Contents/MacOS/NetworkExtensionSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81951,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/iconservicesagent",
+        "cpu_percent": 0.0,
+        "pid": 81952,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagementTestSubscriber.xpc/Contents/MacOS/ManagementTestSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81954,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/DeviceConfigurationSubscriber.xpc/Contents/MacOS/DeviceConfigurationSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81955,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ASConfigurationSubscriber.xpc/Contents/MacOS/ASConfigurationSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81956,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedAppsSubscriber.xpc/Contents/MacOS/ManagedAppsSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81957,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedSettingsSubscriber.xpc/Contents/MacOS/ManagedSettingsSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81958,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/NetworkExtensionSubscriber.xpc/Contents/MacOS/NetworkExtensionSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81959,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ExtensibleSSOSubscriber.xpc/Contents/MacOS/ExtensibleSSOSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81960,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagementTestSubscriber.xpc/Contents/MacOS/ManagementTestSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81961,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AppSSO.framework/Support/AppSSOAgent.app/Contents/MacOS/AppSSOAgent",
+        "cpu_percent": 0.0,
+        "pid": 81962,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ManagedConfigurationFilesSubscriber.xpc/Contents/MacOS/ManagedConfigurationFilesSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81963,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/AssetCacheSubscriber.xpc/Contents/MacOS/AssetCacheSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81964,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/GSS.framework/Helpers/GSSCred",
+        "cpu_percent": 0.0,
+        "pid": 81965,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/AssetCacheServicesExtensions.framework/XPCServices/AssetCacheManagerService.xpc/Contents/MacOS/AssetCacheManagerService",
+        "cpu_percent": 0.0,
+        "pid": 81967,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/RemoteManagement.framework/XPCServices/ExtensibleSSOSubscriber.xpc/Contents/MacOS/ExtensibleSSOSubscriber",
+        "cpu_percent": 0.0,
+        "pid": 81968,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/audioaccessoryd",
+        "cpu_percent": 0.0,
+        "pid": 81980,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/UniversalControl.app/Contents/MacOS/UniversalControl",
+        "cpu_percent": 0.0,
+        "pid": 82012,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 82427,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd",
+        "cpu_percent": 0.0,
+        "pid": 82991,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DataAccess.framework/Support/dataaccessd",
+        "cpu_percent": 0.0,
+        "pid": 83626,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DiskImages.framework/Resources/diskimages-helper",
+        "cpu_percent": 0.0,
+        "pid": 84526,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Audio/Plug-Ins/usbaudio.bundle/Contents/MacOS/usbaudiod",
+        "cpu_percent": 0.0,
+        "pid": 85047,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+        "cpu_percent": 1.0,
+        "pid": 85699,
+        "ppid": 22150
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 85795,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/wifivelocityd",
+        "cpu_percent": 0.0,
+        "pid": 86383,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/spotlightknowledged.updater",
+        "cpu_percent": 0.0,
+        "pid": 86440,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CallHistory.framework/Support/CallHistorySyncHelper",
+        "cpu_percent": 0.0,
+        "pid": 86476,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 86673,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 87717,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/com.docker.backend",
+        "cpu_percent": 0.0,
+        "pid": 88036,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/com.docker.backend",
+        "cpu_percent": 1.2,
+        "pid": 88078,
+        "ppid": 88036
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/com.docker.backend",
+        "cpu_percent": 0.0,
+        "pid": 88079,
+        "ppid": 88036
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/com.docker.build",
+        "cpu_percent": 0.0,
+        "pid": 88144,
+        "ppid": 88079
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/com.docker.virtualization",
+        "cpu_percent": 0.0,
+        "pid": 88146,
+        "ppid": 88078
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/Docker Desktop.app/Contents/MacOS/Docker Desktop",
+        "cpu_percent": 0.0,
+        "pid": 88149,
+        "ppid": 88079
+      },
+      {
+        "comm": "/System/Library/Frameworks/Virtualization.framework/Versions/A/XPCServices/com.apple.Virtualization.VirtualMachine.xpc/Contents/MacOS/com.apple.Virtualization.VirtualMachine",
+        "cpu_percent": 5.5,
+        "pid": 88162,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/Docker Desktop.app/Contents/Frameworks/Docker Desktop Helper.app/Contents/MacOS/Docker Desktop Helper",
+        "cpu_percent": 0.0,
+        "pid": 88175,
+        "ppid": 88149
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/MacOS/Docker Desktop.app/Contents/Frameworks/Docker Desktop Helper.app/Contents/MacOS/Docker Desktop Helper",
+        "cpu_percent": 0.0,
+        "pid": 88176,
+        "ppid": 88149
+      },
+      {
+        "comm": "/Applications/Docker.app/Contents/Resources/cli-plugins/docker-agent",
+        "cpu_percent": 0.0,
+        "pid": 88255,
+        "ppid": 88079
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ExchangeNotes.framework/Versions/Current/exchangenotesd",
+        "cpu_percent": 0.0,
+        "pid": 88556,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/CascadeSets.framework/Versions/A/XPCServices/SetStoreUpdateService.xpc/Contents/MacOS/SetStoreUpdateService",
+        "cpu_percent": 0.0,
+        "pid": 88557,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Mail.app/Contents/PlugIns/com.apple.mail.SpotlightIndexExtension.appex/Contents/MacOS/com.apple.mail.SpotlightIndexExtension",
+        "cpu_percent": 0.0,
+        "pid": 89305,
+        "ppid": 1
+      },
+      {
+        "comm": "/opt/homebrew/Cellar/node/26.7.0/bin/node",
+        "cpu_percent": 0.0,
+        "pid": 89981,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/Security.framework/Versions/A/XPCServices/com.apple.CodeSigningHelper.xpc/Contents/MacOS/com.apple.CodeSigningHelper",
+        "cpu_percent": 0.0,
+        "pid": 90510,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/secinitd",
+        "cpu_percent": 0.0,
+        "pid": 90712,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/amfid",
+        "cpu_percent": 0.0,
+        "pid": 90745,
+        "ppid": 1
+      },
+      {
+        "comm": "node",
+        "cpu_percent": 0.0,
+        "pid": 90779,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python",
+        "cpu_percent": 0.0,
+        "pid": 90781,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/DoNotDisturbServer.framework/Support/donotdisturbd",
+        "cpu_percent": 0.0,
+        "pid": 90969,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/SidecarRelay",
+        "cpu_percent": 0.0,
+        "pid": 91020,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/StatusKit.framework/StatusKitAgent",
+        "cpu_percent": 0.0,
+        "pid": 91324,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/knowledge-agent",
+        "cpu_percent": 0.0,
+        "pid": 91416,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/ContextKit.framework/Versions/A/XPCServices/ContextService.xpc/Contents/MacOS/ContextService",
+        "cpu_percent": 0.0,
+        "pid": 91431,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/CoreServices/UserNotificationCenter.app/Contents/MacOS/UserNotificationCenter",
+        "cpu_percent": 0.0,
+        "pid": 91755,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 91802,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 91819,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 91900,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Applications/Messages.app/Contents/PlugIns/Messages Assistant Extension.appex/Contents/MacOS/Messages Assistant Extension",
+        "cpu_percent": 0.0,
+        "pid": 91962,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/sbin/BTLEServerAgent",
+        "cpu_percent": 0.0,
+        "pid": 92284,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/WhatsApp.app/Contents/PlugIns/ServiceExtension.appex/Contents/MacOS/ServiceExtension",
+        "cpu_percent": 0.0,
+        "pid": 92554,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/GeoServices.framework/Versions/A/XPCServices/com.apple.geod.xpc/Contents/MacOS/com.apple.geod",
+        "cpu_percent": 0.0,
+        "pid": 92952,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/MediaAnalysis.framework/Versions/A/mediaanalysisd",
+        "cpu_percent": 0.0,
+        "pid": 93642,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/PrivateFrameworks/SoftwareUpdate.framework/Resources/SoftwareUpdateNotificationManager.app/Contents/MacOS/SoftwareUpdateNotificationManager",
+        "cpu_percent": 0.0,
+        "pid": 93835,
+        "ppid": 1
+      },
+      {
+        "comm": "/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Support/managedcorespotlightd",
+        "cpu_percent": 0.0,
+        "pid": 94231,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 94233,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 94390,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 94607,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 94665,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/trustd",
+        "cpu_percent": 0.0,
+        "pid": 94709,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/intelligentroutingd",
+        "cpu_percent": 0.0,
+        "pid": 94770,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 94934,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 95099,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 95153,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 95343,
+        "ppid": 1
+      },
+      {
+        "comm": "/Applications/Xcode.app/Contents/Developer/usr/libexec/git-core/git",
+        "cpu_percent": 0.0,
+        "pid": 95462,
+        "ppid": 1
+      },
+      {
+        "comm": "/private/tmp/claude-501/-Users-dave-Workspace-BrokkAi-bifrost-service--claude-worktrees-keen-mestorf-14198d/1d49b680-109e-4234-abf1-35d153ff63e7/scratchpad/demo/bin/demo_check_worker",
+        "cpu_percent": 0.0,
+        "pid": 98892,
+        "ppid": 1
+      },
+      {
+        "comm": "/usr/libexec/naturallanguaged",
+        "cpu_percent": 0.0,
+        "pid": 98957,
+        "ppid": 1
+      }
+    ],
+    "quiescent_service_pids": [
+      22662
+    ],
+    "quiet_elapsed_seconds": 316.14456554200024,
+    "schema_version": 1,
+    "service_observations": [
+      {
+        "argv": [
+          "/Users/dave/Library/Caches/bifrost-agent/binaries/0.12.0/darwin-arm64/bifrost",
+          "--mcp",
+          "symbol|extended"
+        ],
+        "cpu_percent": 0.0,
+        "cpu_time": "0:00.02",
+        "descendants": [],
+        "pid": 22662,
+        "start_identity": "1795296879:649613",
+        "unchanged_idle_service": true
+      }
+    ],
+    "status": "ok",
+    "uptime": "10:13  up 9 days, 13:58, 1 user, load averages: 2.08 2.02 2.41"
+  },
+  "quiet_policy": {
+    "maximum_sample_gap_seconds": 60,
+    "minimum_idle_percent": 90,
+    "required_seconds": 300
+  },
+  "runtime_manifests_verified_before_dispatch": [
+    {
+      "id": "runner",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/runner-runtime-manifest.json",
+      "sha256": "0c0ed8abfa728924486d63d77c7c6cbb8dcbeb0be30b02befd6953a59932e7eb",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "opentaint",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/opentaint.json",
+      "sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "java",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+      "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "kotlin-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/kotlin-full-distribution-prospective.json",
+      "sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f",
+      "uncompressed_sha256": null
+    }
+  ],
+  "setup_file_receipts": [],
+  "source_verified_before_dispatch": {
+    "snapshot_git_head": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "source_and_fixture_inputs_unchanged": true,
+    "source_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
+  },
+  "tools_verified_before_dispatch": [
+    {
+      "name": "opentaint",
+      "path": "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6/opentaint-project-analyzer.jar",
+      "sha256": "2ca93b6c33462bdbc23ceccdc5375e1a900682b33371cd906e5214dc7c48f569"
+    },
+    {
+      "name": "runner",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+      "sha256": "934774f0fc21fe2597bc6fbdd827c8cd47a33ad8369d5a3a910e57701fd0e082"
+    }
+  ]
+}

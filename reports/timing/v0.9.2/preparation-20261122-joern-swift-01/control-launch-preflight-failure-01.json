@@ -1,0 +1,17 @@
+{
+  "schema": "v092-joern-qualification-launch-preflight-failure/v1",
+  "observed_utc": "2026-11-22T15:43:57.560196+00:00",
+  "status": "not-dispatched",
+  "analyzer_invocations": 0,
+  "procedure": {
+    "path": "reports/timing/v0.9.2/preparation-20261122-joern-swift-01/procedures/run_controls_supervised.py",
+    "sha256": "549eaad245a900738f8a2cca5b2d78c6ab1138a4b53f1307226144ff94d3b33d"
+  },
+  "commit": "2cb6d6c0b04d12a6828954666792d4793e8f15cb",
+  "error": "RuntimeError: continuation parent scratch path leaves its registered namespace",
+  "cause": "Second resource collection scoped only campaign20261122-02, whose start receipt includes inherited15/21/22-01 scratch roots. Validate combinedfour namespaces instead.",
+  "output_created": false,
+  "supervision_created": false,
+  "automatic_retry": false,
+  "next_action": "Correct accounting helper call, review and commit before a new explicit launch."
+}

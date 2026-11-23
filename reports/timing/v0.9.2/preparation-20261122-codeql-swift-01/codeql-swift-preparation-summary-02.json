@@ -1,0 +1,171 @@
+{
+  "schema": "v0.9.2-swift-runtime-preparation-summary/v1",
+  "created_utc": "2026-11-22T15:16:33.736903Z",
+  "status": "preparation-recorded; CodeQL Swift runtime remains blocked by missing exact candidate extractor binary; no CodeQL qualification or benchmark result is claimed",
+  "scope": "Untimed Swift toolchain recovery/relocation, exact three-source recovery+patch proof, and exact entry2 Swift QL pack reconstruction. No analyzer, build, pack install, query compile, or benchmark was run in this preparation.",
+  "preservation": {
+    "all_new_codeql_outputs_are_under": [
+      "execution-state/timing-codeql-swift-repair-20261122-01/",
+      "reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/"
+    ],
+    "existing_manifests_plans_runtime_trees_and_receipts_were_not_modified": true,
+    "source_runtime_and_frozen_v0_9_2_artifacts_were_read_only": true,
+    "superseded_preregistrations_and_preflight_errors_preserved": true
+  },
+  "swift_toolchain": {
+    "installer_path": "execution-state/timing-runtime-20261114-01/jvm/swift-6.3.3/swift-6.3.3-RELEASE-osx.pkg",
+    "installer_sha256": "ee82e57774d6650f94aa06302435d6f44a055b9411698db8ecb85d9a3bcc91d0",
+    "expanded_usr_root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-swift-repair-20261122-01/expanded/swift-6.3.3-RELEASE-osx-package.pkg/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr",
+    "expanded_manifest_verification": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/manifest-verification.json",
+      "sha256": "3eac25302f5edae374793b6f1aff9d7d09998dfe6dce3cb04c5e573445e12b5a",
+      "status": "verified",
+      "regular_files": 2877,
+      "symlinks": 51,
+      "external_files": 0,
+      "membership_hashes_modes_symlinks_exact": true
+    },
+    "relocated_manifest": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/runtime-manifests/swift-6.3.3-relocated.json",
+      "sha256": "46612e0ad057bf6e9ae21cfae7fe4a8a87d5e0485420df4f882c8707ffe42186",
+      "receipt_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/runtime-manifests/swift-6.3.3-relocated-receipt.json",
+      "receipt_sha256": "94c3fa6f67e675e837d0397d5390ab673f719111454705790325fd6d072e0f16",
+      "change": "root path only; 2877 file entries, 51 symlinks, 0 external files"
+    },
+    "version_only_smoke": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/version-smoke-01/terminal.json",
+      "terminal_sha256": "e6d9688facae450b58743bf14343c2222f23baf4dfe2d964da1d94d0f5516448",
+      "stdout_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-swift-01/version-smoke-01/stdout.txt",
+      "stdout": "Apple Swift version 6.3.3 (swift-6.3.3-RELEASE)\\nTarget: arm64-apple-macosx28.0\\n",
+      "build_or_analyzer": false
+    }
+  },
+  "codeql_source_proof_inputs": {
+    "source_repository": "github/codeql",
+    "source_commit": "a7057b836bf29767461026718b14d20790b9085f",
+    "original_patch_path": "adapters/codeql/swift-entry-extractor-v1/repair.patch",
+    "repair_patch_sha256": "e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a",
+    "files": [
+      {
+        "path": "swift/extractor/SwiftExtractor.cpp",
+        "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/SwiftExtractor.cpp",
+        "before_sha256": "af2fb204c1b96e6a4b9de3a0e083cd816cb0ffaa1216c232c31f53edc430a98e",
+        "after_sha256": "0665c1c0f439db96208a45ce56632881ea3783bf8511a543e4dc910befde92c1",
+        "recovered_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/SwiftExtractor.cpp",
+        "observed_sha256": "af2fb204c1b96e6a4b9de3a0e083cd816cb0ffaa1216c232c31f53edc430a98e",
+        "after_hash_verified_on_disposable_copy": true
+      },
+      {
+        "path": "swift/extractor/infra/SwiftDispatcher.h",
+        "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/infra/SwiftDispatcher.h",
+        "before_sha256": "e71917ab9ff4ac157acc1f243c78c6e558597bedf2fc567af0e31b1e71c20487",
+        "after_sha256": "fec68616891ec3c2f46950897d043fa2d384539f4f021ac7158b918bcb920ae9",
+        "recovered_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/infra/SwiftDispatcher.h",
+        "observed_sha256": "e71917ab9ff4ac157acc1f243c78c6e558597bedf2fc567af0e31b1e71c20487",
+        "after_hash_verified_on_disposable_copy": true
+      },
+      {
+        "path": "swift/extractor/translators/SwiftVisitor.h",
+        "url": "https://raw.githubusercontent.com/github/codeql/a7057b836bf29767461026718b14d20790b9085f/swift/extractor/translators/SwiftVisitor.h",
+        "before_sha256": "15c70c2cc641d788662984f03485cea8d9b5b988ad114f47459d7ec700866a2a",
+        "after_sha256": "8108eaae7a697a1d7a75a70e6212d0954ade40e062cd53c09c28d74e803ef733",
+        "recovered_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-files/swift/extractor/translators/SwiftVisitor.h",
+        "observed_sha256": "15c70c2cc641d788662984f03485cea8d9b5b988ad114f47459d7ec700866a2a",
+        "after_hash_verified_on_disposable_copy": true
+      }
+    ],
+    "recovery_terminal": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/source-recovery-attempt-01/terminal.json",
+      "sha256": "185289fed47b8a2b44aadcc14e5e7385ec5bb83c05dee9b0b980d66a2518fd47",
+      "status": "all-three-exact-source-files-recovered"
+    },
+    "patch_verification": {
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/three-source-patch-verification-01.json",
+      "sha256": "f458fc7de27a5b7acc6160d6ba0896691c12c745c078a387feaace45a895849d",
+      "status": "verified-three-patch-hunks-and-after-hashes",
+      "process_exit_code": 0
+    },
+    "interpretation": "These three files are source proof inputs. They are not the custom Swift extractor binary and do not restore it."
+  },
+  "codeql_entry2_pack": {
+    "status": "reconstructed-and-verified-exact",
+    "pack_id": "codeql/swift-all@6.8.5-dfb.entry2",
+    "candidate_pack_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/candidate-packs-entry2/codeql/swift-all/6.8.5-dfb.entry2",
+    "candidate_root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/candidate-packs-entry2",
+    "files_verified": 1498,
+    "symlinks_verified": 0,
+    "path_membership_exact": true,
+    "hashes_modes_exact": true,
+    "actual_inventory_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/entry2-materialization-attempt-01/actual-inventory.json",
+    "actual_inventory_sha256": "e0a695d175aeadf758b133e02ed850859cca390dd11c32ab50946196344a0a31",
+    "materialization_receipt_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-pack-materialization-01.json",
+    "materialization_receipt_sha256": "90e9d3499fac5cd7650fe4d24df92483ef52ac48d366ee286f6a335af0217870",
+    "expected_files_manifest_sha256": "fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc",
+    "expected_tree_manifest_sha256": "5b1dca82019e9d47a6aa6a38f1045d69422e4d627b04331205d418344388f431",
+    "parser_preflight_receipt_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/receipt.json",
+    "parser_preflight_receipt_sha256": "58a6b7aba7dfcde89c97ed97ac647313a574b823294553e6eebf096226cc1d6e",
+    "operations": "Fresh copy of stock Swift 6.8.5 QL pack, exact tracked generic QL patch sections, four tracked 6.8.5 ported patch sets, tracked lockfile whose frozen SHA matched, qlpack version suffix, two exact executable mode restorations; all 1498 candidate files verified after copy.",
+    "limitations": "This is the Swift library/query pack only; no CodeQL CLI, pack install, compile, or analyzer was invoked. The old 14009-entry candidate dependency tree and cache were not copied; current timed CodeQL packs remain at their original root."
+  },
+  "unresolved_codeql_runtime_blocker": {
+    "candidate_package_root_from_frozen_receipt": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/swift-codeql/candidate-extractor",
+    "candidate_root_currently_present": false,
+    "frozen_runtime_manifest": {
+      "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-swift-extractor.json",
+      "sha256": "7cd457b417b9586aaa3fc5ef77d3e8a76c98484b578a0787707f7e5a8970de7f",
+      "regular_files": 2277,
+      "symlinks": 0,
+      "external_files": 0,
+      "regular_file_bytes": 1724779338
+    },
+    "candidate_real_binary": {
+      "relative_path": "swift/tools/osx64/extractor.real",
+      "sha256": "593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f",
+      "size_bytes": 173000664,
+      "present_at_candidate_root": false
+    },
+    "candidate_wrapper": {
+      "relative_path": "swift/tools/osx64/extractor",
+      "sha256": "02559a66a427dcbb6a6b9d8cb6acfc1445a3f3e27198d00699f71d2365b49cde",
+      "present_at_candidate_root": false,
+      "byte_identical_stock_wrapper_present": true,
+      "stock_path": "execution-state/timing-runtime-20261114-01/codeql/codeql/swift/tools/osx64/extractor"
+    },
+    "current_stock_real_binary": {
+      "path": "execution-state/timing-runtime-20261114-01/codeql/codeql/swift/tools/osx64/extractor.real",
+      "sha256": "680adbee37bdbfc5fe0a4b6d63c45bdae23fcf3bb2210530a7b751b58f319530",
+      "size_bytes": 174176776,
+      "matches_candidate_sha256": false
+    },
+    "old_local_build_receipts_referenced_but_absent": [
+      "execution-state/v092/swift-source/extractor-pack-attempt-01/command.json",
+      "execution-state/v092/swift-source/extractor-pack-attempt-01/build.log",
+      "execution-state/v092/swift-source/extractor-pack-attempt-01/result.json",
+      "execution-state/v092/swift-source/build-attempt-03/result.json"
+    ],
+    "known_bazel_cache_roots_checked_absent": [
+      "/private/var/tmp/_bazel_dave",
+      "/Users/dave/.cache/bazel"
+    ],
+    "immutable_binary_acquisition_url_recorded": false,
+    "lineage_conflict": {
+      "relocation_receipt_claims_commit": "a7057b836bf29767461026718b14d20790b9085f",
+      "tracked_readme_build_claims_commit": "6e9f9e38390175c41b99070a423c875f450759ca",
+      "both_reference_extractor_real_sha256": "593eb7afe23d63c57d04461bd046e45672555bb0586353edcf27a0313249841f",
+      "resolved": false
+    },
+    "conclusion": "The required custom extractor.real bytes/full candidate runtime cannot be recovered from checked retained/current paths. Rebuild/new binary identity is not authorized and was not attempted; the exact candidate binary remains a hard blocker."
+  },
+  "execution_bounds": {
+    "disk_floor_bytes": 134217728000,
+    "free_bytes_after_last_materialization": 261324800000,
+    "no_build_or_analyzer_invoked": true,
+    "no_existing_runtime_or_frozen_receipt_modified": true,
+    "no_analyzer_or_database_input_processed": true
+  },
+  "supersedes": {
+    "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/codeql-swift-preparation-summary-01.json",
+    "sha256": "2cf4d3de037e001f7074cc49565e6135c01f08d5bd884fb9df7216c49193d91d",
+    "reason": "Clarifies that source code files were recovered and used for patch verification; the intended negative claim is that no analyzer or database source was processed."
+  }
+}

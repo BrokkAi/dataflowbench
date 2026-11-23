@@ -1,0 +1,212 @@
+{
+  "schema": "dataflowbench.jvm-runtime-relocation-receipt.v1",
+  "recorded_at_utc": "2026-11-13",
+  "method": "Copy each passed frozen runtime manifest and rewrite only the root property to its observed/recovered root; payload inventories (files, hashes, modes, symlinks, external files) are byte-for-byte unchanged. Gzip used only for source manifests larger than 512000 bytes. Standalone Go/Kotlin pin manifests are intentionally limited to entries frozen by acquisition and are not full compiler distribution closures.",
+  "source_audit_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/runtime-closure-audit-v1.json",
+  "manifests": [
+    {
+      "manifest_id": "codeql",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql.json",
+      "source_sha256": "ec787c6e07dbd4070013c52689c83245176db8494f07329ac68c2a1c3bda4229",
+      "source_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql/codeql",
+      "new_root": "execution-state/timing-runtime-20261114-01/codeql/codeql",
+      "copied_fields_changed": [
+        "root"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql.json.json.gz",
+      "manifest_sha256": "1e69778d58cf9b4dfd820285918764dcf726eb8362b802957e2d8cc8f97a7836",
+      "uncompressed_sha256": "3c0dab2f3318c99582b5d94cea075246d925f7351a5f3342c4dae3d192154788",
+      "compressed": true,
+      "uncompressed_bytes": 1099520,
+      "compressed_bytes": 224056,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "ec787c6e07dbd4070013c52689c83245176db8494f07329ac68c2a1c3bda4229"
+    },
+    {
+      "manifest_id": "codeql-packs",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/codeql-packs.json",
+      "source_sha256": "99e4bd13860c4ce184898836edd68acd533fee2a47e71b6af732f52f0ae170bd",
+      "source_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/codeql-packs",
+      "new_root": "execution-state/timing-runtime-20261114-01/codeql/packs",
+      "copied_fields_changed": [
+        "root"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql-packs.json.json.gz",
+      "manifest_sha256": "c07a5ce650b41264d92730948689b181648b3a91c0afd758932cb3f5cb6c3918",
+      "uncompressed_sha256": "408c7255b12b54bb90451ebda0c0a4eb915e805db1fcffc181703cc31605c0c4",
+      "compressed": true,
+      "uncompressed_bytes": 3004662,
+      "compressed_bytes": 674922,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "99e4bd13860c4ce184898836edd68acd533fee2a47e71b6af732f52f0ae170bd"
+    },
+    {
+      "manifest_id": "joern",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/joern.json",
+      "source_sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc",
+      "source_root": "/Users/dave/.codex/worktrees/9f01/dataflowbench/execution-state/v092/tools/joern/joern-cli",
+      "new_root": "execution-state/timing-runtime-20261114-01/joern/joern-cli",
+      "copied_fields_changed": [
+        "root"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/joern.json.json",
+      "manifest_sha256": "67b354f88a073c18b9c0fd1fd8acb69af3ae33dc911b2f200f9dd9be3b75e706",
+      "uncompressed_sha256": "67b354f88a073c18b9c0fd1fd8acb69af3ae33dc911b2f200f9dd9be3b75e706",
+      "compressed": false,
+      "uncompressed_bytes": 229328,
+      "compressed_bytes": 229328,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "c848b12fd54138219c3bd5c647071eceab1ae4c9f785967c24274d509554c2fc"
+    },
+    {
+      "manifest_id": "java",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/java.json",
+      "source_sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6",
+      "source_root": "/Users/dave/.sdkman/candidates/java/21.0.8-tem",
+      "new_root": "execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+      "copied_fields_changed": [
+        "root"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json.json",
+      "manifest_sha256": "699afa221966b4dd5baeb5234610b8e2b548c9411058fbb5ce7e7c722ddea384",
+      "uncompressed_sha256": "699afa221966b4dd5baeb5234610b8e2b548c9411058fbb5ce7e7c722ddea384",
+      "compressed": false,
+      "uncompressed_bytes": 73832,
+      "compressed_bytes": 73832,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "76ddb265fbaeecf1908ea934d2d64b079372e13f1307ff5d2b94957ba40ac1a6"
+    },
+    {
+      "manifest_id": "flowdroid",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/flowdroid.json",
+      "source_sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "source_root": "/Users/dave/.cache/dataflowbench-tools/flowdroid",
+      "new_root": "/Users/dave/.cache/dataflowbench-tools/flowdroid",
+      "copied_fields_changed": [],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/flowdroid.json.json",
+      "manifest_sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "uncompressed_sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "compressed": false,
+      "uncompressed_bytes": 623,
+      "compressed_bytes": 623,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea"
+    },
+    {
+      "manifest_id": "opentaint",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/opentaint.json",
+      "source_sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "source_root": "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6",
+      "new_root": "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6",
+      "copied_fields_changed": [],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/opentaint.json.json",
+      "manifest_sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "uncompressed_sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "compressed": false,
+      "uncompressed_bytes": 777,
+      "compressed_bytes": 777,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6"
+    },
+    {
+      "manifest_id": "infer",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/infer.json",
+      "source_sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a",
+      "source_root": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0",
+      "new_root": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0",
+      "copied_fields_changed": [],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/infer.json.json.gz",
+      "manifest_sha256": "577a270eb88355c495cca7493c40af9aa895e348948d9946904a48a00be960b7",
+      "uncompressed_sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a",
+      "compressed": true,
+      "uncompressed_bytes": 1193733,
+      "compressed_bytes": 264312,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a"
+    },
+    {
+      "manifest_id": "swift-sdk-26.5",
+      "source_path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-sdk-26.5.json",
+      "source_sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7",
+      "source_root": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+      "new_root": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+      "copied_fields_changed": [],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/swift-sdk-26.5.json.json.gz",
+      "manifest_sha256": "05a98b4c997defb6049f915350b15d572d5dea443ec73132271ec83ddaec74f1",
+      "uncompressed_sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7",
+      "compressed": true,
+      "uncompressed_bytes": 7570585,
+      "compressed_bytes": 1433502,
+      "closure_status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check",
+      "audit_manifest_sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7"
+    },
+    {
+      "manifest_id": "kotlin-pinned-entries",
+      "source_path": "reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json",
+      "source_sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063",
+      "source_root": null,
+      "new_root": "/opt/homebrew/Cellar/kotlin/2.4.10",
+      "copied_fields_changed": [
+        "new manifest derived from explicit file pins"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/kotlin-pinned-entries.json",
+      "manifest_sha256": "13aeea67d25086c0a913a926b9485bf32fa215ae645b413c6d94c2d5449f01f6",
+      "uncompressed_sha256": "13aeea67d25086c0a913a926b9485bf32fa215ae645b413c6d94c2d5449f01f6",
+      "compressed": false,
+      "uncompressed_bytes": 579,
+      "compressed_bytes": 579,
+      "closure_status": "frozen-pin-subset-only-not-full-compiler-closure",
+      "source_pin_checks": [
+        {
+          "name": "kotlinc",
+          "contract_path": "/opt/homebrew/Cellar/kotlin/2.4.10/bin/kotlinc",
+          "resolved_path": "/opt/homebrew/Cellar/kotlin/2.4.10/bin/kotlinc",
+          "sha256": "827f1613736c1f457474103af722f517a627d9534d884d1773f49b7026f45f56",
+          "expected_sha256": "827f1613736c1f457474103af722f517a627d9534d884d1773f49b7026f45f56",
+          "mode": 365,
+          "bytes": 166,
+          "status": "frozen-pin-match"
+        },
+        {
+          "name": "kotlin-stdlib",
+          "contract_path": "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+          "resolved_path": "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+          "sha256": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df",
+          "expected_sha256": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df",
+          "mode": 420,
+          "bytes": 1841933,
+          "status": "frozen-pin-match"
+        }
+      ]
+    },
+    {
+      "manifest_id": "go-pinned-entry",
+      "source_path": "reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json",
+      "source_sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063",
+      "source_root": null,
+      "new_root": "/usr/local/go",
+      "copied_fields_changed": [
+        "new manifest derived from explicit file pins"
+      ],
+      "manifest_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/go-pinned-entry.json",
+      "manifest_sha256": "ab0c18b8d9896c2a1e144e1b3d32386786618e8a1b57102068344862bc55f924",
+      "uncompressed_sha256": "ab0c18b8d9896c2a1e144e1b3d32386786618e8a1b57102068344862bc55f924",
+      "compressed": false,
+      "uncompressed_bytes": 382,
+      "compressed_bytes": 382,
+      "closure_status": "frozen-pin-subset-only-not-full-compiler-closure",
+      "source_pin_checks": [
+        {
+          "name": "go",
+          "contract_path": "/usr/local/go/bin/go",
+          "resolved_path": "/usr/local/go/bin/go",
+          "sha256": "ae2238c208f2f1f5a8faa3287acf5ced5d6b3c396dbf75e8f446e47905b0a75d",
+          "expected_sha256": "ae2238c208f2f1f5a8faa3287acf5ced5d6b3c396dbf75e8f446e47905b0a75d",
+          "mode": 493,
+          "bytes": 14482768,
+          "status": "frozen-pin-match"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "dfb-swift-runtime-expansion-receipt/v1",
+  "status": "expanded-unverified",
+  "attempt_id": "expansion-attempt-01",
+  "operation": "non-installing Swift package payload expansion",
+  "argv": [
+    "/usr/sbin/pkgutil",
+    "--expand-full",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/swift-6.3.3/swift-6.3.3-RELEASE-osx.pkg",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-swift-repair-20261122-01/expanded/swift-6.3.3-RELEASE-osx-package.pkg"
+  ],
+  "started_utc": "2026-11-22T14:44:50.065Z",
+  "finished_utc": "2026-11-22T14:45:20.079Z",
+  "elapsed_seconds": 30.014,
+  "exit_code": 0,
+  "pid": 82466,
+  "process_group_id": 82466,
+  "process_start_observation": {
+    "pid_created_by_supervisor": 82466,
+    "popen_started_utc": "2026-11-22T14:44:50.065Z",
+    "process_group_id": 82466,
+    "system_ps_identity_available": false,
+    "system_ps_identity_error": "Sandbox denied /bin/ps with PermissionError: [Errno 1] Operation not permitted. A later elevated ps call after the 30-second process exit returned no row."
+  },
+  "package": {
+    "path": "execution-state/timing-runtime-20261114-01/jvm/swift-6.3.3/swift-6.3.3-RELEASE-osx.pkg",
+    "size_bytes": 1503529808,
+    "sha256": "ee82e57774d6650f94aa06302435d6f44a055b9411698db8ecb85d9a3bcc91d0"
+  },
+  "manifest": {
+    "path": "reports/releases/v0.9.2/acquisition/runtime-manifests/swift-6.3.3.json",
+    "sha256": "f31ae5b23c775e0c69227363a1a0c4e4bf87964f8bcd79b8f9de9d7acd7d4a58",
+    "expected_regular_files": 2877,
+    "expected_symlinks": 51,
+    "expected_external_files": 0
+  },
+  "expanded_package_root": "execution-state/timing-swift-repair-20261122-01/expanded/swift-6.3.3-RELEASE-osx-package.pkg/swift-6.3.3-RELEASE-osx-package.pkg",
+  "payload_usr_root": "execution-state/timing-swift-repair-20261122-01/expanded/swift-6.3.3-RELEASE-osx-package.pkg/swift-6.3.3-RELEASE-osx-package.pkg/Payload/usr",
+  "disk_gate": {
+    "minimum_free_bytes": 134217728000,
+    "free_bytes_before": 245350400000,
+    "free_bytes_after": 240435200000,
+    "floor_preserved": true
+  },
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "analyzer_or_build_invoked": false,
+  "procedure_files": {
+    "procedures/expand_swift_package.py": "daff285e5f604b17c0c7070e9fd5ff64952a06c8004261344b23b6e2d69e9dff",
+    "procedures/verify_expanded_swift_manifest.py": "ff5af41138334378aabe954eb822f3fb30d4ccf8365a168dc9d7419b2ca848c8",
+    "procedures/run_swift_version_smoke.py": "f0dcf23b45e09e14878ea4f0186a669009e27fc06c08722b2204469645ef2cd5"
+  },
+  "attempt_artifacts": {
+    "expansion-attempt-01/command.json": "7bfdd89703b7c0ac26aaa2fe60cdb2993bd5b9b7529dfb61043c03233e5a8097",
+    "expansion-attempt-01/disk-observations.jsonl": "28110479446994f5d50dda10a579c35acdc29c9ee0812ac1493a68081e32edcb",
+    "expansion-attempt-01/process-start.json": "2d92d89f193b65556f4f73937fc0cc0717b5811ab5af50f65c2639800c7037f4",
+    "expansion-attempt-01/stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expansion-attempt-01/stdout.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expansion-attempt-01/terminal.json": "2c353048fe64e1ad0e3a06ab3cdf6ac63cbaaea44504d3800e3aaabf7b5eec05"
+  }
+}

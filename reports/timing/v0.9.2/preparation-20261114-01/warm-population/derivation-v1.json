@@ -1,0 +1,427 @@
+{
+  "schema": "v092-prospective-warm-populations/v1",
+  "created_utc": "2026-11-13T13:08:44.564138+00:00",
+  "release_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+  "source_plan_sha256": "cae756c3e1cbf5fad54cef3ad5fbbb9accf95cb5cbe1fe3ee640048236f0b844",
+  "method": "Frozen metadata capability partition and explicit authored marker declarations; identical resolved rule bytes. No timing or new analyzer outcomes used.",
+  "source_implementation": "src/latency.rs::warm_population; src/adapters/semgrep.rs::semgrep_capability_exclusion",
+  "analyzer_invocations": 0,
+  "joern": {
+    "case_ids": [
+      "dfb-taint-java-alias-propagation-negative",
+      "dfb-taint-java-alias-propagation-positive",
+      "dfb-taint-java-anonymous-implementation-negative",
+      "dfb-taint-java-anonymous-implementation-positive",
+      "dfb-taint-java-argument-position-negative",
+      "dfb-taint-java-argument-position-positive",
+      "dfb-taint-java-array-element-negative",
+      "dfb-taint-java-array-element-positive",
+      "dfb-taint-java-branch-join-negative",
+      "dfb-taint-java-branch-join-positive",
+      "dfb-taint-java-call-context-negative",
+      "dfb-taint-java-call-context-positive",
+      "dfb-taint-java-callback-registration-negative",
+      "dfb-taint-java-callback-registration-positive",
+      "dfb-taint-java-closure-capture-negative",
+      "dfb-taint-java-closure-capture-positive",
+      "dfb-taint-java-computed-property-negative",
+      "dfb-taint-java-computed-property-positive",
+      "dfb-taint-java-context-pair-depth2-negative",
+      "dfb-taint-java-context-pair-depth2-positive",
+      "dfb-taint-java-deep-relay-chain-negative",
+      "dfb-taint-java-deep-relay-chain-positive",
+      "dfb-taint-java-direct-positive",
+      "dfb-taint-java-dispatch-table-negative",
+      "dfb-taint-java-dispatch-table-positive",
+      "dfb-taint-java-element-object-negative",
+      "dfb-taint-java-element-object-positive",
+      "dfb-taint-java-exception-catch-negative",
+      "dfb-taint-java-exception-catch-positive",
+      "dfb-taint-java-explicit-negative",
+      "dfb-taint-java-expression-negative",
+      "dfb-taint-java-expression-positive",
+      "dfb-taint-java-function-field-negative",
+      "dfb-taint-java-function-field-positive",
+      "dfb-taint-java-infeasible-branch-negative",
+      "dfb-taint-java-infeasible-branch-positive",
+      "dfb-taint-java-interprocedural-exception-persistence-negative",
+      "dfb-taint-java-interprocedural-exception-persistence-positive",
+      "dfb-taint-java-local-chain-negative",
+      "dfb-taint-java-local-chain-positive",
+      "dfb-taint-java-local-overwrite-negative",
+      "dfb-taint-java-local-overwrite-positive",
+      "dfb-taint-java-loop-carried-negative",
+      "dfb-taint-java-loop-carried-positive",
+      "dfb-taint-java-map-iteration-negative",
+      "dfb-taint-java-map-iteration-positive",
+      "dfb-taint-java-mutual-recursive-transform-negative",
+      "dfb-taint-java-mutual-recursive-transform-positive",
+      "dfb-taint-java-nested-access-path-negative",
+      "dfb-taint-java-nested-access-path-positive",
+      "dfb-taint-java-object-separation-negative",
+      "dfb-taint-java-object-separation-positive",
+      "dfb-taint-java-recursive-callback-transform-negative",
+      "dfb-taint-java-recursive-callback-transform-positive",
+      "dfb-taint-java-recursive-carry-negative",
+      "dfb-taint-java-recursive-carry-positive",
+      "dfb-taint-java-recursive-exception-persistence-negative",
+      "dfb-taint-java-recursive-exception-persistence-positive",
+      "dfb-taint-java-recursive-heap-unwind-negative",
+      "dfb-taint-java-recursive-heap-unwind-positive",
+      "dfb-taint-java-recursive-payload-transform-negative",
+      "dfb-taint-java-recursive-payload-transform-positive",
+      "dfb-taint-java-reflective-invocation-negative",
+      "dfb-taint-java-reflective-invocation-positive",
+      "dfb-taint-java-return-relay-one-hop-negative",
+      "dfb-taint-java-return-relay-one-hop-positive",
+      "dfb-taint-java-return-relay-two-hop-negative",
+      "dfb-taint-java-return-relay-two-hop-positive",
+      "dfb-taint-java-same-object-field-negative",
+      "dfb-taint-java-same-object-field-positive"
+    ],
+    "batch_sizes": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "population_available": 70
+  },
+  "semgrep": {
+    "case_ids": [
+      "dfb-taint-java-branch-join-negative",
+      "dfb-taint-java-branch-join-positive",
+      "dfb-taint-java-expression-negative",
+      "dfb-taint-java-expression-positive",
+      "dfb-taint-java-infeasible-branch-negative",
+      "dfb-taint-java-infeasible-branch-positive",
+      "dfb-taint-java-local-chain-negative",
+      "dfb-taint-java-local-chain-positive",
+      "dfb-taint-java-local-overwrite-negative",
+      "dfb-taint-java-local-overwrite-positive",
+      "dfb-taint-java-loop-carried-negative",
+      "dfb-taint-java-loop-carried-positive"
+    ],
+    "batch_sizes": [
+      1,
+      2,
+      4,
+      8,
+      12
+    ],
+    "population_available": 12,
+    "invocable_cases": 14,
+    "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+    "resolved_declarations": [
+      {
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "metadata_path": "cases/taint/java/branch-join-negative/case.json",
+        "metadata_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+            "source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+            "marker": "DFB-SOURCE: branch-join-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: branch-join-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+            "source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+            "marker": "DFB-SINK: branch-join-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: branch-join-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "metadata_path": "cases/taint/java/branch-join-positive/case.json",
+        "metadata_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+            "source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+            "marker": "DFB-SOURCE: branch-join-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: branch-join-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+            "source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+            "marker": "DFB-SINK: branch-join-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: branch-join-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-direct-positive",
+        "metadata_path": "cases/taint/java/direct-positive/case.json",
+        "metadata_sha256": "81bc6d4a6241aee99b1c53f0af815fe1ea07968454b9c08ef06a6f8b624d914d",
+        "resolved_rule_sha256": "67f79e425edfbf8f346fa6c8d0c9c40582455a7738ce3dfd4865261fad3dd0c0",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/direct-positive/DirectPositive.java",
+            "source_sha256": "f103a0142b44e4eadb03789ddb51ae213125ba13679be237afaa6a8f861f09da",
+            "marker": "DFB-SOURCE: direct-input",
+            "declaration": "    static int directUntrustedInput() { // DFB-SOURCE: direct-input",
+            "name": "directUntrustedInput"
+          },
+          {
+            "source_path": "cases/taint/java/direct-positive/DirectPositive.java",
+            "source_sha256": "f103a0142b44e4eadb03789ddb51ae213125ba13679be237afaa6a8f861f09da",
+            "marker": "DFB-SINK: direct-sink",
+            "declaration": "    static void recordDirect(int value) { } // DFB-SINK: direct-sink",
+            "name": "recordDirect"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-explicit-negative",
+        "metadata_path": "cases/taint/java/explicit-negative/case.json",
+        "metadata_sha256": "0a113325d47884963f73813da31d1f74e341ba702c3cd06cf7c8126a49aaccf6",
+        "resolved_rule_sha256": "7c4bd79e4724304c6beed891a9a5db2a254cd867adf74b29b475882eabe22438",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/explicit-negative/ExplicitNegative.java",
+            "source_sha256": "4f33965dcb774bc0b5416bf3f777e88febb38bf2e80a4ef55c56efe52dfc6763",
+            "marker": "DFB-SOURCE: explicit-negative-input",
+            "declaration": "    static int explicitNegativeUntrustedInput() { // DFB-SOURCE: explicit-negative-input",
+            "name": "explicitNegativeUntrustedInput"
+          },
+          {
+            "source_path": "cases/taint/java/explicit-negative/ExplicitNegative.java",
+            "source_sha256": "4f33965dcb774bc0b5416bf3f777e88febb38bf2e80a4ef55c56efe52dfc6763",
+            "marker": "DFB-SINK: explicit-negative-sink",
+            "declaration": "    static void recordExplicitNegative(int value) { } // DFB-SINK: explicit-negative-sink",
+            "name": "recordExplicitNegative"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-expression-negative",
+        "metadata_path": "cases/taint/java/expression-negative/case.json",
+        "metadata_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+            "source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+            "marker": "DFB-SOURCE: expression-negative-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: expression-negative-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+            "source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+            "marker": "DFB-SINK: expression-negative-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: expression-negative-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-expression-positive",
+        "metadata_path": "cases/taint/java/expression-positive/case.json",
+        "metadata_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+            "source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+            "marker": "DFB-SOURCE: expression-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: expression-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+            "source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+            "marker": "DFB-SINK: expression-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: expression-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-infeasible-branch-negative",
+        "metadata_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "metadata_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+            "source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+            "marker": "DFB-SOURCE: infeasible-branch-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: infeasible-branch-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+            "source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+            "marker": "DFB-SINK: infeasible-branch-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: infeasible-branch-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-infeasible-branch-positive",
+        "metadata_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "metadata_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+            "source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+            "marker": "DFB-SOURCE: infeasible-branch-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: infeasible-branch-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+            "source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+            "marker": "DFB-SINK: infeasible-branch-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: infeasible-branch-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-local-chain-negative",
+        "metadata_path": "cases/taint/java/local-chain-negative/case.json",
+        "metadata_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+            "source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+            "marker": "DFB-SOURCE: local-chain-negative-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: local-chain-negative-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+            "source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+            "marker": "DFB-SINK: local-chain-negative-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: local-chain-negative-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-local-chain-positive",
+        "metadata_path": "cases/taint/java/local-chain-positive/case.json",
+        "metadata_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+            "source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+            "marker": "DFB-SOURCE: local-chain-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: local-chain-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+            "source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+            "marker": "DFB-SINK: local-chain-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: local-chain-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-local-overwrite-negative",
+        "metadata_path": "cases/taint/java/local-overwrite-negative/case.json",
+        "metadata_sha256": "ad72f5d9df7da4bd44cbbfcd20614590bca7ec2de4bc3d4f6360f9ac3c4f8ebf",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/local-overwrite-negative/LocalOverwriteNegative.java",
+            "source_sha256": "d687660b77419c7728a46b340fc93c11f2854a980062929ecc9f79ee81356c82",
+            "marker": "DFB-SOURCE: local-overwrite-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: local-overwrite-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/local-overwrite-negative/LocalOverwriteNegative.java",
+            "source_sha256": "d687660b77419c7728a46b340fc93c11f2854a980062929ecc9f79ee81356c82",
+            "marker": "DFB-SINK: local-overwrite-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: local-overwrite-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-local-overwrite-positive",
+        "metadata_path": "cases/taint/java/local-overwrite-positive/case.json",
+        "metadata_sha256": "ac35be52c0b00f72352f9a41bcf46e8c236c0d3fb01bbb70b2687c312b3654a3",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+            "source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+            "marker": "DFB-SOURCE: local-overwrite-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: local-overwrite-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+            "source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+            "marker": "DFB-SINK: local-overwrite-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: local-overwrite-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-loop-carried-negative",
+        "metadata_path": "cases/taint/java/loop-carried-negative/case.json",
+        "metadata_sha256": "9b09bbc6097d07d91a354f9e9f6ddd580cfccfcf1a4427eeb6f0f9064bdaa709",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/loop-carried-negative/LoopCarriedNegative.java",
+            "source_sha256": "734320e20e9ecf6406b84bb4844581aa026544b437fff8fee8616435a2da76c7",
+            "marker": "DFB-SOURCE: loop-carried-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: loop-carried-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/loop-carried-negative/LoopCarriedNegative.java",
+            "source_sha256": "734320e20e9ecf6406b84bb4844581aa026544b437fff8fee8616435a2da76c7",
+            "marker": "DFB-SINK: loop-carried-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: loop-carried-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      },
+      {
+        "case_id": "dfb-taint-java-loop-carried-positive",
+        "metadata_path": "cases/taint/java/loop-carried-positive/case.json",
+        "metadata_sha256": "baa4f1cd3b267e0d4da1e935741fa1b60efbc8bbe5ca443a7bef2006aa224caa",
+        "resolved_rule_sha256": "a86f4e0cffd0a1ab68b1020f81cdcff60c3b8a25aa8480132291cd0209c53935",
+        "anchors": [
+          {
+            "source_path": "cases/taint/java/loop-carried-positive/LoopCarriedPositive.java",
+            "source_sha256": "6fd118c0d4b5c213dc34bec2a5502e7c781a39bcc563b47da7af85be9c9a0230",
+            "marker": "DFB-SOURCE: loop-carried-input",
+            "declaration": "    static int dfb_source() { // DFB-SOURCE: loop-carried-input",
+            "name": "dfb_source"
+          },
+          {
+            "source_path": "cases/taint/java/loop-carried-positive/LoopCarriedPositive.java",
+            "source_sha256": "6fd118c0d4b5c213dc34bec2a5502e7c781a39bcc563b47da7af85be9c9a0230",
+            "marker": "DFB-SINK: loop-carried-sink",
+            "declaration": "    static void dfb_sink(int value) { } // DFB-SINK: loop-carried-sink",
+            "name": "dfb_sink"
+          }
+        ]
+      }
+    ]
+  }
+}

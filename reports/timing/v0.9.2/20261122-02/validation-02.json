@@ -1,0 +1,31 @@
+{
+  "schema": "v092-background-policy-validation/v1",
+  "utc": "2026-11-22T14:00:54.939172+00:00",
+  "controller_tests": {
+    "passed": 37,
+    "kind": "mocked dispatcher and fixture regressions; no analyzers executed"
+  },
+  "checkpoint_tests": {
+    "passed": 8,
+    "reported_by": "continuation_review Luna xhigh"
+  },
+  "independent_policy_review": {
+    "result": "No findings.",
+    "reviewer": "background_policy_review Luna xhigh",
+    "scope": "qualified-controller/test diff, A28 policy and exact VM identity; checkpoint module separately reviewed by primary"
+  },
+  "file_sha256": {
+    "scripts/v092_timing_qualified_campaign.py": "b0dbaec4db6c04683dbbe2117714403064613e7833ba1ae2950e367dd5dfa338",
+    "scripts/test-v092-timing-qualified-campaign.py": "6e57080c2088af22a6ee8cc95bac664049a03cb56ed341383a25799280609636",
+    "scripts/v092_timing_background_checkpoint.py": "6c3c3aacdd9ce15c835a29d03b09642db9fc2218bb1eae3ffa967b6db027e2aa",
+    "scripts/test-v092-timing-background-checkpoint.py": "4f34cc019b76355b86ae17dc55a14e813259d299d9ca36bc6464d8b303b4a528"
+  },
+  "source_repair_tests": {
+    "passed": 12,
+    "command": "python3 -B scripts/test-v092-codeql-native-cache.py"
+  },
+  "publication_eligible": false,
+  "launch_plan": "qualified-plan-02.json",
+  "supersedes_for_launch": "qualified-plan-01.json",
+  "normalization": "Removed extra blank line at checkpoint helper EOF after staged whitespace validation; no executable semantics changed. Previous plan retained unused."
+}

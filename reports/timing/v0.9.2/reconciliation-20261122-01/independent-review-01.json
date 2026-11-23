@@ -1,0 +1,61 @@
+{
+  "schema": "v092-reconciliation-independent-review/v1",
+  "utc": "2026-11-22T14:42:49.968756+00:00",
+  "reviewer": "continuation_guard_review; Luna xhigh",
+  "conclusion": "No remaining definite findings.",
+  "fixed_findings": [
+    "Require frozen sink-anchor/start.line reconciliation for every finding.",
+    "Resolve audit builder __file__ before relative path conversion; support fresh append-only audit numbers."
+  ],
+  "scope": [
+    "Semgrep warm validator and near-miss tests",
+    "Frozen Rust anchor contract port",
+    "Retrospective audit builder and acceptance boundaries"
+  ],
+  "original_unchanged_helper_chain": [
+    {
+      "path": "scripts/execute-release-v092.py",
+      "sha256": "fae9e1c2b4bfa4f9e458293744e6463a84d4bc68de73389fe9a14feb9ced27b8",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/swift_v2_scored_process.py",
+      "sha256": "09cc57d0893d3ab17c75f7934aba8ebd9cc736bd118e77163e5c5fd2fbf0456e",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_disk_guard.py",
+      "sha256": "fa4201b0aa4ae73273c4d6ba9f2dbb4315e6fb9d52c7469c8be3d46f0b570e21",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_timing_background_checkpoint.py",
+      "sha256": "6c3c3aacdd9ce15c835a29d03b09642db9fc2218bb1eae3ffa967b6db027e2aa",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_timing_campaign.py",
+      "sha256": "dbc2b78f069b87e3b6e1707a32c3f5c1490ab0bb3debb2881b24e86f0bdb471f",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_timing_checkpoint.py",
+      "sha256": "92ded0537844b6e3dfbb74f1191d5996cc358a07b6a8e643be9782e7521136af",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_timing_host.py",
+      "sha256": "06f122c04e22c42fa6df148badb41c4b886f492c4daf9ea44ef1d5a098643415",
+      "matches_original_plan": true
+    },
+    {
+      "path": "scripts/v092_timing_segment_checkpoint.py",
+      "sha256": "ac1bd56bcad560193eac095908ab87ee0e8654f1b88e34d1cccb0931b42c0e8e",
+      "matches_original_plan": true
+    }
+  ],
+  "qualified_controller_change": "Post-capture validator repair only; original plan-bound controller remains available at execution commit16ef6aa833f29de8c56661c360b5d272d1cc4815.",
+  "accepted_reconciliation": "semgrep-warm-audit-02",
+  "rejected_reconciliation": "semgrep-warm-audit-01",
+  "publication_approval": false
+}

@@ -1047,3 +1047,112 @@ amendment is redescribed by it.
 
 **Freezes invalidated.** None. No normalized report is rewritten, no case is
 added or moved, and `v0.6.0` is byte-identical before and after this amendment.
+
+### A25 — Prospective v0.9.2 timing supplement (14 November 2026)
+
+The [campaign-specific preregistration](latency-v092-20261114.md) defines the
+new runtime bindings, fresh quiet window before each command group, continued
+active invocations during background activity, and descriptive analyzer roll-up.
+It preserves the earlier amendments' measurement boundaries and separate cold,
+warm and overhead quantities. It does not requalify prior observations, alter a
+frozen release, or establish a cross-release performance comparison.
+
+### A26 — Checkpointed v0.9.2 timing continuation (21 November 2026)
+
+The [continuation preregistration](latency-v092-20261121.md) preserves the 55
+completed commands from the user-paused 15 November campaign and authorizes
+only its 38 unfinished commands in a new evidence and source namespace. It
+does not extend the expired parent clock, repeat completed measurements, or
+change analyzer identities, populations, measurement boundaries or acceptance
+rules. All A25 quiet-window and active-invocation continuation rules remain.
+
+### A27 — Isolating outcome mismatches without retrying them (22 November 2026)
+
+The [prepared continuation protocol](latency-v092-20261122.md) separates rejection
+of a group's timing equivalence from dispatch of unrelated, untouched groups.
+Outcome-only mismatches remain unqualified and visible; their cases, timings
+and original failures are preserved. Identity, membership, process, timeout,
+resource and provenance failures retain their stop gates. This amendment does
+not change the completed A26 campaign or authorize a new execution window.
+
+### A28 — User background tolerance for the final three commands (22 November 2026)
+
+The [background-policy amendment](latency-v092-20261122-background.md) records
+the user's tolerance for exact Contacts, Spotlight and Apple VM executable
+paths. Raw CPU data and original qualification flags remain unchanged; the
+three new admissions and their diagnostic qualification are separately labelled.
+Other workload, identity, source, process, resource and timeout gates remain.
+
+### A29 — Retrospective Semgrep warm format correction (22 November 2026)
+
+The [evidence reconciliation](latency-v092-20261122-warm-reconciliation.md)
+validates Semgrep's retained aggregate batch format with exact case/file
+coverage and derives separately labelled audit records. The original failed
+validation receipt and all measured values remain unchanged. This does not
+convert a retrospective diagnostic candidate into settled qualification.
+
+### A30 — 2026-11-22: recovered Swift runtime and separate Joern preparation
+
+[A30](latency-v092-20261122-swift-recovery.md) records the exact Swift payload
+restoration and prospective fresh Joern controls and single-operation timing
+supplement. The old 95-entry campaign remains immutable; no completed command
+is restarted and no Swift timing completion is inferred from setup.
+
+### A31 — 2026-11-22: authorized recovered Swift diagnostic continuation
+
+[A31](latency-v092-20261122-diagnostic-continuation.md) records the user's
+prospective authorization to dispatch the recovered Joern Swift group after a
+complete host check without a new settled window. It retains contention and
+unknown-state evidence, all genuine failure gates and the three zero-analyzer
+preparations. Settled timing, full model qualification and publication
+acceptance remain unasserted.
+
+### A32 — 2026-11-22: Joern launcher PATH dependency recovery
+
+[A32](latency-v092-20261122-launcher-recovery.md) retains the failed version
+invocation and preregisters restoration of the controls' exact PATH, an
+explicit GNU readlink pin and an untimed launcher preflight before a fresh
+diagnostic attempt. No failed invocation or uncertain cleanup is promoted to
+successful analysis.
+
+### A33 — 2026-11-22: retained capability records for recovered Swift execution
+
+[A33](latency-v092-20261122-capability-recovery.md) preserves the failed
+pre-case wrapper and requires explicit lookup of all 96 attempted capability
+records from their already-bound immutable source. It preregisters versioned
+helpers, fresh controls and a new diagnostic attempt without activating models
+or changing frozen outcomes.
+
+### A34 — 2026-11-22: explicit provenance for unchanged Swift declines
+
+[A34](latency-v092-20261122-unsupported-provenance.md) distinguishes historical
+Joern decisions from the preserved v0.9.2 declared-unsupported partition. It
+requires separately bound current-scope disposition records and complete
+preflight before dispatch, without claiming new analyzer capability proof.
+
+### A35 — 2026-11-22: report projection and genuine-failure boundaries
+
+[A35](latency-v092-20261122-projection-recovery.md) binds a versioned projector
+for the explicit decline provenance and requires the driver to retain a failed
+case before honoring engine or command failure stops. Active CPU telemetry
+continues to be recorded without interrupting invocations.
+
+### A36 — 2026-11-22: retained control scratch-accounting limitation
+
+[A36](latency-v092-20261122-scratch-accounting.md) preserves the original
+control scope omission and separately verifies a conservative bound below the
+unchanged scratch limit. The fresh timing plan must use the corrected complete
+scope and retain this retrospective limitation without claiming certification.
+
+### A37 — 2026-11-23: wording-only diagnostic timing reconciliation
+
+[A37](latency-v092-20261123-decline-wording.md) records the user's authorization
+to align twelve unexecuted declines with the exact frozen release scope records
+and accept the unchanged invocation costs through a separate retrospective
+receipt. All 108 rows are rechecked; the original failed capture and every
+certification limitation remain intact. No analyzer is rerun.
+
+The [accepted diagnostic costs](../reports/timing/v0.9.2/reconciliation-20261123-01/README.md)
+and separate receipt now retain 96 unchanged invocation-cost rows after all
+108 corrected report rows passed the frozen comparison. Certification remains
+false, and the four partial invocations remain explicit.

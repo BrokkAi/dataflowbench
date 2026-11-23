@@ -1,0 +1,181 @@
+{
+  "schema": "codeql-entry2-generic-patch-parser-preflight/v1",
+  "status": "verified-12-remapped-sections-and-frozen-hash-bindings",
+  "started_utc": "2026-11-22T15:10:49.525702Z",
+  "finished_utc": "2026-11-22T15:10:49.563226Z",
+  "source_commit": "a7057b836bf29767461026718b14d20790b9085f",
+  "patch_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/adapters/codeql/swift-entry-extractor-v1/repair.patch",
+  "patch_sha256": "e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a",
+  "original_git_apply_numstat_exit_code": 0,
+  "original_git_apply_numstat_output_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/original-numstat.stdout.txt",
+  "original_paths_count": 19,
+  "filtered_git_apply_numstat_exit_code": 0,
+  "filtered_git_apply_numstat_output_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-numstat.stdout.txt",
+  "filtered_paths_count": 12,
+  "filtered_patch_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261122-codeql-swift-01/entry2-parser-preflight-01/filtered-generic-pack-sections.patch",
+  "filtered_patch_sha256": "f572e380c3c68b44145234ad51744d1bd5bcb209b747af3c54f9be13e7ffc540",
+  "expected_source_path_set": [
+    "swift/ql/lib/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll",
+    "swift/ql/lib/codeql/swift/controlflow/internal/Scope.qll",
+    "swift/ql/lib/codeql/swift/elements.qll",
+    "swift/ql/lib/codeql/swift/elements/TopLevelEntryPoint.qll",
+    "swift/ql/lib/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll",
+    "swift/ql/lib/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll",
+    "swift/ql/lib/codeql/swift/generated/ParentChild.qll",
+    "swift/ql/lib/codeql/swift/generated/Raw.qll",
+    "swift/ql/lib/codeql/swift/generated/Synth.qll",
+    "swift/ql/lib/codeql/swift/generated/SynthConstructors.qll",
+    "swift/ql/lib/codeql/swift/generated/TopLevelEntryPoint.qll",
+    "swift/ql/lib/swift.dbscheme"
+  ],
+  "expected_destination_path_set": [
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/TopLevelEntryPoint.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/TopLevelEntryPoint.qll",
+    "codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme"
+  ],
+  "before_after_hash_bindings": [
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/controlflow/internal/ControlFlowGraphImpl.qll",
+      "before_sha256": "6c4452584a1f2622410cc388cd5d46eb6c418d05f433deb08e06f9192cdfd0df",
+      "observed_before_sha256": "6c4452584a1f2622410cc388cd5d46eb6c418d05f433deb08e06f9192cdfd0df",
+      "before_absent": false,
+      "after_sha256": "e18eed33e5889460f458c459b5bf5ca01b4fb03c9fc02b82d0c97e8da40e1cbd",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/controlflow/internal/Scope.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/controlflow/internal/Scope.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/controlflow/internal/Scope.qll",
+      "before_sha256": "2811738e1903f960d416b2187cf7628ab7691c33a96a1be51f701ca4bf3eb5f3",
+      "observed_before_sha256": "2811738e1903f960d416b2187cf7628ab7691c33a96a1be51f701ca4bf3eb5f3",
+      "before_absent": false,
+      "after_sha256": "b5cfb4c79fb054a973593e1f7db6c6d62376d7108171c83057d3a04ccaa22acb",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/elements.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/elements.qll",
+      "before_sha256": "70e20ccd31c9247904fb5ef00ccbda5a6d29c680e88b0ed238f4b4546abf5f33",
+      "observed_before_sha256": "70e20ccd31c9247904fb5ef00ccbda5a6d29c680e88b0ed238f4b4546abf5f33",
+      "before_absent": false,
+      "after_sha256": "d4092eebc5910b3455c25659cc2265752679b68eca1575b39b8feaf4eb2083e4",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/generated/ParentChild.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/ParentChild.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/generated/ParentChild.qll",
+      "before_sha256": "59b283c8a30b6b364c853302ab919ea713e0289e7b793b08b46fc87178d14a6a",
+      "observed_before_sha256": "59b283c8a30b6b364c853302ab919ea713e0289e7b793b08b46fc87178d14a6a",
+      "before_absent": false,
+      "after_sha256": "84cc828a95f77ac11eb7b6bff0d891e524065bd089780372c6d3f85d8cd3793f",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/generated/Raw.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Raw.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/generated/Raw.qll",
+      "before_sha256": "3594391128bf4f3fb387ce386ab0f1ef070b7fa046425b6b4152f13b21d0a754",
+      "observed_before_sha256": "3594391128bf4f3fb387ce386ab0f1ef070b7fa046425b6b4152f13b21d0a754",
+      "before_absent": false,
+      "after_sha256": "c74832af66a045c3a9f9e05d621a1c6b2140cf01c6b45f83ef4cc1b88d76ab10",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/generated/Synth.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/Synth.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/generated/Synth.qll",
+      "before_sha256": "9bd0c9c90532db97cde9553dde4089b7cf12c462c690d853fa40cb36ea112c21",
+      "observed_before_sha256": "9bd0c9c90532db97cde9553dde4089b7cf12c462c690d853fa40cb36ea112c21",
+      "before_absent": false,
+      "after_sha256": "756523820de703cfa3de0f772ea6a29a7177cfa849e993c274cb74f34e504e82",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/generated/SynthConstructors.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/SynthConstructors.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/generated/SynthConstructors.qll",
+      "before_sha256": "c40f01e1331bdbe238620a41d17409cefe34a6b23066708ef5d74f8631b54f48",
+      "observed_before_sha256": "c40f01e1331bdbe238620a41d17409cefe34a6b23066708ef5d74f8631b54f48",
+      "before_absent": false,
+      "after_sha256": "9af8c9e64edfcb1054edf5db2abac0d445d0253f3cd1e5272b07a44219c47b42",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/swift.dbscheme",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/swift.dbscheme",
+      "baseline_source_path": "codeql/swift-all/6.8.5/swift.dbscheme",
+      "before_sha256": "70053fdd5d9077245284d5d8ac2c159d7cd9bceca4d2352b26721c57a71b3e07",
+      "observed_before_sha256": "70053fdd5d9077245284d5d8ac2c159d7cd9bceca4d2352b26721c57a71b3e07",
+      "before_absent": false,
+      "after_sha256": "a976c843fdba75eb23400266f7b95bba21712fa199b2b7725a48a4ace5793c89",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/elements/TopLevelEntryPoint.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/TopLevelEntryPoint.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/elements/TopLevelEntryPoint.qll",
+      "before_sha256": null,
+      "observed_before_sha256": null,
+      "before_absent": true,
+      "after_sha256": "af12068d3d4fd411a7195139ecc503c4dc8e17ee4760170dd9ecaa921c9f93e2",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/elements/internal/TopLevelEntryPointConstructor.qll",
+      "before_sha256": null,
+      "observed_before_sha256": null,
+      "before_absent": true,
+      "after_sha256": "6057922a712022ff32456161c78ed491ae85aa63c164971131f822c5b5eab42b",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/elements/internal/TopLevelEntryPointImpl.qll",
+      "before_sha256": null,
+      "observed_before_sha256": null,
+      "before_absent": true,
+      "after_sha256": "613df6733f41571c002346384e5a1a93b865d322e9c9006b65ef7f0907d3ce29",
+      "after_mode": 420
+    },
+    {
+      "source_patch_path": "swift/ql/lib/codeql/swift/generated/TopLevelEntryPoint.qll",
+      "destination_pack_path": "codeql/swift-all/6.8.5-dfb.entry2/codeql/swift/generated/TopLevelEntryPoint.qll",
+      "baseline_source_path": "codeql/swift-all/6.8.5/codeql/swift/generated/TopLevelEntryPoint.qll",
+      "before_sha256": null,
+      "observed_before_sha256": null,
+      "before_absent": true,
+      "after_sha256": "5d781f8081e565dce73fb0651b4731733bc42b497dac92cc2513d0938282c62e",
+      "after_mode": 420
+    }
+  ],
+  "baseline_runtime_manifest": {
+    "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql-packs.json.gz",
+    "compressed_sha256": "41c6d2edb417e5a01f824e7bfd03c24ad48968840625e23484b48a8c7f0adf89",
+    "uncompressed_sha256": "6a1cc2906c5be5b4146c9fad85653de0e3bf9b258ee7e7b44107e07dd96d1dcf"
+  },
+  "candidate_files_manifest": {
+    "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-files-entry2.json",
+    "sha256": "fb47dc786441189213937dae9638efe8b0878e04e0be56c3d349ce03d6ceb4bc"
+  },
+  "candidate_tree_manifest": {
+    "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/reports/releases/v0.9.2/qualification/codeql-swift-packs/candidate-packs-tree-entry2.json",
+    "sha256": "5b1dca82019e9d47a6aa6a38f1045d69422e4d627b04331205d418344388f431"
+  },
+  "no_copy_patch_or_runtime_invocation": true
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "codeql-swift-three-source-patch-verification/v1",
+  "status": "verified-three-patch-hunks-and-after-hashes",
+  "started_utc": "2026-11-22T14:59:37.213930Z",
+  "finished_utc": "2026-11-22T14:59:37.218869Z",
+  "source_commit": "a7057b836bf29767461026718b14d20790b9085f",
+  "source_patch_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/adapters/codeql/swift-entry-extractor-v1/repair.patch",
+  "source_patch_sha256": "e7da7352a8b3a8e7679760e49e8f8abff05d7fa3e16007c7ed2987f49074f26a",
+  "filtered_patch_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/patch-check-01/three-source-files.patch",
+  "filtered_patch_sha256": "e0ff04f5661b2152401974fd391ed8f76a5874ec6a9c675b9898cebba217b773",
+  "process_argv": [
+    "/usr/bin/patch",
+    "--batch",
+    "--fuzz=0",
+    "-p1",
+    "-i",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/patch-check-01/three-source-files.patch"
+  ],
+  "process_exit_code": 0,
+  "scope": "three source-file patch hunks applied to disposable exact-before-hash copies; no build or analyzer",
+  "files": [
+    {
+      "path": "swift/extractor/SwiftExtractor.cpp",
+      "before_sha256": "af2fb204c1b96e6a4b9de3a0e083cd816cb0ffaa1216c232c31f53edc430a98e",
+      "after_sha256": "0665c1c0f439db96208a45ce56632881ea3783bf8511a543e4dc910befde92c1",
+      "observed_after_sha256": "0665c1c0f439db96208a45ce56632881ea3783bf8511a543e4dc910befde92c1",
+      "matches_expected_after": true,
+      "mode": "0o644"
+    },
+    {
+      "path": "swift/extractor/infra/SwiftDispatcher.h",
+      "before_sha256": "e71917ab9ff4ac157acc1f243c78c6e558597bedf2fc567af0e31b1e71c20487",
+      "after_sha256": "fec68616891ec3c2f46950897d043fa2d384539f4f021ac7158b918bcb920ae9",
+      "observed_after_sha256": "fec68616891ec3c2f46950897d043fa2d384539f4f021ac7158b918bcb920ae9",
+      "matches_expected_after": true,
+      "mode": "0o644"
+    },
+    {
+      "path": "swift/extractor/translators/SwiftVisitor.h",
+      "before_sha256": "15c70c2cc641d788662984f03485cea8d9b5b988ad114f47459d7ec700866a2a",
+      "after_sha256": "8108eaae7a697a1d7a75a70e6212d0954ade40e062cd53c09c28d74e803ef733",
+      "observed_after_sha256": "8108eaae7a697a1d7a75a70e6212d0954ade40e062cd53c09c28d74e803ef733",
+      "matches_expected_after": true,
+      "mode": "0o644"
+    }
+  ],
+  "attempt_directory": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-codeql-swift-repair-20261122-01/patch-check-01/attempt"
+}

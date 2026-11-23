@@ -1,0 +1,140 @@
+{
+  "argv": [
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+    "--population",
+    "v0.9.0",
+    "run-semgrep-go-kernel",
+    "--semgrep",
+    "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin/semgrep"
+  ],
+  "attempt": 1,
+  "automatic_retry": false,
+  "capacity_loss": null,
+  "descendant_containment": "unproven",
+  "elapsed_seconds": 62.54694599999948,
+  "execution_budget_consumed_seconds": 945.8597120409995,
+  "exit_code": 0,
+  "external_scratch_ownership": null,
+  "finished_utc": "2026-11-22T09:28:48.737856+00:00",
+  "frozen_report_comparison": {
+    "comparison_scope": "listed report identity fields and per-case outcomes; diagnostics, anchors and raw semantic evidence still require independent review",
+    "group": "semgrep-go-kernel",
+    "publication_eligible": false,
+    "reports": [
+      {
+        "case_outcomes_compared": 70,
+        "contract_path": "reports/releases/v0.9.2/normal/semgrep-go-kernel.json",
+        "frozen_sha256": "1822c19e85171b79408591534b3e9abe3da3f6b01c0346e87dd8afaa0981637a",
+        "identity_fields_compared": [
+          "tool",
+          "tool_version",
+          "tool_build_identity",
+          "configuration_hash",
+          "fixture_revision",
+          "cold_or_warm",
+          "adapter_version",
+          "schema_version"
+        ],
+        "measured_sha256": "f38b3257c022388ba3bc6e64cea453b5011726b4c873d075885d94681034802b",
+        "mismatches": [],
+        "release_git_path": "reports/releases/v0.9.2/publication-v1/normal/semgrep-go-kernel.json"
+      }
+    ],
+    "status": "matched",
+    "timing_fields_excluded": [
+      "started_at_unix_seconds",
+      "ended_at_unix_seconds",
+      "duration_ms"
+    ]
+  },
+  "group": "semgrep-go-kernel",
+  "host_active_observations": 2,
+  "host_observation_attempts": 3,
+  "host_observations": 3,
+  "post_analysis_contention": {
+    "contended": true,
+    "external_cpu_percent": 115.69999999999999,
+    "heavy": [],
+    "significant_external_cpu": true
+  },
+  "process_ownership": {
+    "cleanup_status": "tracked-processes-stopped",
+    "descendant_containment": "unproven",
+    "root_pid": 19291,
+    "schema": "invocation-process-ownership/v1",
+    "signals_sent": [],
+    "tracked_processes": [
+      {
+        "pid": 19291,
+        "start_identity": "1795339678:139272"
+      },
+      {
+        "pid": 20019,
+        "start_identity": "1795339694:758295"
+      },
+      {
+        "pid": 20023,
+        "start_identity": "1795339695:939460"
+      }
+    ],
+    "tracking_interval_seconds": 2.0
+  },
+  "publication_eligible": false,
+  "quiet_certification": {
+    "certified": false,
+    "contention_observed": true,
+    "initial_quiet_gate_passed": true,
+    "observation_failures": 0,
+    "settle_skipped_after_campaign_start": false
+  },
+  "reconciliation": {
+    "kind": "cold",
+    "publication_eligible": false,
+    "remaining_gate": "compare outcomes/configuration and validate reports before any timing publication",
+    "reports": [
+      {
+        "case_count": 70,
+        "configuration_hash": "865d0bd2989f9ddd0b90f2d6675584e86706b109a033d4a1ac00bd21a617b100",
+        "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-01/sources/semgrep-go-kernel/reports/semgrep-go-kernel.json",
+        "sha256": "f38b3257c022388ba3bc6e64cea453b5011726b4c873d075885d94681034802b",
+        "timing_sidecars": 14
+      }
+    ]
+  },
+  "runtime_manifests_verified_after_observation": [
+    {
+      "id": "runner",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/core-runtime/runner-runtime-manifest.json",
+      "sha256": "0c0ed8abfa728924486d63d77c7c6cbb8dcbeb0be30b02befd6953a59932e7eb",
+      "uncompressed_sha256": null
+    },
+    {
+      "id": "semgrep",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/python-runtimes/semgrep-relocated-runtime-manifest.json.gz",
+      "sha256": "3e45529ad7583790087201db31f9ccc6cd13127e85e308b83395c11ad6a02193",
+      "uncompressed_sha256": "fbce8c004a19f2f982a2dd2f20c91f9810ce1cc83eb04505967f2837b60986ab"
+    }
+  ],
+  "setup_files_verified_after_analysis": [],
+  "source_verified_after_analysis": {
+    "snapshot_git_head": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+    "source_and_fixture_inputs_unchanged": true,
+    "source_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1"
+  },
+  "started_utc": "2026-11-22T08:54:51.112130+00:00",
+  "status": "completed-candidate-evidence",
+  "timed_out": false,
+  "timing_qualification": "unqualified pending independent review",
+  "tools_verified_after_observation": [
+    {
+      "name": "runner",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/bin/dataflowbench",
+      "sha256": "934774f0fc21fe2597bc6fbdd827c8cd47a33ad8369d5a3a910e57701fd0e082"
+    },
+    {
+      "name": "semgrep",
+      "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/semgrep/bin/semgrep",
+      "sha256": "2474c6edda70388d78b8f4855c0e788f1a900b923eb4819e0ee646a0319f1902"
+    }
+  ]
+}

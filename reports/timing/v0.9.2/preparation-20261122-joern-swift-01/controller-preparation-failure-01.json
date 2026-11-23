@@ -1,0 +1,20 @@
+{
+  "schema": "v092-swift-controller-preparation-failure/v1",
+  "recorded_utc": "2026-11-22T16:34:24.780705+00:00",
+  "controller_commit": "a0205590ef",
+  "controller_sha256": "40b9cf34a5709d12d6942e83fb0d47938403769a2bfd4a0eabd6b6582723f0a9",
+  "command": [
+    "python3",
+    "-B",
+    "scripts/v092_timing_swift_supplement.py",
+    "prepare"
+  ],
+  "exec_session_id": 74778,
+  "exit_code": 1,
+  "stderr": "ERROR: RuntimeError: fresh Joern controls cannot enable publication",
+  "cause": "Controller required a publication_eligible field absent from the existing analyzer-qualification-receipt/v092 schema. The immutable receipt remains unchanged.",
+  "analyzer_invocations": 0,
+  "campaign_namespace_created": false,
+  "source_namespace_created": false,
+  "publication_eligible": false
+}

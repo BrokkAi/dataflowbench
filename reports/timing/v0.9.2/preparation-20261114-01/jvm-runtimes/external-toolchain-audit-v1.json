@@ -1,0 +1,311 @@
+{
+  "schema": "dataflowbench.external-toolchain-runtime-audit.v1",
+  "recorded_at_utc": "2026-11-13",
+  "scope": "Static path/hash/source audit only; no analyzer command, preflight, database, build, or measurement was run. Runtime closure status is distinct from historical qualification and group/native proof.",
+  "source_records": {
+    "frozen_execution_contract": {
+      "path": "reports/releases/v0.9.2/execution-v2/contract.json",
+      "sha256": "58eaea0f291a1ac5c1e213bdab3345c7266d5da7a9436ea01721279073bc2422"
+    },
+    "frozen_resource_contract": {
+      "path": "reports/releases/v0.9.2/acquisition/resource-recovery-contract-03.json",
+      "sha256": "9d655a8186a7a249b433fc714429139483da5f377e32a60a65dea9faebd9d063"
+    },
+    "toolchain_inventory_receipt": {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/prospective-host-toolchain-inventories-v1.json",
+      "sha256": "15b4e74587d67c8c4ca0a739fe5f6d80d47242a49a67ea1b5d105e113706860c"
+    },
+    "java_rebind_proposal": {
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/java-launcher-rebind-proposal-v1.json",
+      "sha256": "f4432a7fd281021e6d2d85333dc94e8d064ecaa736208aeb414aab32fb561443"
+    }
+  },
+  "runtime_manifest_bindings": [
+    {
+      "id": "codeql",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql.json.gz",
+      "sha256": "a425bcf8db69fbb97a40f4f6c13d0aa3973ee0c0bfb219a8e668981af0bb2abb",
+      "uncompressed_sha256": "13436571d3ea8a1eed20dd1629f1a07042662c3b2f5601aa082e76f326c7c00b",
+      "root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/codeql",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "codeql-packs",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/codeql-packs.json.gz",
+      "sha256": "41c6d2edb417e5a01f824e7bfd03c24ad48968840625e23484b48a8c7f0adf89",
+      "uncompressed_sha256": "6a1cc2906c5be5b4146c9fad85653de0e3bf9b258ee7e7b44107e07dd96d1dcf",
+      "root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/codeql/packs",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "joern",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/joern.json",
+      "sha256": "537bc762bf1cb3d79a250f225d702f7710e1d338c2cfa45650e57f84f474bc37",
+      "uncompressed_sha256": "537bc762bf1cb3d79a250f225d702f7710e1d338c2cfa45650e57f84f474bc37",
+      "root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/joern/joern-cli",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "java",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/java.json",
+      "sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4",
+      "uncompressed_sha256": "90665d9258ed311dd8cd4ad4ce7a1e0c33cb534382ff2edfdb4617e2fa6582f4",
+      "root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/jvm/jdk-21.0.8-tem",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "flowdroid",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/flowdroid.json",
+      "sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "uncompressed_sha256": "19a5a347916085f1852a7d04b6d043c61a835de3c8a1a8adffe18cf1234dd9ea",
+      "root": "/Users/dave/.cache/dataflowbench-tools/flowdroid",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "opentaint",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/opentaint.json",
+      "sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "uncompressed_sha256": "d56ebd1c12cbe46be981e8761be89093bcc365411d099100a9bfb1fbff1ed6c6",
+      "root": "/Users/dave/.cache/dataflowbench-tools/opentaint-v0.4.6",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "infer",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/infer.json.gz",
+      "sha256": "577a270eb88355c495cca7493c40af9aa895e348948d9946904a48a00be960b7",
+      "uncompressed_sha256": "b71836d85ddc0188808b0d8d58d8489ed2d9e9242371dc1aa99b9b986aad091a",
+      "root": "/Users/dave/.cache/dataflowbench-tools/infer-osx-arm64-v1.3.0",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    },
+    {
+      "id": "swift-sdk-26.5",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/swift-sdk-26.5.json.gz",
+      "sha256": "05a98b4c997defb6049f915350b15d572d5dea443ec73132271ec83ddaec74f1",
+      "uncompressed_sha256": "cc389d9b557f81d9fb581545c634492ca70964aef1f9ad7c517988dea36135e7",
+      "root": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+      "status": "passed-static-full-tree-hash-mode-symlink-and-external-file-check"
+    }
+  ],
+  "prospective_host_inventories": {
+    "clt": {
+      "id": "clt27.2-compiler-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/clt27.2-compiler-prospective.json.gz",
+      "sha256": "f5d99d10417c37bc4b4a9e2de59c7787f448238f1f45dd524d955cc3e4776bb9",
+      "uncompressed_sha256": "345522ccb1abb1f18efb6db3275d7a08783c14df70a5088a9589342e2c839807",
+      "root": "/Library/Developer/CommandLineTools/usr",
+      "status": "prospective-full-current-distribution-inventory-not-a-historical-full-tree-manifest"
+    },
+    "rust": {
+      "id": "rust1.97.1-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/rust1.97.1-distribution-prospective.json.gz",
+      "sha256": "19e2866266e83301d82b1148b7e53c2874a6a35e991bfe1b4699591be3f35531",
+      "uncompressed_sha256": "a8581f8b144fc193a66b6a2d42d585681a85fb5cf5b7137950568466748f4b8d",
+      "root": "/Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin",
+      "status": "prospective-full-current-distribution-inventory-not-a-historical-full-tree-manifest"
+    },
+    "go": {
+      "id": "go-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/go-full-distribution-prospective.json.gz",
+      "sha256": "bd1c7bede48859962fb85d1d83cec0bfacc5c475c0d81c452be94ed68150704c",
+      "uncompressed_sha256": "e09994915aa86c28a051270ef90c3db47ebfe2081bc35ee2c20b818b399b554f",
+      "root": "/usr/local/go",
+      "status": "prospective-full-current-distribution-inventory-not-an-old-frozen-full-manifest"
+    },
+    "kotlin": {
+      "id": "kotlin-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/kotlin-full-distribution-prospective.json",
+      "sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f",
+      "uncompressed_sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f",
+      "root": "/opt/homebrew/Cellar/kotlin/2.4.10",
+      "status": "prospective-full-current-distribution-inventory-not-an-old-frozen-full-manifest"
+    }
+  },
+  "analyzer_dependencies": {
+    "codeql-c-cpp": {
+      "groups": [
+        "codeql-c-kernel",
+        "codeql-cpp-kernel"
+      ],
+      "frozen_cli_and_generic_pack_closure": "passed",
+      "compiler_dependency": "CodeQL C-family build-mode=none still discovers clang to resolve translation units; CC/CXX/PATH/SDKROOT must be explicit.",
+      "prospective_binding": {
+        "compiler_inventory_id": "clt27.2-compiler-prospective",
+        "CC": "/Library/Developer/CommandLineTools/usr/bin/clang",
+        "CXX": "/Library/Developer/CommandLineTools/usr/bin/clang++",
+        "PATH_prefix": "/Library/Developer/CommandLineTools/usr/bin",
+        "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk",
+        "sdk_runtime_id": "swift-sdk-26.5"
+      },
+      "status": "prospective-current-host-environment-only; no historical compiler identity; no cross-release comparison"
+    },
+    "codeql-csharp": {
+      "groups": [
+        "codeql-csharp-kernel"
+      ],
+      "frozen_cli_and_generic_pack_closure": "passed",
+      "source_evidence": "src/adapters/codeql.rs emits --build-mode=none for CSharp; this fixture path does not invoke dotnet/csc/msbuild.",
+      "observed_dotnet_candidate": {
+        "path": "/opt/homebrew/Cellar/dotnet/10.0.400/bin/dotnet",
+        "sha256": "db9dc62e784008e9a01db9940162cead247ccedebe64ae9968b610ef2fa2e019",
+        "used_by_frozen_codeql_csharp_path": false
+      },
+      "status": "no external compiler bound or required by this frozen buildless path; observed dotnet candidate is not admitted"
+    },
+    "codeql-go": {
+      "groups": [
+        "codeql-go-kernel"
+      ],
+      "frozen_cli_and_generic_pack_closure": "passed",
+      "tool_binding": "/usr/local/go/bin/go selected executable SHA matches the frozen pin; current full Go distribution inventory is prospective.",
+      "runtime_id": "go-full-distribution-prospective",
+      "status": "prospective full current GOROOT closure, exact selected go pin retained"
+    },
+    "codeql-java-kotlin": {
+      "groups": [
+        "codeql-java-kernel",
+        "codeql-kotlin-kernel"
+      ],
+      "frozen_cli_and_generic_pack_closure": "passed",
+      "java_runtime_id": "java",
+      "kotlin_runtime_id": "kotlin-full-distribution-prospective",
+      "java_path_binding": {
+        "proposal_path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/java-launcher-rebind-proposal-v1.json",
+        "proposal_sha256": "f4432a7fd281021e6d2d85333dc94e8d064ecaa736208aeb414aab32fb561443",
+        "status": "explicit new-path rebind required; frozen /usr/bin/java and /usr/bin/javac pin hashes mismatch"
+      },
+      "status": "JDK21.0.8 full tree exact; Kotlin 2.4.10 selected compiler/stdlib pins match and full current Cellar inventory is prospective"
+    },
+    "codeql-rust": {
+      "groups": [
+        "codeql-rust-kernel"
+      ],
+      "frozen_cli_and_generic_pack_closure": "passed",
+      "source_evidence": "src/adapters/codeql.rs writes a Cargo.toml and uses --build-mode=none; shipped rust/codeql-extractor.yml documents internal Cargo commands.",
+      "old_path_status": "Frozen PATH had no cargo, rustc, or rustup.",
+      "prospective_binding": {
+        "runtime_id": "rust1.97.1-distribution-prospective",
+        "RUSTC": "/Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin/rustc",
+        "PATH_prefix": "/Users/dave/.rustup/toolchains/1.97.1-aarch64-apple-darwin/bin",
+        "RUSTUP_TOOLCHAIN": "1.97.1-aarch64-apple-darwin",
+        "CARGO_HOME": "isolated per-run directory recommended"
+      },
+      "provenance": "Rust 1.97.1 and commit 8bab26f4f68e0e26f0bb7960be334d5b520ea452 match retained harness build-02/build-03 records; current full distribution inventory is prospective.",
+      "status": "prospective full exact-version runtime; no analyzer preflight"
+    },
+    "flowdroid": {
+      "groups": [
+        "flowdroid-java-kernel",
+        "flowdroid-kotlin-kernel"
+      ],
+      "runtime_ids": [
+        "flowdroid",
+        "java",
+        "kotlin-full-distribution-prospective"
+      ],
+      "android_platform_and_d8": "included in exact FlowDroid runtime closure and selected frozen hashes match",
+      "java_path_binding": "Use the explicit new JDK path proposal for --java and --javac; do not use the mismatching OS launchers.",
+      "status": "all packaged tool and Android inputs exact; Kotlin full root inventory prospective"
+    },
+    "opentaint": {
+      "groups": [
+        "opentaint-java-kernel",
+        "opentaint-kotlin-kernel"
+      ],
+      "runtime_ids": [
+        "opentaint",
+        "java",
+        "kotlin-full-distribution-prospective"
+      ],
+      "model_and_rule_archives": "included in exact OpenTaint runtime closure",
+      "java_path_binding": "Use the explicit new JDK path proposal for --java and --javac.",
+      "status": "all packaged tool/model/rule inputs exact; Kotlin full root inventory prospective"
+    },
+    "infer": {
+      "groups": [
+        "infer-c-kernel",
+        "infer-cpp-kernel",
+        "infer-java-kernel"
+      ],
+      "runtime_ids": [
+        "infer",
+        "java"
+      ],
+      "c_frontend": "Infer capture resolves clang/clang++ through the pinned Infer distribution bundled frontend (src/adapters/infer.rs); no external CLT compiler binding is required for these groups.",
+      "java_path_binding": "Use explicit new JDK path proposal for --javac in Java group.",
+      "status": "full Infer runtime exact; JDK exact under explicit new-root binding"
+    },
+    "joern": {
+      "groups": [
+        "joern-java-kernel",
+        "joern-rust-kernel"
+      ],
+      "runtime_ids": [
+        "joern",
+        "java",
+        "rust1.97.1-distribution-prospective"
+      ],
+      "java_path_binding": "Use JAVA_HOME/Path to the exact copied JDK; Joern package closure passed full manifest.",
+      "rust_path_binding": "Rust 1.97.1 full current inventory supplies cargo/rustc for Cargo-manifest extraction.",
+      "status": "Joern package exact; Java path rebind proposal and Rust prospective inventory apply"
+    },
+    "bifrost-scala": {
+      "groups": [
+        "bifrost-scala-kernel"
+      ],
+      "repository_binding_proposal": {
+        "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/scala-maven-repository-binding-proposal-v1.json",
+        "sha256": "f2a3f013c6f04cea771a5af49d90ffdcf58ee6c10d7f48d968383bea2d517023",
+        "runtime_id": "scala-library-2.13.16",
+        "source_root": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-runtime-20261114-01/scala/repository",
+        "attempt_home_target": "<attempt HOME>/.m2/repository/org/scala-lang/scala-library/2.13.16"
+      },
+      "runtime_scope": "exact scala-library 2.13.16 binary jar, sources jar, and upstream POM; not a Maven executable/full Maven cache",
+      "status": "artifact closure exact; new campaign code must explicitly bind the source repository root"
+    },
+    "swift-helpers": {
+      "groups": [
+        "codeql-swift-common108",
+        "joern-swift-common108"
+      ],
+      "runtime_ids": [
+        "swift-sdk-26.5"
+      ],
+      "blocker_record": {
+        "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/swift-assets-audit-v1.json",
+        "sha256": "fb76b6d5cca0bcef8894fc0cc0cad1802961a20bdab69cb5068e3da6fbdf12d5"
+      },
+      "status": "blocked; pinned compiler package downloaded/hash-verified only, payload unexpanded; custom CodeQL extractor and entry2 pack not reconstructed byte-exactly"
+    },
+    "pysa": {
+      "runtime_id": "pysa",
+      "status": "not-ready; retained environment full-manifest mismatch per runtime-closure-audit-v1.json"
+    },
+    "semgrep": {
+      "runtime_id": "semgrep",
+      "status": "not-ready; retained environment full-manifest mismatch per runtime-closure-audit-v1.json"
+    }
+  },
+  "observed_unpinned_tools": {
+    "dotnet": {
+      "path": "/opt/homebrew/Cellar/dotnet/10.0.400/bin/dotnet",
+      "sha256": "db9dc62e784008e9a01db9940162cead247ccedebe64ae9968b610ef2fa2e019",
+      "used_by_frozen_codeql_csharp_path": false
+    },
+    "mvn": {
+      "path": "/opt/homebrew/Cellar/maven/3.9.11/bin/mvn",
+      "sha256": "2dabd9ee310b9a7f0f5a6ec5ba3a5b556dd570e266a6723c2af6d6ea74ae091d",
+      "used_by_bifrost_scala_campaign_helper": false
+    },
+    "scalac": {
+      "path": "/opt/homebrew/Cellar/scala/3.8.4/bin/scalac",
+      "sha256": "d8a782fd88a4d6e82879443fe29a1a046f5bea6f1eff43de5fc51a03f0c12f19",
+      "used_by_frozen_analyzer_groups": false
+    },
+    "system_clang_proxy": {
+      "path": "/usr/bin/clang",
+      "sha256": "ed6f5284033aa2aae6a58427c25ba3ab119947b40365627b24e5d51a4b70a1cd",
+      "interpretation": "Apple launcher/proxy, not the selected clang implementation; do not bind as compiler"
+    }
+  },
+  "qualification_boundary": "No analyzer measurements or preflights were run. These static runtime identities do not satisfy full group admission, native coverage proof, CPU quiet-window launch admission, or publication."
+}

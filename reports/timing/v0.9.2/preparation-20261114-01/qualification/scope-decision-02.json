@@ -1,0 +1,34 @@
+{
+  "decision": "Keep the existing timing-environment qualification predicate distinct from exhaustive descendant-containment proof. Do not introduce a new privileged observer as a prerequisite or silently claim full process/resource containment.",
+  "descendant_containment": "unproven, separately retained; no overall or tamper-resistant host certification claimed",
+  "old_measurements_requalified": false,
+  "optional_privileged_observer": "experimental, not admitted; no actual Endpoint Security stream or analyzers were observed",
+  "original_observer_preflight": "observer-preflight-01.json",
+  "prototype_sources": [
+    {
+      "original_path": "scripts/v092_timing_lifecycle.py",
+      "retained_path": "execution-state/timing-runtime-20261114-01/experimental-lifecycle/v092_timing_lifecycle.py",
+      "sha256": "4b3cb09061ae0247cb61e18feba98b427e0b783ad8f23833df4f91ab110cc72f"
+    },
+    {
+      "original_path": "scripts/probe-v092-timing-lifecycle.py",
+      "retained_path": "execution-state/timing-runtime-20261114-01/experimental-lifecycle/probe-v092-timing-lifecycle.py",
+      "sha256": "fb349aacb285f84be4758744b6d1610fe3eafe3fa7ec06d5f35e19d5b616d5cc"
+    },
+    {
+      "original_path": "scripts/test-v092-timing-lifecycle.py",
+      "retained_path": "execution-state/timing-runtime-20261114-01/experimental-lifecycle/test-v092-timing-lifecycle.py",
+      "sha256": "32a4651906477bd9e549fed2e23100c387f85fe78b7108b22e665909ff426ad7"
+    }
+  ],
+  "recorded_utc": "2026-11-13T12:34:28.585718+00:00",
+  "schema": "v092-qualification-scope-decision/v1",
+  "synthetic_tests_passed": 13,
+  "timing_qualification": [
+    "fresh 300-second >=90% aggregate-idle window before each group",
+    "serial ownership and identity-aware cleanup",
+    "no observed contention during the group",
+    "zero required observation failures",
+    "fixed inputs, adapter timing boundaries, preserved case/outcome/config reconciliation and resource/time gates"
+  ]
+}

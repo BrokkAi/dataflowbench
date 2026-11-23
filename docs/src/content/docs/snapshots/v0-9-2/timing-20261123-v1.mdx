@@ -1,0 +1,47 @@
+---
+title: Timing supplement (23 Nov 2026)
+description: Diagnostic invocation costs across all eight frozen v0.9.2 analyzer families, with explicit missing and quarantined coverage.
+---
+
+import TimingOverview from '../../../../components/TimingOverview.astro';
+import TimingPublication from '../../../../components/TimingPublication.astro';
+
+This separately versioned supplement publishes retained **diagnostic invocation costs** for the
+[frozen v0.9.2 release](../). Acceptance permits this descriptive publication; it does not change
+the original timing qualification, correctness results, release tag or failed attempt records.
+No analyzers were rerun to produce this publication.
+
+## Aggregated analyzer overview
+
+<TimingOverview />
+
+## Overhead and warm measurements
+
+<TimingPublication part="measurements" />
+
+## Qualification and acceptance
+
+The original settled-timing requirements were not met by these diagnostic continuations.
+Contention, missing host observations, partial analysis and retrospective acceptance remain
+explicit. These are distributions across different cases and analyzer-specific populations,
+not repeated-trial distributions, a matched speed comparison or a cross-release performance claim.
+The existing A20 phase boundary is preserved for FlowDroid modeling: its analyzer phase is
+shown, with compilation and DEX materialization excluded; the evidence retains all phases.
+
+The Joern Swift wording reconciliation changes only the exact diagnostic wording of 12
+unsupported decisions to match their released reasons. It accepts 96 retained invocation costs,
+including four partial invocations with no query phase. All 96 normalized outcomes remain
+inconclusive; no successful-analysis latency is certified. The original controller failure is
+preserved, as are the retrospective scratch-accounting limitation and source provenance.
+
+Joern Rust remains quarantined for a substantive result mismatch and contributes no accepted
+cold costs. CodeQL Swift is blocked by the missing exact pinned custom extractor and is paused;
+this publication launches no recovery or analyzer run.
+
+## Evidence and downloads
+
+<TimingPublication part="evidence" />
+
+The [13 November supplement](../timing-20261113-v1/) remains available at its original URL and
+retains its original data. The [v0.9.0 latency page](/snapshots/v0-9-0/latency/) uses older pins
+and does not establish a timing comparison with v0.9.2.

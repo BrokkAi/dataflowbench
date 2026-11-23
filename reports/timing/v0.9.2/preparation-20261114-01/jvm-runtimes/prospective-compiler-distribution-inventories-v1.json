@@ -1,0 +1,65 @@
+{
+  "schema": "dataflowbench.prospective-compiler-distribution-inventory.v1",
+  "recorded_at_utc": "2026-11-13",
+  "purpose": "Close current execution-time mutable files for compiler distributions while retaining exactly the existing selected executable/library hashes. These complete inventories are new prospective identities; no historical full-distribution manifest existed, so byte equality against an old full-tree identity is not asserted.",
+  "pre_inventory_selected_pin_checks": [
+    {
+      "tool": "go",
+      "path": "/usr/local/go/bin/go",
+      "expected_sha256": "ae2238c208f2f1f5a8faa3287acf5ced5d6b3c396dbf75e8f446e47905b0a75d",
+      "observed_sha256": "ae2238c208f2f1f5a8faa3287acf5ced5d6b3c396dbf75e8f446e47905b0a75d",
+      "status": "match"
+    },
+    {
+      "tool": "kotlinc",
+      "path": "/opt/homebrew/Cellar/kotlin/2.4.10/bin/kotlinc",
+      "expected_sha256": "827f1613736c1f457474103af722f517a627d9534d884d1773f49b7026f45f56",
+      "observed_sha256": "827f1613736c1f457474103af722f517a627d9534d884d1773f49b7026f45f56",
+      "status": "match"
+    },
+    {
+      "tool": "kotlin-stdlib",
+      "path": "/opt/homebrew/Cellar/kotlin/2.4.10/libexec/lib/kotlin-stdlib.jar",
+      "expected_sha256": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df",
+      "observed_sha256": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df",
+      "status": "match"
+    }
+  ],
+  "inventories": [
+    {
+      "id": "go-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/go-full-distribution-prospective.json.gz",
+      "sha256": "bd1c7bede48859962fb85d1d83cec0bfacc5c475c0d81c452be94ed68150704c",
+      "uncompressed_sha256": "e09994915aa86c28a051270ef90c3db47ebfe2081bc35ee2c20b818b399b554f",
+      "compressed": true,
+      "uncompressed_bytes": 2568090,
+      "stored_bytes": 686576,
+      "root": "/usr/local/go",
+      "files": 14985,
+      "symlinks": 0,
+      "external_files": 0,
+      "selected_frozen_pins": {
+        "bin/go": "ae2238c208f2f1f5a8faa3287acf5ced5d6b3c396dbf75e8f446e47905b0a75d"
+      },
+      "status": "prospective-full-current-distribution-inventory-not-an-old-frozen-full-manifest"
+    },
+    {
+      "id": "kotlin-full-distribution-prospective",
+      "path": "reports/timing/v0.9.2/preparation-20261114-01/jvm-runtimes/relocated-manifests/kotlin-full-distribution-prospective.json",
+      "sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f",
+      "uncompressed_sha256": "6a2f4edf5117fb27eb28e3c511554284cd9eb0fce9f32c209a5dc8f53d67872f",
+      "compressed": false,
+      "uncompressed_bytes": 21745,
+      "stored_bytes": 21745,
+      "root": "/opt/homebrew/Cellar/kotlin/2.4.10",
+      "files": 128,
+      "symlinks": 0,
+      "external_files": 0,
+      "selected_frozen_pins": {
+        "bin/kotlinc": "827f1613736c1f457474103af722f517a627d9534d884d1773f49b7026f45f56",
+        "libexec/lib/kotlin-stdlib.jar": "4ec0293bc3751423b203f1d8493251c57c42e73eb6377a6b8560d0974ff0a6df"
+      },
+      "status": "prospective-full-current-distribution-inventory-not-an-old-frozen-full-manifest"
+    }
+  ]
+}

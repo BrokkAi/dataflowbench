@@ -1,0 +1,21 @@
+{
+  "schema": "dataflowbench-timing-continuation-authorization/v1",
+  "campaign_id": "20261121-01",
+  "created_utc": "2026-11-21T21:37:55.234333+00:00",
+  "user_request": "Ok great, please resume. I've made the machine quiet, and will be going to bed soon. So you have the rest of the night",
+  "parent_campaign_id": "20261115-01",
+  "completed_commands_preserved": 55,
+  "remaining_ready_commands_authorized": 38,
+  "new_namespace_required": "The old controller is no longer present and its original 48-hour wall window has elapsed. This continuation does not extend or resume that expired clock.",
+  "automatic_retry": false,
+  "rerun_completed_commands": false,
+  "cleanup_authorized": false,
+  "frozen_release_unchanged": true,
+  "readiness_required": [
+    "Exact pinned source/tool/runtime/configuration verification",
+    "Checkpoint integrity and no concurrent analyzer ownership",
+    "Existing disk/resource thresholds",
+    "Fresh sustained quiet CPU before every command"
+  ],
+  "active_invocation_policy": "Do not interrupt active invocations for CPU contention or missing host observations; retain telemetry and real command/resource/provenance/timeout fail-stops."
+}

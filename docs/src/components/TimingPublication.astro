@@ -1,0 +1,49 @@
+---
+import publication from '../../../reports/timing/v0.9.2/publication-20261123-01/summary.json';
+import manifest from '../../../reports/timing/v0.9.2/publication-20261123-01/manifest.json';
+import { formatTiming } from '../data/timing-overview-v092.ts';
+interface Props { part: 'measurements' | 'evidence' }
+const { part } = Astro.props;
+const downloadRoot = '/evidence/timing/v0-9-2/20261123-v1/';
+---
+
+{part === 'measurements' && <>
+  <p>Overhead is a separate upper-bound estimate from three no-flow invocations per group. These durations include fixture analysis and are never subtracted from cold costs.</p>
+  <div class="publication-scroll" tabindex="0" role="region" aria-label="Invocation overhead values">
+    <table>
+      <caption>Diagnostic invocation-overhead estimates, milliseconds or seconds</caption>
+      <thead><tr><th scope="col">Group</th><th scope="col">Repeats</th><th scope="col">Minimum</th><th scope="col">Median</th><th scope="col">Maximum</th></tr></thead>
+      <tbody>{publication.overhead_groups.map((group) => <tr>
+        <th scope="row">{group.group}</th><td>{group.sample_count}</td>
+        <td>{formatTiming(group.summary_ms.min)}</td><td>{formatTiming(group.summary_ms.median)}</td><td>{formatTiming(group.summary_ms.max)}</td>
+      </tr>)}</tbody>
+    </table>
+  </div>
+  <p>Warm evidence records repeated batches under the captured harness. Joern's per-case observations and Semgrep's batch-only measurements have different observability; they are not combined with the cold chart or each other.</p>
+  <ul>{publication.warm_families.flatMap((family) => family.groups.map((group) => <li>
+    <strong>{group.group}</strong>: {group.evidence_status.replaceAll('-', ' ')}; {group.batch_count} batches, observed batch cost {formatTiming(group.summary_ms?.min ?? null)}–{formatTiming(group.summary_ms?.max ?? null)}; {group.per_case_timing_rows} timed per-case observations; {group.case_observations} retained or derived case observations.
+  </li>))}</ul>
+  <p>Semgrep's original controller failure remains retained. Its offline reconciliation accepts recovered diagnostic batch evidence and derived observations; it supplies no per-case wall times.</p>
+</>}
+
+{part === 'evidence' && <>
+  <p>Publication <code>{manifest.publication_id}</code>, linked to release commit <code>{manifest.release_commit}</code>.
+    The manifest binds the downloadable data by SHA-256. All original certification and publication-eligibility flags remain unchanged.</p>
+  <ul>
+    <li><a href={`${downloadRoot}manifest.json`} download>Publication manifest</a></li>
+    {Object.entries(manifest.files).map(([name, file]) => <li>
+      <a href={`${downloadRoot}${file.path.split('/').pop()}`} download>{name.replaceAll('_', ' ')}</a>
+      {' '}<code class="file-hash">{file.sha256}</code>
+    </li>)}
+  </ul>
+  <p>The provenance index records the retained inputs, historical controller states, acceptance receipts and missing coverage. No missing observation is inferred or replaced with a zero duration.</p>
+</>}
+
+<style>
+  .publication-scroll { overflow-x: auto; }
+  .publication-scroll:focus-visible { outline: 2px solid var(--ds-accent); outline-offset: 3px; }
+  table { width: 100%; font-variant-numeric: tabular-nums; }
+  th, caption { text-align: left; }
+  td { text-align: right; white-space: nowrap; }
+  .file-hash { overflow-wrap: anywhere; font-size: .8em; }
+</style>

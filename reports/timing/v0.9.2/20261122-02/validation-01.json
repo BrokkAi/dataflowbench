@@ -1,0 +1,28 @@
+{
+  "schema": "v092-background-policy-validation/v1",
+  "utc": "2026-11-22T13:58:17.216712+00:00",
+  "controller_tests": {
+    "passed": 37,
+    "kind": "mocked dispatcher and fixture regressions; no analyzers executed"
+  },
+  "checkpoint_tests": {
+    "passed": 8,
+    "reported_by": "continuation_review Luna xhigh"
+  },
+  "independent_policy_review": {
+    "result": "No findings.",
+    "reviewer": "background_policy_review Luna xhigh",
+    "scope": "qualified-controller/test diff, A28 policy and exact VM identity; checkpoint module separately reviewed by primary"
+  },
+  "file_sha256": {
+    "scripts/v092_timing_qualified_campaign.py": "b0dbaec4db6c04683dbbe2117714403064613e7833ba1ae2950e367dd5dfa338",
+    "scripts/test-v092-timing-qualified-campaign.py": "6e57080c2088af22a6ee8cc95bac664049a03cb56ed341383a25799280609636",
+    "scripts/v092_timing_background_checkpoint.py": "82cdad2e13edd1871cceb0b2ea602f409a3ff67194ac01c7d11417ad9f7adeaa",
+    "scripts/test-v092-timing-background-checkpoint.py": "4f34cc019b76355b86ae17dc55a14e813259d299d9ca36bc6464d8b303b4a528"
+  },
+  "source_repair_tests": {
+    "passed": 12,
+    "command": "python3 -B scripts/test-v092-codeql-native-cache.py"
+  },
+  "publication_eligible": false
+}

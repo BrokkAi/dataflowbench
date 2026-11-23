@@ -1,0 +1,2582 @@
+{
+  "amendment": {
+    "path": "docs/latency-v092-20261122-warm-reconciliation.md",
+    "sha256": "7e2a34087e9d80ad8ba5cf488e16cbaf1fe9c2ab03a4563c1167ae85a9b23238",
+    "size_bytes": 3900
+  },
+  "audit_builder": {
+    "path": "scripts/v092_reconcile_semgrep_warm.py",
+    "sha256": "1f62f08b12361f2d5e1090d394f0ad3fef5daddd739545605f9c89ea4bf59859",
+    "size_bytes": 7447
+  },
+  "capture_inventory": {
+    "path": "reports/timing/v0.9.2/20261122-02/capture-evidence-inventory-01.json",
+    "sha256": "31ba9d8691f85e7f5e28f6d92f973a6be4b5df529fb28dac9f793b77e8ff193d",
+    "size_bytes": 31507
+  },
+  "capture_inventory_files_verified": 111,
+  "captured_producer_sources_equal_immutable_release": [
+    {
+      "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/src/adapters/semgrep.rs",
+      "sha256": "2276c05fcd7355f55d98103fa6d4b3da3cd01da7f25015e0d68ca03df460ab0d",
+      "size_bytes": 59852
+    },
+    {
+      "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/src/latency.rs",
+      "sha256": "327684c8567b7a7bc6b8e4c25551145c076f7391f15e1e03bcb4b52374797e61",
+      "size_bytes": 40113
+    },
+    {
+      "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/src/evidence.rs",
+      "sha256": "4cd815b189b5d4538e03effac82e3f8747586faf14a0b2d3f73c8ec26149fe93",
+      "size_bytes": 35009
+    }
+  ],
+  "certified_settled_timing": false,
+  "derived_sidecars": [
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-1/dfb-taint-java-branch-join-negative.json",
+      "sha256": "fd68d9533ae52c5120afd6a9573391de8afa55bdf74b145acac3d3d1f1ca61ce",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-2/dfb-taint-java-branch-join-negative.json",
+      "sha256": "59802c6d8d0c3260bb15a9c2675dd38e3284245f2116aa5fc21a23ea16a16170",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-2/dfb-taint-java-branch-join-positive.json",
+      "sha256": "1e6f5cfbeba31bb3bcb9808c3b5b4ab0ef2712a3d36c731a047b22382ca0d646",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-4/dfb-taint-java-branch-join-negative.json",
+      "sha256": "6ed4275021f2c5e1a83537b9ea1f5cd1aec2f9021dd5fe7658bec9684a26b5a5",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-4/dfb-taint-java-branch-join-positive.json",
+      "sha256": "9c5a80bbc2aa5e47fdaa55fbafc8c853e47539803a799c85d8dae246fc8dd622",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-4/dfb-taint-java-expression-negative.json",
+      "sha256": "60f56e43102919d6494bf29705ba79dacd7c452b293609a50ccbc2ab037b9356",
+      "size_bytes": 1436
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-4/dfb-taint-java-expression-positive.json",
+      "sha256": "30da43f348944e2325af030e26fe5fb8ae78418951c68fd437f6a59d713b3f71",
+      "size_bytes": 2255
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-branch-join-negative.json",
+      "sha256": "1fca11bdda46f3477a227db2f92ad7fbfe1520847bcaa294621a0077f72f9875",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-branch-join-positive.json",
+      "sha256": "e727b933e522e5c6d92e77dd35cfe643f914a26404d0f38167b83be5c426dfbc",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-expression-negative.json",
+      "sha256": "6dcafe625d5e3b152b00822932a98069e6b4cfb218098b3218c6e0ef8cc9af79",
+      "size_bytes": 1436
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-expression-positive.json",
+      "sha256": "b40f11579371f9f16de4e5c892fabad37e2c89058d536fc6b1b2d37edee706ac",
+      "size_bytes": 2255
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "d67f3a7572cf6abdd8459f6867a69e51f307ffe8d759dbea7d69c311652efae9",
+      "size_bytes": 2294
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "2f1ad3455168a7a3a2d76d33281642acf4751658389a8df8801fa858181fa9ec",
+      "size_bytes": 2294
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-local-chain-negative.json",
+      "sha256": "98b69d67ef3033a911871fed3a7536edad0e9c77703f35e4780b91abc3681aed",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-8/dfb-taint-java-local-chain-positive.json",
+      "sha256": "c596941fd58361b21ed15a5852ccdb19359be3d51fa8ee8bca3cdbf6685eb614",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-branch-join-negative.json",
+      "sha256": "10b0c442d69e0fa531fbdc0d4f5c46a48fa64e8617fbd3db701b2a86e3a09aa8",
+      "size_bytes": 1443
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-branch-join-positive.json",
+      "sha256": "276b5c18570884a51485bbce7dee507e9378176e836f466db880b4aa8a4e7b51",
+      "size_bytes": 2263
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-expression-negative.json",
+      "sha256": "57d9aa7481fc21ea2391f3eb0217a0e2104aa75cdb83b482361c4dadebb1ce0a",
+      "size_bytes": 1440
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-expression-positive.json",
+      "sha256": "494a623c4bac4c58347c90543341ade476e174aa3253f9588c0ae4289cf01a41",
+      "size_bytes": 2260
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "48056aae5cf3325c4d6c276940c1cc29ba1ab109ec789a9b39ca8ff799a087c4",
+      "size_bytes": 2299
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "722dafe2718a5195336ef7b10cba315831831fe37649b5b23b7062caf44a84c6",
+      "size_bytes": 2299
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-local-chain-negative.json",
+      "sha256": "cf8d1068d9bd58f36f9cd7c4e575be2f6310ef616fc76fd06538d87e948583ef",
+      "size_bytes": 1443
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-local-chain-positive.json",
+      "sha256": "b31bdafa4d6f3b5ff3f0541b10344be678f3dfe569baafebcd4d22c5d2c1bdaf",
+      "size_bytes": 2263
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "561c179f43dd7c839c2050a3bc7716b2d842a21e3034a761aa043c45a3d5eb7f",
+      "size_bytes": 1463
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "4834125848a469eda978a7641b0cc5c5a654c3c04a4d7cddea1ab951f5cb2237",
+      "size_bytes": 2287
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "ef377c7ec5e928013489da49dc17176d6430acebcb8b4f651be0ec7613612f06",
+      "size_bytes": 2272
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-1-batch-12/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "257c6fa8ac11596b724e736a20317ddefcadd9462dc111c6e8297f84086767fa",
+      "size_bytes": 2272
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-1/dfb-taint-java-branch-join-negative.json",
+      "sha256": "a7eba1ec6fb707f98c7e37e692951747936717d25533ce507bcdfd9d6ae2f878",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-2/dfb-taint-java-branch-join-negative.json",
+      "sha256": "b8981bdbe39bb5aff55b7712b05d78030a9d15129807039325f53bab117328e3",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-2/dfb-taint-java-branch-join-positive.json",
+      "sha256": "30f538bb8fb57484110a34c7e310b91d6efa04bf523d39e47f40ed1ed1cffd37",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-4/dfb-taint-java-branch-join-negative.json",
+      "sha256": "991d69e473fd2c4944f8973404071f96bf8cf11052eb8b9f110f2cf41b21408b",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-4/dfb-taint-java-branch-join-positive.json",
+      "sha256": "29b3d6e148f51f0b6294b7bbb7ccf2261b52646c84bba3818d09a3d9c80aeb3c",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-4/dfb-taint-java-expression-negative.json",
+      "sha256": "c7cd414646dc282f3f8fb90d56baae7a3f321b08d9c86496933b58a152d5b978",
+      "size_bytes": 1436
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-4/dfb-taint-java-expression-positive.json",
+      "sha256": "a6d259bec5ec0b14c01e72fb56d3a465fc0890a77c71cc9f605ef85cf6be6846",
+      "size_bytes": 2255
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-branch-join-negative.json",
+      "sha256": "9593e33dafb63a115ee790c0f7f029f4760ca9a141f5450a7c69628117c95d49",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-branch-join-positive.json",
+      "sha256": "13e5e4c2eba9d8931a41b4af406918748af70d278a675f7b18532a6974acd2b0",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-expression-negative.json",
+      "sha256": "fb1742b91ab61d4086245db3ab32890cb111a2372d266fd842bead4af13fe537",
+      "size_bytes": 1436
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-expression-positive.json",
+      "sha256": "e71b947d0d633f0e1e6a5839cc2a7a357f0f264b60c972f6eb3f471228f2bace",
+      "size_bytes": 2255
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "79e865971c687e2fdff7e60d6fcc268f7782e2c00b228ccb040cc2343faf072e",
+      "size_bytes": 2294
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "b07f7962f10a7c1e59c20b373af768f5022d744c9285f1f126768a11a81232d8",
+      "size_bytes": 2294
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-local-chain-negative.json",
+      "sha256": "40e166d44d6945f9559f829c2c534c9c791efb4e194df1bb7df7e268dcba01c4",
+      "size_bytes": 1439
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-8/dfb-taint-java-local-chain-positive.json",
+      "sha256": "a084707428052beecffe1cb852b14518c16804800893cbce456b35b60d291bea",
+      "size_bytes": 2258
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-branch-join-negative.json",
+      "sha256": "9c912d5ebc1ebe2a08fca054eb8e9b5ed97b4b54f8c97f894c7114acec0b693c",
+      "size_bytes": 1443
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-branch-join-positive.json",
+      "sha256": "95e5ab4bf5be5e77cb91e938dc0d50019562f01417255ef4ea724ce097760181",
+      "size_bytes": 2263
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-expression-negative.json",
+      "sha256": "1fd45887b0dd32cfb33e9010e5803cc907e0c014e234ef76730c4310fede5577",
+      "size_bytes": 1440
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-expression-positive.json",
+      "sha256": "942b440e7810c1f6660a6864df05d72d2b6d7b38217a0e7623a0f82e16e6697e",
+      "size_bytes": 2260
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-infeasible-branch-negative.json",
+      "sha256": "62e695029b81702b62db32b0fd5321c2558c9af691647ab3b266ce3bccfca3fa",
+      "size_bytes": 2299
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-infeasible-branch-positive.json",
+      "sha256": "c8214d2a951065d89cd576c5199a677112d6cf39a18f3f2a11105f42480a3ae5",
+      "size_bytes": 2299
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-local-chain-negative.json",
+      "sha256": "a83214be0cc80f7315c9a331863cf13193766f145ce05c5ee733122760a3d402",
+      "size_bytes": 1443
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-local-chain-positive.json",
+      "sha256": "4d21f995b57ca8aec2bdb49e351a022ad6fb0c1e4dd68e0f2e755f7205872fdc",
+      "size_bytes": 2263
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-local-overwrite-negative.json",
+      "sha256": "88c55cb55211d945231152a8a797ad42986087eaeaa73295b5210dba2eaee232",
+      "size_bytes": 1463
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-local-overwrite-positive.json",
+      "sha256": "654dcc72f014fd47a5ea47a21aca8e329c528a48efca627f9ae727b5a322d141",
+      "size_bytes": 2287
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-loop-carried-negative.json",
+      "sha256": "b64026aa28699498c0691c11367c288029212e672b314cc26d26680eb232202d",
+      "size_bytes": 2272
+    },
+    {
+      "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/derived/repeat-2-batch-12/dfb-taint-java-loop-carried-positive.json",
+      "sha256": "3d80753e74b51a7c7715e758b7caedb2a2d07604717c1567b08c9eec52298aa7",
+      "size_bytes": 2272
+    }
+  ],
+  "new_analyzer_invocations": 0,
+  "original_attempt_start": {
+    "path": "reports/timing/v0.9.2/20261122-02/attempts/warm-semgrep-java/attempt-01/start.json",
+    "sha256": "d96579030a7dd59a57cd9476a40e5240352ecc212d24685c1ff692a375d712cf",
+    "size_bytes": 167818
+  },
+  "original_campaign_start": {
+    "path": "reports/timing/v0.9.2/20261122-02/campaign-start.json",
+    "sha256": "64494c2e5448724700772148b0fb858323263c072d632af44d7e263fee2cf153",
+    "size_bytes": 129712
+  },
+  "original_controller_status": "failed",
+  "original_copies": [
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-1-batch-1-findings.json",
+        "sha256": "b033d3a10b83da8872a1d9c73efe456e45aa05a1bacedf8f6adbc27f65c1295d",
+        "size_bytes": 2199
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-1-findings.json",
+        "sha256": "b033d3a10b83da8872a1d9c73efe456e45aa05a1bacedf8f6adbc27f65c1295d",
+        "size_bytes": 2199
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-1-batch-2-findings.json",
+        "sha256": "b90c2d675dbcd3fefb1286b9c517162fbc41e3caa2d39a9ea1cb55e19a749483",
+        "size_bytes": 3208
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-2-findings.json",
+        "sha256": "b90c2d675dbcd3fefb1286b9c517162fbc41e3caa2d39a9ea1cb55e19a749483",
+        "size_bytes": 3208
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-1-batch-4-findings.json",
+        "sha256": "845748972a056ad5d3a3f555acd58a3a2457d11edf4e28891c6ffa2213722555",
+        "size_bytes": 4330
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-4-findings.json",
+        "sha256": "845748972a056ad5d3a3f555acd58a3a2457d11edf4e28891c6ffa2213722555",
+        "size_bytes": 4330
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-1-batch-8-findings.json",
+        "sha256": "0888af8d74477c258f4ae1e9978731be0786ed61de822a430641022f0b1ab5a7",
+        "size_bytes": 7377
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-8-findings.json",
+        "sha256": "0888af8d74477c258f4ae1e9978731be0786ed61de822a430641022f0b1ab5a7",
+        "size_bytes": 7377
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-1-batch-12-findings.json",
+        "sha256": "82cba41ccb652c61f7d05346c5aad4615e3e18f924832b0ca3213c1bd5879bd6",
+        "size_bytes": 10439
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-12-findings.json",
+        "sha256": "82cba41ccb652c61f7d05346c5aad4615e3e18f924832b0ca3213c1bd5879bd6",
+        "size_bytes": 10439
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-2-batch-1-findings.json",
+        "sha256": "ffe0f0553280e87f45043ddb164cf7b3a49964e441c51aa1b07f88f5f5232de7",
+        "size_bytes": 2197
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-1-findings.json",
+        "sha256": "ffe0f0553280e87f45043ddb164cf7b3a49964e441c51aa1b07f88f5f5232de7",
+        "size_bytes": 2197
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-2-batch-2-findings.json",
+        "sha256": "75719e416b317f7a532e8dc8179eef0db326fd6ec8b9836ab366d13796e6de69",
+        "size_bytes": 3202
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-2-findings.json",
+        "sha256": "75719e416b317f7a532e8dc8179eef0db326fd6ec8b9836ab366d13796e6de69",
+        "size_bytes": 3202
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-2-batch-4-findings.json",
+        "sha256": "260141377c97e2583af12fe8d4dba97d046cdcbf608c60c21517ddd6c55be8d3",
+        "size_bytes": 4335
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-4-findings.json",
+        "sha256": "260141377c97e2583af12fe8d4dba97d046cdcbf608c60c21517ddd6c55be8d3",
+        "size_bytes": 4335
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-2-batch-8-findings.json",
+        "sha256": "327af8e8e949318cfe2c2ad4b51a5982d06aa9c3013afcc07ffdfc8d49046e32",
+        "size_bytes": 7378
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-8-findings.json",
+        "sha256": "327af8e8e949318cfe2c2ad4b51a5982d06aa9c3013afcc07ffdfc8d49046e32",
+        "size_bytes": 7378
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-2-batch-12-findings.json",
+        "sha256": "6162fd417676da72822149b72293b0f7b15d351e56ac76d806fc2fa19a2aebd0",
+        "size_bytes": 10443
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-12-findings.json",
+        "sha256": "6162fd417676da72822149b72293b0f7b15d351e56ac76d806fc2fa19a2aebd0",
+        "size_bytes": 10443
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/warm-latency.json",
+        "sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5",
+        "size_bytes": 5678
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json",
+        "sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5",
+        "size_bytes": 5678
+      }
+    },
+    {
+      "copy": {
+        "path": "reports/timing/v0.9.2/reconciliation-20261122-01/semgrep-warm-audit-02/originals/run-environment.json",
+        "sha256": "ce61436dbd8b00fb416b3ad31552d181e41411d7f411b3434dfa0895d9efec70",
+        "size_bytes": 400
+      },
+      "original": {
+        "path": "execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/run-environment.json",
+        "sha256": "ce61436dbd8b00fb416b3ad31552d181e41411d7f411b3434dfa0895d9efec70",
+        "size_bytes": 400
+      }
+    }
+  ],
+  "original_files_changed": false,
+  "original_plan": {
+    "path": "reports/timing/v0.9.2/20261122-02/qualified-plan-02.json",
+    "sha256": "cf703f9cc6abe256a44b82af9fd6ad6a7195e44bf0e6b1972a326d8b479c49d9",
+    "size_bytes": 765592
+  },
+  "original_terminal": {
+    "path": "reports/timing/v0.9.2/20261122-02/attempts/warm-semgrep-java/attempt-01/terminal.json",
+    "sha256": "9ba9f407226417eed85ea4f96fa5439910a8ae66389cbdf1bef887eb115aa7a7",
+    "size_bytes": 5654
+  },
+  "publication_eligible": false,
+  "raw_timing_values_changed": false,
+  "repository_head_at_reconciliation": "16ef6aa833f29de8c56661c360b5d272d1cc4815",
+  "schema": "v092-retrospective-warm-reconciliation/v1",
+  "status": "diagnostic-candidate-recovered",
+  "utc": "2026-11-22T14:41:59.030380+00:00",
+  "validation": {
+    "anchor_reconciliation_contract": {
+      "functions": {
+        "src/adapters/semgrep.rs": [
+          "semgrep_finding_outcome",
+          "semgrep_finding_anchor_match"
+        ],
+        "src/evidence.rs": [
+          "sink_anchor_locations",
+          "anchor_marker_line",
+          "AnchorDialect::declared_function_name",
+          "AnchorDialect::is_call",
+          "parameter_list_function_name",
+          "parameter_list_function_call",
+          "member_prefixed_function_call",
+          "member_prefixed_call_in",
+          "code_without_literals_in",
+          "evidence_path_matches_file"
+        ]
+      },
+      "port_scope": "Java sink marker/declaration/callsite resolution and Semgrep finding path+start.line classification, including ambiguous and unmatched findings",
+      "release_commit": "86092336d8f9ca32fe9e2c4042c2dced76c1feb1",
+      "sources": [
+        {
+          "path": "src/adapters/semgrep.rs",
+          "sha256": "2276c05fcd7355f55d98103fa6d4b3da3cd01da7f25015e0d68ca03df460ab0d"
+        },
+        {
+          "path": "src/evidence.rs",
+          "sha256": "4cd815b189b5d4538e03effac82e3f8747586faf14a0b2d3f73c8ec26149fe93"
+        }
+      ]
+    },
+    "artifact": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/reports/raw/warm-latency/semgrep-java-kernel/warm-latency.json",
+    "batch_sizes": [
+      1,
+      2,
+      4,
+      8,
+      12
+    ],
+    "case_count": 12,
+    "derived_case_observation_count": 54,
+    "derived_case_observations": [
+      {
+        "batch_size": 1,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-1/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 2,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-2/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 2,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-2/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-2/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-4/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-infeasible-branch-negative",
+        "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+        "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 417
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-4/InfeasibleBranchNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 402
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-4/InfeasibleBranchNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-infeasible-branch-positive",
+        "case_source_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "case_source_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+        "fixture_source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 414
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-5/InfeasibleBranchPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 399
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-5/InfeasibleBranchPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-local-chain-negative",
+        "case_source_path": "cases/taint/java/local-chain-negative/case.json",
+        "case_source_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+        "fixture_source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-6/LocalChainNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-local-chain-positive",
+        "case_source_path": "cases/taint/java/local-chain-positive/case.json",
+        "case_source_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+        "fixture_source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 14
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 14,
+              "offset": 428
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-7/LocalChainPositive.java",
+            "start": {
+              "col": 9,
+              "line": 14,
+              "offset": 413
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-8/source-7/LocalChainPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-infeasible-branch-negative",
+        "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+        "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 417
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-4/InfeasibleBranchNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 402
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-4/InfeasibleBranchNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-infeasible-branch-positive",
+        "case_source_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "case_source_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+        "fixture_source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 414
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-5/InfeasibleBranchPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 399
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-5/InfeasibleBranchPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-chain-negative",
+        "case_source_path": "cases/taint/java/local-chain-negative/case.json",
+        "case_source_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+        "fixture_source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-6/LocalChainNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-chain-positive",
+        "case_source_path": "cases/taint/java/local-chain-positive/case.json",
+        "case_source_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+        "fixture_source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 14
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 14,
+              "offset": 428
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-7/LocalChainPositive.java",
+            "start": {
+              "col": 9,
+              "line": 14,
+              "offset": 413
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-7/LocalChainPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-overwrite-negative",
+        "case_source_path": "cases/taint/java/local-overwrite-negative/case.json",
+        "case_source_sha256": "ad72f5d9df7da4bd44cbbfcd20614590bca7ec2de4bc3d4f6360f9ac3c4f8ebf",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-overwrite-negative/LocalOverwriteNegative.java",
+        "fixture_source_sha256": "d687660b77419c7728a46b340fc93c11f2854a980062929ecc9f79ee81356c82",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-8/LocalOverwriteNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-overwrite-positive",
+        "case_source_path": "cases/taint/java/local-overwrite-positive/case.json",
+        "case_source_sha256": "ac35be52c0b00f72352f9a41bcf46e8c236c0d3fb01bbb70b2687c312b3654a3",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+        "fixture_source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-9/LocalOverwritePositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 365
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-9/LocalOverwritePositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-loop-carried-negative",
+        "case_source_path": "cases/taint/java/loop-carried-negative/case.json",
+        "case_source_sha256": "9b09bbc6097d07d91a354f9e9f6ddd580cfccfcf1a4427eeb6f0f9064bdaa709",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/loop-carried-negative/LoopCarriedNegative.java",
+        "fixture_source_sha256": "734320e20e9ecf6406b84bb4844581aa026544b437fff8fee8616435a2da76c7",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 436
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-10/LoopCarriedNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 421
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-10/LoopCarriedNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-loop-carried-positive",
+        "case_source_path": "cases/taint/java/loop-carried-positive/case.json",
+        "case_source_sha256": "baa4f1cd3b267e0d4da1e935741fa1b60efbc8bbe5ca443a7bef2006aa224caa",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/loop-carried-positive/LoopCarriedPositive.java",
+        "fixture_source_sha256": "6fd118c0d4b5c213dc34bec2a5502e7c781a39bcc563b47da7af85be9c9a0230",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 452
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-11/LoopCarriedPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 437
+            }
+          }
+        ],
+        "repeat": 1,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-1-12/source-11/LoopCarriedPositive.java"
+      },
+      {
+        "batch_size": 1,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-1/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 2,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-2/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 2,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-2/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-2/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 4,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-4/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-infeasible-branch-negative",
+        "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+        "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 417
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-4/InfeasibleBranchNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 402
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-4/InfeasibleBranchNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-infeasible-branch-positive",
+        "case_source_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "case_source_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+        "fixture_source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 414
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-5/InfeasibleBranchPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 399
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-5/InfeasibleBranchPositive.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-local-chain-negative",
+        "case_source_path": "cases/taint/java/local-chain-negative/case.json",
+        "case_source_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+        "fixture_source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-6/LocalChainNegative.java"
+      },
+      {
+        "batch_size": 8,
+        "case_id": "dfb-taint-java-local-chain-positive",
+        "case_source_path": "cases/taint/java/local-chain-positive/case.json",
+        "case_source_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+        "fixture_source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 14
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 14,
+              "offset": 428
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-7/LocalChainPositive.java",
+            "start": {
+              "col": 9,
+              "line": 14,
+              "offset": 413
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-8/source-7/LocalChainPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-branch-join-negative",
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-0/BranchJoinNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-branch-join-positive",
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 16
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 16,
+              "offset": 420
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-1/BranchJoinPositive.java",
+            "start": {
+              "col": 9,
+              "line": 16,
+              "offset": 405
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-1/BranchJoinPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-expression-negative",
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-2/ExpressionNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-expression-positive",
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 27,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-3/ExpressionPositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 362
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-3/ExpressionPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-infeasible-branch-negative",
+        "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+        "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 417
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-4/InfeasibleBranchNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 402
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-4/InfeasibleBranchNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-infeasible-branch-positive",
+        "case_source_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "case_source_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+        "fixture_source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 414
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-5/InfeasibleBranchPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 399
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-5/InfeasibleBranchPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-chain-negative",
+        "case_source_path": "cases/taint/java/local-chain-negative/case.json",
+        "case_source_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+        "fixture_source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-6/LocalChainNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-chain-positive",
+        "case_source_path": "cases/taint/java/local-chain-positive/case.json",
+        "case_source_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+        "fixture_source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 14
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 14,
+              "offset": 428
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-7/LocalChainPositive.java",
+            "start": {
+              "col": 9,
+              "line": 14,
+              "offset": 413
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-7/LocalChainPositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-overwrite-negative",
+        "case_source_path": "cases/taint/java/local-overwrite-negative/case.json",
+        "case_source_sha256": "ad72f5d9df7da4bd44cbbfcd20614590bca7ec2de4bc3d4f6360f9ac3c4f8ebf",
+        "derived_outcome": "not-reached",
+        "fixture_source_path": "cases/taint/java/local-overwrite-negative/LocalOverwriteNegative.java",
+        "fixture_source_sha256": "d687660b77419c7728a46b340fc93c11f2854a980062929ecc9f79ee81356c82",
+        "frozen_outcome": "not-reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [],
+        "raw_findings": [],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-8/LocalOverwriteNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-local-overwrite-positive",
+        "case_source_path": "cases/taint/java/local-overwrite-positive/case.json",
+        "case_source_sha256": "ac35be52c0b00f72352f9a41bcf46e8c236c0d3fb01bbb70b2687c312b3654a3",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+        "fixture_source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 13
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 13,
+              "offset": 380
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-9/LocalOverwritePositive.java",
+            "start": {
+              "col": 9,
+              "line": 13,
+              "offset": 365
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-9/LocalOverwritePositive.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-loop-carried-negative",
+        "case_source_path": "cases/taint/java/loop-carried-negative/case.json",
+        "case_source_sha256": "9b09bbc6097d07d91a354f9e9f6ddd580cfccfcf1a4427eeb6f0f9064bdaa709",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/loop-carried-negative/LoopCarriedNegative.java",
+        "fixture_source_sha256": "734320e20e9ecf6406b84bb4844581aa026544b437fff8fee8616435a2da76c7",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 436
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-10/LoopCarriedNegative.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 421
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-10/LoopCarriedNegative.java"
+      },
+      {
+        "batch_size": 12,
+        "case_id": "dfb-taint-java-loop-carried-positive",
+        "case_source_path": "cases/taint/java/loop-carried-positive/case.json",
+        "case_source_sha256": "baa4f1cd3b267e0d4da1e935741fa1b60efbc8bbe5ca443a7bef2006aa224caa",
+        "derived_outcome": "reached",
+        "fixture_source_path": "cases/taint/java/loop-carried-positive/LoopCarriedPositive.java",
+        "fixture_source_sha256": "6fd118c0d4b5c213dc34bec2a5502e7c781a39bcc563b47da7af85be9c9a0230",
+        "frozen_outcome": "reached",
+        "outcome_matches_frozen": true,
+        "raw_finding_anchor_matches": [
+          {
+            "classification": "matched",
+            "start_line": 15
+          }
+        ],
+        "raw_findings": [
+          {
+            "check_id": "dfb-taint-endpoint-contract",
+            "end": {
+              "col": 24,
+              "line": 15,
+              "offset": 452
+            },
+            "extra": {
+              "engine_kind": "OSS",
+              "fingerprint": "requires login",
+              "lines": "requires login",
+              "message": "benchmark-controlled taint reached the case's declared sink endpoint",
+              "metadata": {},
+              "severity": "WARNING",
+              "validation_state": "NO_VALIDATOR"
+            },
+            "path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-11/LoopCarriedPositive.java",
+            "start": {
+              "col": 9,
+              "line": 15,
+              "offset": 437
+            }
+          }
+        ],
+        "repeat": 2,
+        "scanned_path": "/Users/dave/.codex/worktrees/cb55/dataflowbench/execution-state/timing-v092-20261122-02/sources/warm-semgrep-java/tmp/dataflowbench-warm-semgrep-2-12/source-11/LoopCarriedPositive.java"
+      }
+    ],
+    "derived_observation_scope": "raw aggregate findings mapped by the retained ordered source-index recipe to canonical release case and fixture bytes; Semgrep scratch copies were removed and are not hash-bound",
+    "equivalence_pending": true,
+    "equivalence_status": "pending comparison against corresponding cold evidence",
+    "frozen_report_git_path": "reports/releases/v0.9.2/publication-v1/normal/semgrep-java-kernel.json",
+    "frozen_report_path": "reports/releases/v0.9.2/normal/semgrep-java-kernel.json",
+    "frozen_report_sha256": "3b87cb299daf64346af650ae5aa1607ef2220622a97851137b75dd9b23d71aed",
+    "kind": "warm",
+    "publication_eligible": false,
+    "raw_batch_file_count": 10,
+    "raw_batch_files": [
+      {
+        "batch_size": 1,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-1-findings.json",
+        "repeat": 1,
+        "sha256": "b033d3a10b83da8872a1d9c73efe456e45aa05a1bacedf8f6adbc27f65c1295d",
+        "size_bytes": 2199
+      },
+      {
+        "batch_size": 2,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-2-findings.json",
+        "repeat": 1,
+        "sha256": "b90c2d675dbcd3fefb1286b9c517162fbc41e3caa2d39a9ea1cb55e19a749483",
+        "size_bytes": 3208
+      },
+      {
+        "batch_size": 4,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-4-findings.json",
+        "repeat": 1,
+        "sha256": "845748972a056ad5d3a3f555acd58a3a2457d11edf4e28891c6ffa2213722555",
+        "size_bytes": 4330
+      },
+      {
+        "batch_size": 8,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-8-findings.json",
+        "repeat": 1,
+        "sha256": "0888af8d74477c258f4ae1e9978731be0786ed61de822a430641022f0b1ab5a7",
+        "size_bytes": 7377
+      },
+      {
+        "batch_size": 12,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-1-batch-12-findings.json",
+        "repeat": 1,
+        "sha256": "82cba41ccb652c61f7d05346c5aad4615e3e18f924832b0ca3213c1bd5879bd6",
+        "size_bytes": 10439
+      },
+      {
+        "batch_size": 1,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-1-findings.json",
+        "repeat": 2,
+        "sha256": "ffe0f0553280e87f45043ddb164cf7b3a49964e441c51aa1b07f88f5f5232de7",
+        "size_bytes": 2197
+      },
+      {
+        "batch_size": 2,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-2-findings.json",
+        "repeat": 2,
+        "sha256": "75719e416b317f7a532e8dc8179eef0db326fd6ec8b9836ab366d13796e6de69",
+        "size_bytes": 3202
+      },
+      {
+        "batch_size": 4,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-4-findings.json",
+        "repeat": 2,
+        "sha256": "260141377c97e2583af12fe8d4dba97d046cdcbf608c60c21517ddd6c55be8d3",
+        "size_bytes": 4335
+      },
+      {
+        "batch_size": 8,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-8-findings.json",
+        "repeat": 2,
+        "sha256": "327af8e8e949318cfe2c2ad4b51a5982d06aa9c3013afcc07ffdfc8d49046e32",
+        "size_bytes": 7378
+      },
+      {
+        "batch_size": 12,
+        "path": "reports/raw/warm-latency/semgrep-java-kernel/run-2-batch-12-findings.json",
+        "repeat": 2,
+        "sha256": "6162fd417676da72822149b72293b0f7b15d351e56ac76d806fc2fa19a2aebd0",
+        "size_bytes": 10443
+      }
+    ],
+    "repeats": 2,
+    "retained_per_case_evidence_files": 0,
+    "rule_source_path": "adapters/semgrep/rules/java.yaml",
+    "rule_source_sha256": "7ccd570f30badd2f20eba3a50bb6e2ed4d046a41945b557f656c8165fbc44a43",
+    "sha256": "670e81957db374f0668d71f3cd917e590742c3faccd5108753080267c6e1a3d5",
+    "source_inputs": {
+      "dfb-taint-java-branch-join-negative": {
+        "case_source_path": "cases/taint/java/branch-join-negative/case.json",
+        "case_source_sha256": "c2575c3d33b9c899a8055feaa526444103bc992f9b87490236ab3084da417ea7",
+        "fixture_file": "BranchJoinNegative.java",
+        "fixture_source_path": "cases/taint/java/branch-join-negative/BranchJoinNegative.java",
+        "fixture_source_sha256": "593e2d8a9f195a1d659c547af566e4d998d47a7e43e1321b28d522fcfdcd49a9",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              18
+            ],
+            "file": "BranchJoinNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: branch-join-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-branch-join-positive": {
+        "case_source_path": "cases/taint/java/branch-join-positive/case.json",
+        "case_source_sha256": "e5add84330fd2b8dd86eedfbf87d69ba34a1d7a6b5844572d46fd71b890aa7f6",
+        "fixture_file": "BranchJoinPositive.java",
+        "fixture_source_path": "cases/taint/java/branch-join-positive/BranchJoinPositive.java",
+        "fixture_source_sha256": "ef194177171f2f86ad4c428aac63a45210c307f9dfc69e51a5d6e73efabe9a00",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              16
+            ],
+            "file": "BranchJoinPositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: branch-join-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-expression-negative": {
+        "case_source_path": "cases/taint/java/expression-negative/case.json",
+        "case_source_sha256": "8fa40b9e00f5727bc528bfc02441d36c6ca478bdf1f93716be234162ec081628",
+        "fixture_file": "ExpressionNegative.java",
+        "fixture_source_path": "cases/taint/java/expression-negative/ExpressionNegative.java",
+        "fixture_source_sha256": "9d60f1d398ab394710dc6bade7d35a94ce02eacf2aee360e21b0b5c6e427433e",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              13
+            ],
+            "file": "ExpressionNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: expression-negative-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-expression-positive": {
+        "case_source_path": "cases/taint/java/expression-positive/case.json",
+        "case_source_sha256": "a179647d349f6b8648ec0be875803e1ae68655d32a11f0a39f653a37929170eb",
+        "fixture_file": "ExpressionPositive.java",
+        "fixture_source_path": "cases/taint/java/expression-positive/ExpressionPositive.java",
+        "fixture_source_sha256": "b3930dcc202039b16b42cdc89b8755439327ba98c7c2552130d5cb49c9d12f61",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              13
+            ],
+            "file": "ExpressionPositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: expression-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-infeasible-branch-negative": {
+        "case_source_path": "cases/taint/java/infeasible-branch-negative/case.json",
+        "case_source_sha256": "af05319f454eb8df890fafd6ca7eae81743f1c2796730df1078526ab8c3c1a02",
+        "fixture_file": "InfeasibleBranchNegative.java",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-negative/InfeasibleBranchNegative.java",
+        "fixture_source_sha256": "30d83a98cf85b82d0f2c125a28bcee0f57ebf7aea6814793cbb6ca92dd20224d",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              15
+            ],
+            "file": "InfeasibleBranchNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: infeasible-branch-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-infeasible-branch-positive": {
+        "case_source_path": "cases/taint/java/infeasible-branch-positive/case.json",
+        "case_source_sha256": "f6f3a89a2fb7b88fa7c428f59e7db7d95b23912a88d896c7ee1900657ddcf8e7",
+        "fixture_file": "InfeasibleBranchPositive.java",
+        "fixture_source_path": "cases/taint/java/infeasible-branch-positive/InfeasibleBranchPositive.java",
+        "fixture_source_sha256": "adb2a3b56a4cd1448186b2b4afed86a33ab7ed89e3882ebca3315ba5b0ac9410",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              15
+            ],
+            "file": "InfeasibleBranchPositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: infeasible-branch-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-local-chain-negative": {
+        "case_source_path": "cases/taint/java/local-chain-negative/case.json",
+        "case_source_sha256": "72d6aa55713087f994a4768c50471e37b51308cde9d40f149febacb52aebb895",
+        "fixture_file": "LocalChainNegative.java",
+        "fixture_source_path": "cases/taint/java/local-chain-negative/LocalChainNegative.java",
+        "fixture_source_sha256": "02f49d83ac2cbe54f25f43a57c64aa2651f33d31eb574c25d2e0efbd3db369fe",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              14
+            ],
+            "file": "LocalChainNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: local-chain-negative-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-local-chain-positive": {
+        "case_source_path": "cases/taint/java/local-chain-positive/case.json",
+        "case_source_sha256": "cc963d007b1a376cc727388795fe48b801f44076aff11f191da935cedc4516e6",
+        "fixture_file": "LocalChainPositive.java",
+        "fixture_source_path": "cases/taint/java/local-chain-positive/LocalChainPositive.java",
+        "fixture_source_sha256": "5b087e0d60ceb159c777c9ed390edac7a1b4b1bc3b4918843c259fc67142b85b",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              14
+            ],
+            "file": "LocalChainPositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: local-chain-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-local-overwrite-negative": {
+        "case_source_path": "cases/taint/java/local-overwrite-negative/case.json",
+        "case_source_sha256": "ad72f5d9df7da4bd44cbbfcd20614590bca7ec2de4bc3d4f6360f9ac3c4f8ebf",
+        "fixture_file": "LocalOverwriteNegative.java",
+        "fixture_source_path": "cases/taint/java/local-overwrite-negative/LocalOverwriteNegative.java",
+        "fixture_source_sha256": "d687660b77419c7728a46b340fc93c11f2854a980062929ecc9f79ee81356c82",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              13
+            ],
+            "file": "LocalOverwriteNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: local-overwrite-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-local-overwrite-positive": {
+        "case_source_path": "cases/taint/java/local-overwrite-positive/case.json",
+        "case_source_sha256": "ac35be52c0b00f72352f9a41bcf46e8c236c0d3fb01bbb70b2687c312b3654a3",
+        "fixture_file": "LocalOverwritePositive.java",
+        "fixture_source_path": "cases/taint/java/local-overwrite-positive/LocalOverwritePositive.java",
+        "fixture_source_sha256": "25e7e98645bce061c747b4fdae96d1074e9b0376fd83eb3597430c1551e13906",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              13
+            ],
+            "file": "LocalOverwritePositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: local-overwrite-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-loop-carried-negative": {
+        "case_source_path": "cases/taint/java/loop-carried-negative/case.json",
+        "case_source_sha256": "9b09bbc6097d07d91a354f9e9f6ddd580cfccfcf1a4427eeb6f0f9064bdaa709",
+        "fixture_file": "LoopCarriedNegative.java",
+        "fixture_source_path": "cases/taint/java/loop-carried-negative/LoopCarriedNegative.java",
+        "fixture_source_sha256": "734320e20e9ecf6406b84bb4844581aa026544b437fff8fee8616435a2da76c7",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              15
+            ],
+            "file": "LoopCarriedNegative.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: loop-carried-sink",
+            "marker_line": 8
+          }
+        ]
+      },
+      "dfb-taint-java-loop-carried-positive": {
+        "case_source_path": "cases/taint/java/loop-carried-positive/case.json",
+        "case_source_sha256": "baa4f1cd3b267e0d4da1e935741fa1b60efbc8bbe5ca443a7bef2006aa224caa",
+        "fixture_file": "LoopCarriedPositive.java",
+        "fixture_source_path": "cases/taint/java/loop-carried-positive/LoopCarriedPositive.java",
+        "fixture_source_sha256": "6fd118c0d4b5c213dc34bec2a5502e7c781a39bcc563b47da7af85be9c9a0230",
+        "sink_anchor_locations": [
+          {
+            "callsite_lines": [
+              15
+            ],
+            "file": "LoopCarriedPositive.java",
+            "function_name": "dfb_sink",
+            "marker": "DFB-SINK: loop-carried-sink",
+            "marker_line": 8
+          }
+        ]
+      }
+    },
+    "status": "candidate"
+  },
+  "validator": {
+    "path": "scripts/v092_timing_qualified_campaign.py",
+    "sha256": "af504ec38d2061554e883c3bdd26a82014b762bb05b0d643507305e32d86be9b",
+    "size_bytes": 161098
+  },
+  "validator_tests": {
+    "path": "scripts/test-v092-timing-qualified-campaign.py",
+    "sha256": "9e38f9c3ad5b5e7c89ed2ccfc5ec813f041941bef2b8d764114017a4887b1a0a",
+    "size_bytes": 74324
+  }
+}
